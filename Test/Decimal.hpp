@@ -629,7 +629,7 @@ struct Decimal { // 高精度十进制数字（支持任意精度的小数）
 
     Decimal& operator/=(const Decimal& other) {
         if (other.sign == sign_type::equal) {
-            throw std::invalid_argument{ "zero divisor" };
+            throw std::invalid_argument{ "Invalid argument: zero divisor" };
         }
         if (this->sign == sign_type::equal) {
             return *this;
