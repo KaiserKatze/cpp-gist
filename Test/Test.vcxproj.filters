@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{8dfe8765-c100-47b2-9af6-1d6e1585b230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Header Files">
+      <UniqueIdentifier>{47532e36-5ea7-4630-b704-514d03f6fdcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{94e26628-cdcb-4093-806e-b72433429569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files">
+      <UniqueIdentifier>{a16738cd-6b33-4033-9534-13edab444978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files\Tree">
+      <UniqueIdentifier>{17f62f46-f106-4aea-81d8-92f598d908df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort">
+      <UniqueIdentifier>{42a51508-d775-4d0a-8d06-b02190f8c48b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort\Header Files">
+      <UniqueIdentifier>{ef13510b-ff3f-4bb8-9453-c6059a91c9f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files\List-like">
+      <UniqueIdentifier>{51890c35-c1ee-4bfe-bc8c-ee35bc79aa2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files\Graph">
+      <UniqueIdentifier>{ffba466d-5fd9-4fa2-863e-98596a0584d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files\Graph\MinimalSpanningTree">
+      <UniqueIdentifier>{50618dc8-85cb-498c-972d-135146b15e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files\Graph\ShortestPath">
+      <UniqueIdentifier>{8ef2b9ad-df47-40a2-8be9-15486bf44c1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Header Files\Graph\Search">
+      <UniqueIdentifier>{d9f01b00-4fba-48e7-a196-d6dcb46c7461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort\Header Files\Insert">
+      <UniqueIdentifier>{238ec8d9-e2f4-446b-b70a-62c37e1d3a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort\Header Files\Swap">
+      <UniqueIdentifier>{c53f4540-0773-497b-80c8-48537be1bfd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort\Header Files\Select">
+      <UniqueIdentifier>{090af801-3a67-43bd-8344-30b2cb964149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort\Header Files\Merge">
+      <UniqueIdentifier>{e17881af-791e-4485-834f-2e13bf182a1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sort\Test Files">
+      <UniqueIdentifier>{e6691b06-0db3-4b0a-99c5-8ebfefc6c9ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Header Files\OperatingSystem">
+      <UniqueIdentifier>{1584cc89-1bfc-4c30-888e-cd4af2d2f307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Test Files">
+      <UniqueIdentifier>{05d735db-af3e-4cd4-b401-539d7c84b7ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Header Files\Huffman">
+      <UniqueIdentifier>{7604964e-2d40-49f9-ba13-104a6e86588a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Header Files\Tree App">
+      <UniqueIdentifier>{eabc5269-288e-4cf4-b4f7-56ad39ae6799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Header Files\Number Theory">
+      <UniqueIdentifier>{d6cda15a-4eaa-436c-afaf-35767cb2c8e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t2bt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HuffmanTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HuffmanCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BinarySearchTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadedBinaryTreeNode.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="RLYC.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HonoiTower.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapSort.hpp">
+      <Filter>Sort\Header Files\Select</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BinaryTree.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="TraverseTree.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedQueue.hpp">
+      <Filter>Container\Header Files\List-like</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayQueue.hpp">
+      <Filter>Container\Header Files\List-like</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeUtils.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructTree.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedStack.hpp">
+      <Filter>Container\Header Files\List-like</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EightQueens.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fibonacci.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.hpp">
+      <Filter>Container\Header Files\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="UnionFind.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="MSTPrim.hpp">
+      <Filter>Container\Header Files\Graph\MinimalSpanningTree</Filter>
+    </ClInclude>
+    <ClInclude Include="MSTKruskal.hpp">
+      <Filter>Container\Header Files\Graph\MinimalSpanningTree</Filter>
+    </ClInclude>
+    <ClInclude Include="TopoSort.hpp">
+      <Filter>Container\Header Files\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="CriticalPath.hpp">
+      <Filter>Container\Header Files\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="SPDijkstra.hpp">
+      <Filter>Container\Header Files\Graph\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="SPFloyd.hpp">
+      <Filter>Container\Header Files\Graph\ShortestPath</Filter>
+    </ClInclude>
+    <ClInclude Include="BFS.hpp">
+      <Filter>Container\Header Files\Graph\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="DFS.hpp">
+      <Filter>Container\Header Files\Graph\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Banker.hpp">
+      <Filter>Application\Header Files\OperatingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RedBlackTree.hpp">
+      <Filter>Container\Header Files\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="VerifySort.hpp">
+      <Filter>Sort\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StraightInsertSort.hpp">
+      <Filter>Sort\Header Files\Insert</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleSort.hpp">
+      <Filter>Sort\Header Files\Swap</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickSort.hpp">
+      <Filter>Sort\Header Files\Swap</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleSelectSort.hpp">
+      <Filter>Sort\Header Files\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeSort.hpp">
+      <Filter>Sort\Header Files\Merge</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryInsertSort.hpp">
+      <Filter>Sort\Header Files\Insert</Filter>
+    </ClInclude>
+    <ClInclude Include="ShellSort.hpp">
+      <Filter>Sort\Header Files\Insert</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSort.hpp">
+      <Filter>Sort\Test Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HuffmanCode.hpp">
+      <Filter>Application\Header Files\Huffman</Filter>
+    </ClInclude>
+    <ClInclude Include="HuffmanTree.hpp">
+      <Filter>Application\Header Files\Huffman</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager.hpp">
+      <Filter>Application\Header Files\OperatingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BinarySearchTree.hpp">
+      <Filter>Application\Header Files\Tree App</Filter>
+    </ClInclude>
+    <ClInclude Include="BTree.hpp">
+      <Filter>Application\Header Files\Tree App</Filter>
+    </ClInclude>
+    <ClInclude Include="TestHuffmanTree.hpp">
+      <Filter>Application\Test Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KMath.hpp">
+      <Filter>Application\Header Files\Number Theory</Filter>
+    </ClInclude>
+    <ClInclude Include="BigInteger.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Decimal.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
