@@ -20,6 +20,11 @@ constexpr bool is_big_integer_v = std::is_base_of_v<BigInteger, T>;
 template <class T>
 concept IntegralEx = std::is_integral_v<T> || is_big_integer_v<T>;
 
+class DivideByZero : public std::invalid_argument {
+public:
+    DivideByZero() : std::invalid_argument{ "Divide by zero!" } {}
+};
+
 struct BigInteger {
     using sign_type = std::strong_ordering;
     using int_type = std::uint64_t;
@@ -31,6 +36,10 @@ struct BigInteger {
 
     sign_type sign; // 大整数的符号位单独处理
     data_type data; // 大整数的数值位表示为若干个64位整数的顺序表
+
+    BigInteger(std::integral auto data)
+        : BigInteger(data > 0 ? sign_type::greater : data == 0 ? sign_type::equal : sign_type::less, { static_cast<int_type>(std::abs(data)) }) {
+    }
 
     BigInteger(sign_type sign, const data_type& data) : sign{ sign }, data{ data } {
     }
@@ -386,6 +395,26 @@ struct BigInteger {
         const_iterator begin_rhs{ other.cbegin() };
         const_iterator end_rhs{ other.cend() };
         mul_karatsuba(begin_lhs, end_lhs, begin_rhs, end_rhs);
+    }
+
+    static std::pair<BigInteger, BigInteger> div(const BigInteger& dividend, const BigInteger& divisor) {
+        if (divisor == 0) {
+            throw DivideByZero{};
+        }
+        if (dividend == 0) {
+            return { 0, 0 };
+        }
+
+        const sign_type cmp_result{ compare(dividend.data, divisor.data) };
+        if (cmp_result < 0) {
+            return { 0, dividend };
+        }
+
+        if (divisor.size() == 1) {
+        }
+
+        sign_type q_sign{ dividend.sign == divisor.sign ? sign_type::greater : sign_type::less };
+        sign_type r_sign{ dividend.sign };
     }
 
     /// <summary>

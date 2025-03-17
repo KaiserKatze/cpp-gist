@@ -71,6 +71,9 @@
     <Filter Include="Application\Header Files\Number Theory">
       <UniqueIdentifier>{d6cda15a-4eaa-436c-afaf-35767cb2c8e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Header Files\DynamicProgramming">
+      <UniqueIdentifier>{68a1b0ca-42d5-4a2a-8a2c-09a53449a6e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
@@ -230,6 +233,22 @@
     </ClInclude>
     <ClInclude Include="Decimal.hpp">
       <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicProgramming.hpp">
+      <Filter>Application\Header Files\DynamicProgramming</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="Palindromic.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spiral.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Joseph.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberTriangle.hpp">
+      <Filter>Application\Header Files\DynamicProgramming</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

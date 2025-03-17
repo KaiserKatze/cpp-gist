@@ -187,12 +187,17 @@
     <ClInclude Include="CriticalPath.hpp" />
     <ClInclude Include="Decimal.hpp" />
     <ClInclude Include="DFS.hpp" />
+    <ClInclude Include="DynamicProgramming.hpp" />
     <ClInclude Include="EightQueens.hpp" />
     <ClInclude Include="Fibonacci.hpp" />
     <ClInclude Include="Graph.hpp" />
     <ClInclude Include="HuffmanCode.hpp" />
     <ClInclude Include="HuffmanTree.hpp" />
+    <ClInclude Include="Joseph.hpp" />
     <ClInclude Include="KMath.hpp" />
+    <ClInclude Include="NumberTriangle.hpp" />
+    <ClInclude Include="Palindromic.hpp" />
+    <ClInclude Include="Spiral.hpp" />
     <ClInclude Include="StraightInsertSort.hpp" />
     <ClInclude Include="LinkedStack.hpp" />
     <ClInclude Include="Matrix.hpp" />
@@ -210,6 +215,7 @@
     <ClInclude Include="SPFloyd.hpp" />
     <ClInclude Include="TestHuffmanTree.hpp" />
     <ClInclude Include="TestSort.hpp" />
+    <ClInclude Include="Timer.hpp" />
     <ClInclude Include="TopoSort.hpp" />
     <ClInclude Include="TraverseTree.hpp" />
     <ClInclude Include="TreeUtils.hpp" />

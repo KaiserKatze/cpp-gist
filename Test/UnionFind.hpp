@@ -20,7 +20,7 @@ struct UnionFind {
         // 合并：让一个集合的根指向另一个集合的根
         // 启发式合并/按秩合并
         p = Find(p);
-        q = Find(p);
+        q = Find(q);
         if (p == q) return;
         if (size[p] > size[q]) std::swap(p, q);
         fa[p] = q;

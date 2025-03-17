@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <vector> // std::vector
 #include <string> // std::string
 #include <compare> // sign_type (since C++20)
@@ -7,6 +8,7 @@
 #include <cassert> // assert
 #include <sstream> // std::stringstream
 #include <functional> // std::cref
+#include <numeric> // std::accumulate
 #include <iostream>
 #include <type_traits>
 
@@ -120,6 +122,23 @@ struct Decimal { // 高精度十进制数字（支持任意精度的小数）
         return out.str();
     }
 
+    int_type at(size_t index) const {
+        if (0 > index) {
+            throw std::invalid_argument{ "Invalid argument: index too small!" };
+        }
+        const size_t size_integral{ this->integral_part.size() };
+        const size_t size_fractional{ this->fractional_part.size() };
+        const size_t size_total{ size_integral + size_fractional }; //
+        if (index >= size_total) {
+            return 0;
+        }
+        if (index < size_integral) {
+            return this->integral_part[index];
+        }
+        index -= size_integral;
+        return this->fractional_part[index];
+    }
+
     void _clear() {
         this->sign = sign_type::equal;
         this->integral_part.clear();
@@ -157,11 +176,6 @@ struct Decimal { // 高精度十进制数字（支持任意精度的小数）
 
     size_t size() const {
         return this->integral_part.size() + this->fractional_part.size();
-    }
-
-    static sign_type _compare_abs(const_iterator begin_lhs, const_iterator end_lhs,
-        const_iterator begin_rhs, const_iterator end_rhs) {
-        throw NotImplemented;
     }
 
     static sign_type _compare_abs(const Decimal& lhs, const Decimal& rhs) {
@@ -581,50 +595,113 @@ struct Decimal { // 高精度十进制数字（支持任意精度的小数）
         return Decimal{ *this } *= other;
     }
 
-    static Decimal& _div(Decimal& dest, const Decimal& lhs, const Decimal& rhs) {
-        const_iterator begin_fractional_lhs{ lhs.fractional_part.cbegin() };
-        const_iterator end_fractional_lhs{ lhs.fractional_part.cend() };
-        const_iterator begin_integral_lhs{ lhs.integral_part.cbegin() };
-        const_iterator end_integral_lhs{ lhs.integral_part.cend() };
-        const_iterator begin_fractional_rhs{ rhs.fractional_part.cbegin() };
-        const_iterator end_fractional_rhs{ rhs.fractional_part.cend() };
-        const_iterator begin_integral_rhs{ rhs.integral_part.cbegin() };
-        const_iterator end_integral_rhs{ rhs.integral_part.cend() };
-        using range_type = std::pair<const_iterator, const_iterator>[];
-        const range_type range_outer{
-            { begin_integral_lhs, end_integral_lhs },
-            { begin_fractional_lhs, end_fractional_lhs },
-        };
-        const range_type range_inner{
-            { begin_integral_rhs, end_integral_rhs },
-            { begin_fractional_rhs, end_fractional_rhs },
-        };
-        const_iterator itr_lhs;
-        const_iterator itr_rhs;
-        int_type num_lhs;
-        int_type num_rhs;
-        int_type div;
-        int_type mod;
-        for (auto&& [begin_lhs, end_lhs] : range_outer) {
-            itr_lhs = begin_lhs;
-            while (itr_lhs != end_lhs) {
-                num_lhs = *itr_lhs++;
-                for (auto&& [begin_rhs, end_rhs] : range_inner) {
-                    itr_rhs = begin_rhs;
-                    while (itr_rhs != end_rhs) {
-                        num_rhs = *itr_rhs++;
-                        div = num_lhs / num_rhs;
-                        mod = num_lhs % num_rhs;
-                        if (div == 0) {
+    static sign_type _compare_abs(const_iterator begin_lhs, const_iterator end_lhs,
+        const_iterator begin_rhs, const_iterator end_rhs) { // 把两个数都看成整数
+        ptrdiff_t size_lhs{ end_lhs - begin_lhs };
+        ptrdiff_t size_rhs{ end_rhs - begin_rhs };
+        assert(size_lhs >= 0);
+        assert(size_rhs >= 0);
+        sign_type cmp_result_integral{ size_lhs <=> size_rhs };
+        if (cmp_result_integral != sign_type::equal) { // 两者整数部分不等长
+            return cmp_result_integral; // 整数部分越长的，绝对值越大
+        }
+        while (begin_lhs != end_lhs) { // 两者整数部分等长，从高到低逐位比较
+            if (*begin_lhs != *begin_rhs) {
+                return *begin_lhs <=> *begin_rhs;
+            }
+            ++begin_lhs;
+            ++begin_rhs;
+        }
+        return sign_type::equal;
+    }
 
-                        }
-                        else {
-
-                        }
-                    }
+    static Decimal& _div(Decimal& dest, const Decimal& lhs, const Decimal& rhs, size_t precision = 28) {
+        size_t size_lhs{ lhs.size() };
+        size_t size_rhs{ rhs.size() };
+        assert(size_lhs != 0);
+        assert(size_rhs != 0);
+        data_type data_lhs(size_lhs);
+        data_type data_rhs(size_rhs);
+        data_type data_buffer(precision);
+        {
+            iterator begin_lhs{ data_lhs.begin() };
+            begin_lhs = std::copy(lhs.integral_part.cbegin(), lhs.integral_part.cend(), begin_lhs);
+            std::copy(lhs.fractional_part.cbegin(), lhs.fractional_part.cend(), begin_lhs);
+        }
+        {
+            iterator begin_rhs{ data_rhs.begin() };
+            begin_rhs = std::copy(rhs.integral_part.cbegin(), rhs.integral_part.cend(), begin_rhs);
+            std::copy(rhs.fractional_part.cbegin(), rhs.fractional_part.cend(), begin_rhs);
+        }
+        iterator begin_lhs{ data_lhs.begin() };
+        iterator end_lhs{ data_lhs.end() };
+        iterator mid_lhs{ begin_lhs + size_rhs };
+        const_iterator begin_rhs{ data_rhs.cbegin() };
+        const_iterator end_rhs{ data_rhs.cend() };
+        const_iterator mid_rhs{ end_rhs };
+        iterator begin_dest{ data_buffer.begin() };
+        while (begin_lhs != end_lhs) {
+            while (_compare_abs(begin_lhs, mid_lhs, begin_rhs, end_rhs) < 0) {
+                if (mid_lhs >= end_lhs) {
+                    data_lhs.resize(data_lhs.size() + (mid_lhs - end_lhs) + 1, 0);
+                    end_lhs = mid_lhs = data_lhs.end();
+                    begin_lhs = data_lhs.begin();
+                }
+                else {
+                    ++mid_lhs;
+                }
+                *begin_dest++ = 0;
+                if (begin_dest == data_buffer.end()) {
+                    break;
                 }
             }
+            if (begin_dest == data_buffer.end()) {
+                break;
+            }
+            int_type num_rhs{ *begin_rhs };
+            int_type num_lhs{
+                (std::distance(begin_lhs, mid_lhs) == std::distance(begin_rhs, end_rhs))
+                ? (*begin_lhs)
+                : (*begin_lhs * 10 + *++begin_lhs)
+            };
+            int_type quotient{ num_lhs / num_rhs }; // 商
+            *begin_dest++ = quotient;
+            if (begin_dest == data_buffer.end()) {
+                break;
+            }
+            if (begin_lhs != end_lhs) {
+                iterator itr_lhs{ begin_lhs };
+                const_iterator itr_rhs{ begin_rhs };
+                *itr_lhs++ = num_lhs % num_rhs;
+                while (itr_rhs != end_rhs) {
+                    if (itr_lhs == end_lhs) {
+                        ptrdiff_t diff_itr{ std::distance(begin_lhs, itr_lhs) };
+                        ptrdiff_t diff_mid{ std::distance(begin_lhs, mid_lhs) };
+                        data_lhs.resize(data_lhs.size() + std::distance(itr_rhs, end_rhs), 0);
+                        begin_lhs = data_lhs.begin();
+                        end_lhs = data_lhs.end();
+                        itr_lhs = begin_lhs + diff_itr;
+                        mid_lhs = begin_lhs + diff_mid;
+                    }
+                    *itr_lhs -= quotient * *itr_rhs;
+                    ++itr_lhs;
+                    ++itr_rhs;
+                }
+                while (itr_rhs != begin_rhs) {
+                    --itr_lhs;
+                    --itr_rhs;
+                    if (*itr_lhs >= 0) {
+                        continue;
+                    }
+                    *itr_lhs += 10;
+                    --*(itr_lhs - 1);
+                }
+            }
+            ++begin_lhs;
         }
+        dest.integral_part = data_buffer;
+        dest.fractional_part.clear();
+        return dest;
     }
 
     Decimal& operator/=(const Decimal& other) {
