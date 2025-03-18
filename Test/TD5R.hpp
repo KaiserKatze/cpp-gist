@@ -22,7 +22,7 @@ void Solve() {
     static constexpr int ppl{ 5 }; // 人数
     static constexpr int n{ ppl * ppl }; // 状态数（人数的平方）
     const std::string names[ppl]{ // 每个人的称谓
-        "哥哥", "弟弟", "爸爸", "妈妈", "奶奶",
+        R"( 哥哥 )", R"( 弟弟 )", R"( 爸爸 )", R"( 妈妈 )", R"( 奶奶 )",
     };
     const int deeps[ppl]{ // 每个人的慢度
         1, 3, 6, 8, 12,
@@ -36,7 +36,7 @@ void Solve() {
     moveTo.push(0x00); // 一开始每个人都不在对岸
     while (!moveTo.empty() && route[n - 1] == -1) {
         int status{ moveTo.front() }; moveTo.pop();
-        std::cout << "当前状态是" << std::bitset<ppl>(status) << '\n';
+        std::cout << R"( 当前状态是 )" << std::bitset<ppl>(status) << '\n';
         for (int i = 0; i < ppl; ++i) {
             if ((moveTo.size() & 1) == 0) // 正在前往对岸
                 for (int j = i + 1; j <= ppl; ++j) {
@@ -46,12 +46,12 @@ void Solve() {
                     int deeps2{};
                     if (j < ppl) {
                         deeps2 = deeps[j];
-                        std::cout << "尝试让" << names[i] << "和" << names[j] << "一起过河 ...\n";
+                        std::cout << R"( 尝试让 )" << names[i] << R"( 和 )" << names[j] << R"( 一起过河 ...\n)";
                     }
                     else {
                         mover2 = 0;
                         deeps2 = 0;
-                        std::cout << "尝试让" << names[i] << "独自过河 ...\n";
+                        std::cout << R"( 尝试让 )" << names[i] << R"( 独自过河 ...\n)";
                     }
                     int movers{ mover1 | mover2 };
                     int newStatus{ status ^ movers };
@@ -59,7 +59,7 @@ void Solve() {
                     weight[newStatus] = std::max(deeps1, deeps2);
                     moveTo.push(newStatus);
                     if (newStatus == n - 1) {
-                        std::cout << "发现新路径!\n";
+                        std::cout << R"( 发现新路径! \n)";
                     }
                 }
             else { // 正在返回
@@ -67,5 +67,5 @@ void Solve() {
             }
         }
     }
-    std::cout << "求最短路径 ...\n";
+    std::cout << R"( 求最短路径 ...\n)";
 }

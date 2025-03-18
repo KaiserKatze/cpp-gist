@@ -58,7 +58,7 @@ public:
             for (size_t j = 0; j < size; ++j) {
                 auto [adjvex, lowcost] = edges[j];
                 std::cout << "LOG <<< \t[" << j << "] = { adjvex: " << adjvex << ", lowcost: ";
-                if (lowcost == arcInfinity) std::cout << "∞";
+                if (lowcost == arcInfinity) std::cout << R"( ∞ )";
                 else                        std::cout << lowcost;
                 std::cout << " },\n";
             }

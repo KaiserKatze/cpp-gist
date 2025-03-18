@@ -51,7 +51,7 @@ struct ShortestPath_Dijkstra {
             std::cout << "LOG <<< path[i=" << i << "]: ";
             for (auto prev_vertex : path) {
                 if (prev_vertex == max_path) {
-                    std::cout << "∞" << " ";
+                    std::cout << R"(∞)" << " ";
                 }
                 else {
                     std::cout << prev_vertex << " ";
@@ -61,7 +61,7 @@ struct ShortestPath_Dijkstra {
             std::cout << "LOG <<< d[i=" << i << "]: ";
             for (const ArcType& weight : d) {
                 if (weight == std::numeric_limits<ArcType>::max()) {
-                    std::cout << "∞" << " ";
+                    std::cout << R"(∞)" << " ";
                 }
                 else {
                     std::cout << weight << " ";

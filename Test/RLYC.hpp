@@ -1,9 +1,10 @@
+#pragma once
+
 // “人狼羊菜”问题
 // 问题抽象为：
 // 从状态 `0b0000` 出发，寻找全部由安全状态构成的状态序列，直到最终目标 `0b1111`
 // 状态序列中，每个状态都可以由它的前驱通过“人带一样东西划船过河”的动作到达
 // 序列中不能出现重复状态
-#pragma once
 
 #include <iostream>
 #include <vector>
@@ -21,7 +22,7 @@ enum Role : std::uint32_t {
 
 struct State {
     std::uint32_t v;
-    
+
     State(std::uint32_t v) : v{ v } {}
 
     bool IsPresent(Role role) const { // 确定每个角色位置
@@ -42,15 +43,15 @@ struct State {
     operator std::string() const {
         std::stringstream ss;
         if (!IsPresent(Role::FARMER))
-            ss << "人";
+            ss << R"( 人 )";
         if (!IsPresent(Role::WOLF))
-            ss << "狼";
+            ss << R"( 狼 )";
         if (!IsPresent(Role::CABBAGE))
-            ss << "菜";
+            ss << R"( 菜 )";
         if (!IsPresent(Role::GOAT))
-            ss << "羊";
+            ss << R"( 羊 )";
         if (ss.str().size() == 0)
-            ss << "空";
+            ss << R"( 空 )";
         return ss.str();
     }
     State operator&(std::uint32_t v) const {
@@ -102,9 +103,10 @@ inline void Solve() {
     std::cout << "The reverse path is:\n";
     for (State status = 15; status != 0; status = route[status]) {
         std::cout << "\t" << std::bitset<4>(status)
-            << "(源岸剩下：" << static_cast<std::string>(status) << ')'
-            << "(终岸剩下：" << static_cast<std::string>(~status) << ')'
+            << '(' << R"( 源岸剩下： )" << static_cast<std::string>(status) << ')'
+            << '(' << R"( 终岸剩下： )" << static_cast<std::string>(~status) << ')'
             << '\t' << std::boolalpha << status.IsValid()
             << '\n';
     }
 }
+

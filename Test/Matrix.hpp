@@ -128,7 +128,7 @@ struct Matrix {
             for (size_t j = 0; j < nColumns; ++j) {
                 if (j > 0) ss << ", ";
                 const ElemType& entry{ data[i][j] };
-                if (entry == Infty) ss << "∞";
+                if (entry == Infty) ss << R"( ∞ )";
                 else                ss << entry;
             }
             ss << "},\n";
