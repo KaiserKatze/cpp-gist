@@ -161,14 +161,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BinarySearchTree.cpp" />
-    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="HeapSort.hpp" />
     <ClCompile Include="HonoiTower.hpp" />
-    <ClCompile Include="HuffmanTree.cpp" />
-    <ClCompile Include="HuffmanCode.cpp" />
     <ClCompile Include="RLYC.hpp" />
-    <ClCompile Include="t2bt.cpp" />
+    <ClCompile Include="TD5R.hpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="ThreadedBinaryTreeNode.hpp" />
   </ItemGroup>
@@ -213,7 +209,6 @@
     <ClInclude Include="SimpleSelectSort.hpp" />
     <ClInclude Include="SPDijkstra.hpp" />
     <ClInclude Include="SPFloyd.hpp" />
-    <ClInclude Include="TestHuffmanTree.hpp" />
     <ClInclude Include="TestSort.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="TopoSort.hpp" />

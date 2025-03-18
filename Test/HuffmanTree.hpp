@@ -9,11 +9,11 @@
 // data structures
 
 using DepthType = size_t;
-static_assert(std::is_integral_v<DepthType>); // Éî¶ÈÀàĞÍ±ØĞëÊÇÕûÊıÀàĞÍ
+static_assert(std::is_integral_v<DepthType>); // æ·±åº¦ç±»å‹å¿…é¡»æ˜¯æ•´æ•°ç±»å‹
 
 template <typename WeightType>
-struct HTNode { /* ¹ş·òÂüÊ÷µÄ½áµã */
-    WeightType data; /* È¨Öµ */
+struct HTNode { /* å“ˆå¤«æ›¼æ ‘çš„ç»“ç‚¹ */
+    WeightType data; /* æƒå€¼ */
     size_t parent;
     size_t lChild;
     size_t rChild;
@@ -47,21 +47,21 @@ WeightType GetWeightedPathLength(const HuffmanTree<WeightType>, size_t);
 
 template <typename WeightType>
 void Select(HuffmanTree<WeightType> ht, size_t range, size_t& a, size_t& b) {
-    // ÔÚ ht[k] (1<=k<=range) ÖĞÑ¡ÔñÁ½¸ö½áµã
-    // ÕâÁ½¸ö½áµãÂú×ã£º
-    // - ÆäË«Ç×ÓòÎª 0
-    // - ÆäÈ¨Öµ×îĞ¡
-    // ·µ»ØÕâÁ½¸ö½áµãµÄĞòºÅ
+    // åœ¨ ht[k] (1<=k<=range) ä¸­é€‰æ‹©ä¸¤ä¸ªç»“ç‚¹
+    // è¿™ä¸¤ä¸ªç»“ç‚¹æ»¡è¶³ï¼š
+    // - å…¶åŒäº²åŸŸä¸º 0
+    // - å…¶æƒå€¼æœ€å°
+    // è¿”å›è¿™ä¸¤ä¸ªç»“ç‚¹çš„åºå·
     a = b = 0;
     HTNode<WeightType>* d1{ nullptr }, * d2{ nullptr };
     for (size_t i{ 1 }; i <= range; ++i) {
         HTNode<WeightType>& node{ ht[i] };
-        if (node.parent != 0) continue; // ¸Ã½áµãÒÑÓĞË«Ç×£¬Ìø¹ı
-        if (d1 == nullptr || node < *d1) { // µ± d1 ÊÇ¿ÕÖ¸ÕëÊ±£¬»òµ± node ±È d1 µÄÈ¨Öµ¸üĞ¡Ê±£¬ÒÆ¶¯ d1 ºÍ d2 Ö¸Õë
+        if (node.parent != 0) continue; // è¯¥ç»“ç‚¹å·²æœ‰åŒäº²ï¼Œè·³è¿‡
+        if (d1 == nullptr || node < *d1) { // å½“ d1 æ˜¯ç©ºæŒ‡é’ˆæ—¶ï¼Œæˆ–å½“ node æ¯” d1 çš„æƒå€¼æ›´å°æ—¶ï¼Œç§»åŠ¨ d1 å’Œ d2 æŒ‡é’ˆ
             d2 = d1;
             d1 = &node;
         }
-        else if (d2 == nullptr || node < *d2) { // µ± d2 ÊÇ¿ÕÖ¸ÕëÊ±£¬»òµ± node ±È d2 µÄÈ¨Öµ¸üĞ¡Ê±£¬ÒÆ¶¯ d2 Ö¸Õë
+        else if (d2 == nullptr || node < *d2) { // å½“ d2 æ˜¯ç©ºæŒ‡é’ˆæ—¶ï¼Œæˆ–å½“ node æ¯” d2 çš„æƒå€¼æ›´å°æ—¶ï¼Œç§»åŠ¨ d2 æŒ‡é’ˆ
             d2 = &node;
         }
     }
@@ -75,31 +75,31 @@ void Select(HuffmanTree<WeightType> ht, size_t range, size_t& a, size_t& b) {
 }
 
 template <typename WeightType>
-HuffmanTree<WeightType> CreateHuffmanTree(const WeightType* weights /* È¨ÖµÊı×é */, size_t n /* ¿ÃÊı */) {
-    // ¹¹Ôì¹ş·òÂüÊ÷
+HuffmanTree<WeightType> CreateHuffmanTree(const WeightType* weights /* æƒå€¼æ•°ç»„ */, size_t n /* æ£µæ•° */) {
+    // æ„é€ å“ˆå¤«æ›¼æ ‘
     if (n <= 1) return nullptr;
     const auto capacity{ 2 * n };
-    HuffmanTree<WeightType> ht{ new HTNode<WeightType>[capacity] }; // ÓÃ `ht[m]` ±íÊ¾¸ù½áµã
-    for (size_t i{ 0 }; i < capacity; ++i) { // ³õÊ¼»¯
+    HuffmanTree<WeightType> ht{ new HTNode<WeightType>[capacity] }; // ç”¨ `ht[m]` è¡¨ç¤ºæ ¹ç»“ç‚¹
+    for (size_t i{ 0 }; i < capacity; ++i) { // åˆå§‹åŒ–
         auto& node{ ht[i] };
         node.parent = 0;
         node.lChild = 0;
         node.rChild = 0;
     }
-    for (size_t i{ 1 }; i <= n; ++i) { // ÊäÈëÇ° n ¸öµ¥ÔªÖĞÒ¶×Ó½áµãµÄÈ¨Öµ
+    for (size_t i{ 1 }; i <= n; ++i) { // è¾“å…¥å‰ n ä¸ªå•å…ƒä¸­å¶å­ç»“ç‚¹çš„æƒå€¼
         ht[i].data = weights[i - 1];
-    } // Çø¼ä [1..n] ÄÚµÄ½áµãÊÇ³õÊ¼½áµã
+    } // åŒºé—´ [1..n] å†…çš„ç»“ç‚¹æ˜¯åˆå§‹ç»“ç‚¹
     for (size_t i{ n + 1 }; i < capacity; ++i) {
-        size_t s1{}, s2{}; // È¨Öµ×îĞ¡µÄÁ½¸ö½áµãµÄĞòºÅ
+        size_t s1{}, s2{}; // æƒå€¼æœ€å°çš„ä¸¤ä¸ªç»“ç‚¹çš„åºå·
         Select(ht, i - 1, s1, s2);
-        // ÈÃÈ¨Öµ×îĞ¡µÄÁ½¸ö½áµã£¨µÚ s1 ¸ö½áµã¡¢µÚ s2 ¸ö½áµã£©Ö¸ÏòµÚ i ¸ö½áµã£¬°ÑµÚ i ¸ö½áµã×÷ÎªÇ×½áµã
+        // è®©æƒå€¼æœ€å°çš„ä¸¤ä¸ªç»“ç‚¹ï¼ˆç¬¬ s1 ä¸ªç»“ç‚¹ã€ç¬¬ s2 ä¸ªç»“ç‚¹ï¼‰æŒ‡å‘ç¬¬ i ä¸ªç»“ç‚¹ï¼ŒæŠŠç¬¬ i ä¸ªç»“ç‚¹ä½œä¸ºäº²ç»“ç‚¹
         ht[s1].parent = i;
         ht[s2].parent = i;
-        // Éè¶¨µÚ i ¸ö½áµãµÄ×óÓÒº¢×Ó
+        // è®¾å®šç¬¬ i ä¸ªç»“ç‚¹çš„å·¦å³å­©å­
         auto& parent{ ht[i] };
         parent.lChild = s1;
         parent.rChild = s2;
-        // Éè¶¨µÚ i ¸ö½áµãµÄÈ¨Öµ = ×óÓÒº¢×ÓµÄÈ¨ÖµÖ®ºÍ
+        // è®¾å®šç¬¬ i ä¸ªç»“ç‚¹çš„æƒå€¼ = å·¦å³å­©å­çš„æƒå€¼ä¹‹å’Œ
         parent.data = ht[s1].data + ht[s2].data;
 #ifdef DEBUG
         std::cout << "Create parent node:\n"
@@ -115,37 +115,37 @@ HuffmanTree<WeightType> CreateHuffmanTree(const WeightType* weights /* È¨ÖµÊı×é 
 
 template <typename WeightType, typename Callable>
 void TraversePrOrderR(HuffmanTree<WeightType> tree, size_t idx, Callable callback) {
-    // ÏÈĞò±éÀú¹ş·òÂüÊ÷µÄµİ¹éËã·¨
-    if (tree && idx > 0) {                                  // Èô¶ş²æÊ÷·Ç¿Õ
-        callback(tree[idx]);                                // ·ÃÎÊ¸ù½áµã
-        TraversePrOrderR(tree, tree[idx].lChild, callback); // ÏÈĞò±éÀú×ó×ÓÊ÷
-        TraversePrOrderR(tree, tree[idx].rChild, callback); // ÏÈĞò±éÀúÓÒ×ÓÊ÷
+    // å…ˆåºéå†å“ˆå¤«æ›¼æ ‘çš„é€’å½’ç®—æ³•
+    if (tree && idx > 0) {                                  // è‹¥äºŒå‰æ ‘éç©º
+        callback(tree[idx]);                                // è®¿é—®æ ¹ç»“ç‚¹
+        TraversePrOrderR(tree, tree[idx].lChild, callback); // å…ˆåºéå†å·¦å­æ ‘
+        TraversePrOrderR(tree, tree[idx].rChild, callback); // å…ˆåºéå†å³å­æ ‘
     }
 }
 
 template <typename WeightType, typename Callable>
 void TraverseInOrderR(HuffmanTree<WeightType> tree, size_t idx, Callable callback) {
-    // ÖĞĞò±éÀú¹ş·òÂüÊ÷µÄµİ¹éËã·¨
-    if (tree && idx > 0) {                                         // Èô¶ş²æÊ÷·Ç¿Õ
-        TraverseInOrderR(tree, tree[idx].lChild, callback); // ÖĞĞò±éÀú×ó×ÓÊ÷
-        callback(tree[idx]);                           // ·ÃÎÊ¸ù½áµã
-        TraverseInOrderR(tree, tree[idx].rChild, callback); // ÖĞĞò±éÀúÓÒ×ÓÊ÷
+    // ä¸­åºéå†å“ˆå¤«æ›¼æ ‘çš„é€’å½’ç®—æ³•
+    if (tree && idx > 0) {                                         // è‹¥äºŒå‰æ ‘éç©º
+        TraverseInOrderR(tree, tree[idx].lChild, callback); // ä¸­åºéå†å·¦å­æ ‘
+        callback(tree[idx]);                           // è®¿é—®æ ¹ç»“ç‚¹
+        TraverseInOrderR(tree, tree[idx].rChild, callback); // ä¸­åºéå†å³å­æ ‘
     }
 }
 
 template <typename WeightType, typename Callable>
 void TraversePsOrderR(HuffmanTree<WeightType> tree, size_t idx, Callable callback) {
-    // ºóĞò±éÀú¹ş·òÂüÊ÷µÄµİ¹éËã·¨
-    if (tree && idx > 0) {                                  // Èô¶ş²æÊ÷·Ç¿Õ
-        TraversePsOrderR(tree, tree[idx].lChild, callback); // ºóĞò±éÀú×ó×ÓÊ÷
-        TraversePsOrderR(tree, tree[idx].rChild, callback); // ºóĞò±éÀúÓÒ×ÓÊ÷
-        callback(tree[idx]);                                // ·ÃÎÊ¸ù½áµã
+    // ååºéå†å“ˆå¤«æ›¼æ ‘çš„é€’å½’ç®—æ³•
+    if (tree && idx > 0) {                                  // è‹¥äºŒå‰æ ‘éç©º
+        TraversePsOrderR(tree, tree[idx].lChild, callback); // ååºéå†å·¦å­æ ‘
+        TraversePsOrderR(tree, tree[idx].rChild, callback); // ååºéå†å³å­æ ‘
+        callback(tree[idx]);                                // è®¿é—®æ ¹ç»“ç‚¹
     }
 }
 
 //template <typename WeightType, typename Callable>
 //void TraverseTlOrderNR(HuffmanTree<WeightType> tree, size_t idx, Callable callback) {
-//    // ²ã´Î±éÀú¹ş·òÂüÊ÷µÄ·Çµİ¹éËã·¨
+//    // å±‚æ¬¡éå†å“ˆå¤«æ›¼æ ‘çš„éé€’å½’ç®—æ³•
 //    if (!tree) return;
 //    size_t qsize{ 1 << idx };
 //    int* queue{ new int[qsize] }; int p{ 0 }, q{ 0 };
@@ -166,14 +166,104 @@ void TraversePsOrderR(HuffmanTree<WeightType> tree, size_t idx, Callable callbac
 template <typename WeightType>
 WeightType GetWeightedPathLength(const HuffmanTree<WeightType> tree, size_t idx) {
     WeightType sum{};
-    std::vector<DepthType> depth(idx + 1, 0); // ´æ´¢¸÷¸ö½áµãµÄ²ãÊı£¨¸ù½áµãµÄ²ãÊı¼ÇÎªÒ¼£©
+    std::vector<DepthType> depth(idx + 1, 0); // å­˜å‚¨å„ä¸ªç»“ç‚¹çš„å±‚æ•°ï¼ˆæ ¹ç»“ç‚¹çš„å±‚æ•°è®°ä¸ºå£¹ï¼‰
     TraversePrOrderR(tree, idx, [&](auto& c) {
-        const WeightType weight{ c.data }; // È¨Öµ
-        const auto offset{ &c - tree }; // ½áµãµÄĞòºÅ
-        const DepthType length{ depth[offset] = depth[c.parent] + 1 }; // ½áµãµÄÂ·¾¶³¤¶È
-        if (c.lChild == 0 && c.rChild == 0) { // Ò¶×Ó½áµã
-            sum += weight * (length - 1); // ¼ÓÉÏµ±Ç°Ò¶×Ó½áµãµÄ´øÈ¨Â·¾¶³¤¶È
+        const WeightType weight{ c.data }; // æƒå€¼
+        const auto offset{ &c - tree }; // ç»“ç‚¹çš„åºå·
+        const DepthType length{ depth[offset] = depth[c.parent] + 1 }; // ç»“ç‚¹çš„è·¯å¾„é•¿åº¦
+        if (c.lChild == 0 && c.rChild == 0) { // å¶å­ç»“ç‚¹
+            sum += weight * (length - 1); // åŠ ä¸Šå½“å‰å¶å­ç»“ç‚¹çš„å¸¦æƒè·¯å¾„é•¿åº¦
         }
     });
     return sum;
 }
+
+#if DEBUG
+
+static int test() {
+    const int weights[]{ 5,29,7,8,14,23,3,11 };
+
+    const int n{ sizeof(weights) / sizeof(int) };
+    auto* result{ CreateHuffmanTree(weights, n) };
+    const int m{ 2 * n - 1 };
+    TEST_TRAVERSE("å“ˆå¤«æ›¼æ ‘çš„ä¸­åºåºåˆ—ï¼š", result, m, TraverseInOrderR);
+    TEST_TRAVERSE("å“ˆå¤«æ›¼æ ‘çš„å…ˆåºåºåˆ—ï¼š", result, m, TraversePrOrderR);
+
+    std::cout << "å“ˆå¤«æ›¼æ ‘çš„å¸¦æƒè·¯å¾„é•¿åº¦ WPL=" << GetWeightedPathLength(result, m);
+
+    delete result;
+
+    return 0;
+}
+
+#include <sstream>
+#include <stack>
+#include <queue>
+#include <type_traits>
+
+struct TestHuffmanTree {
+    using WeightType = int;
+    static_assert(std::is_floating_point_v<WeightType> || std::is_integral_v<WeightType>); // æƒé‡ç±»å‹å¿…é¡»æ˜¯æ•°å­—ç±»å‹
+
+    void Test() {
+        WeightType weight[]{ 5,29,7,8,14,23,3,11 };
+        auto n{ sizeof(weight) / sizeof(weight[0]) };
+        auto huffman_tree{ CreateHuffmanTree(weight, n) };
+        auto idx_root_node{ 2 * n - 1 };
+        std::cout
+            << "Total length of input weight array: " << n << "\n"
+            << "Traverse Huffman Tree from ht[" << idx_root_node << "]:\n\t";
+        TraverseInOrderR(huffman_tree, idx_root_node, [](const auto& x) {
+            if (x.is_leaf()) {
+                std::cout << "<" << x.data << ">,";
+            }
+            else {
+                std::cout << x.data << ",";
+            }
+        });
+        std::cout << std::endl;
+        // è®¡ç®—å„ç»“ç‚¹çš„æ·±åº¦
+        auto depth{ new DepthType[2 * n] };
+        for (size_t i{ 1 }; i < 2 * n; ++i) { // åˆå§‹åŒ–æ·±åº¦
+            depth[i] = 0;
+        }
+        for (size_t i{ n + 1 }; i < 2 * n; ++i) {
+            const auto& node{ huffman_tree[i] };
+            // ä¸­åºéå† node å¯¹åº”çš„å­æ ‘ï¼Œè®©å…¶ä¸­çš„æ¯ä¸€ä¸ªç»“ç‚¹çš„æ·±åº¦åŠ ä¸€
+            TraverseInOrderR(huffman_tree, i, [&depth](const auto& x) {
+                ++depth[x.lChild];
+                ++depth[x.rChild];
+            });
+            const auto depth_left{ depth[node.lChild] };
+            const auto depth_right{ depth[node.rChild] };
+            depth[i] = (depth_left > depth_right ? depth_left : depth_right) + 1;
+        }
+        std::cout << "Depth of Huffman Tree: " << depth[idx_root_node] << "\n";
+        std::cout << "Depth of each node:\n";
+        for (size_t i{ 1 }; i < 2 * n; ++i) {
+            std::cout << "\t{ weight: " << huffman_tree[i].data << ", depth: " << depth[i] << " },\n";
+        }
+        std::cout << std::endl;
+        // è®¡ç®—å¸¦æƒè·¯å¾„é•¿åº¦
+        //WeightType WPL{ 0 };
+        //std::stringstream ss;
+        //for (size_t i{ 1 }; i <= n; ++i) {
+        //    const auto& node{ huffman_tree[i] };
+        //    const auto& depth_node{ depth[i] };
+        //    WPL += node.data * depth_node;
+
+        //    if (i > 1) {
+        //        ss << "+";
+        //    }
+        //    ss << node.data << "Ã—" << depth_node;
+        //}
+        auto WPL{ GetWeightedPathLength(huffman_tree, idx_root_node) };
+        std::cout << "Weighted path length: " << WPL
+            //<< " = " << ss.str()
+            << "\n";
+
+        delete huffman_tree;
+    }
+};
+
+#endif

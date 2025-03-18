@@ -15,13 +15,13 @@
 #include "BinaryTree.hpp"
 #include "TraverseTree.hpp"
 //==================================
-// BST£¨»ù´¡¿î£©
+// BSTï¼ˆåŸºç¡€æ¬¾ï¼‰
 
 template <class E, std::strict_weak_order<E, E> Compare = std::less<E>>
-struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
-    using NodeType = Node<E>; // Ê¹ÓÃ´øÓĞÇ×Ö¸ÕëÓòµÄ¶ş²æÁ´±í
+struct BinarySearchTree { // äºŒå‰æœç´¢æ ‘
+    using NodeType = Node<E>; // ä½¿ç”¨å¸¦æœ‰äº²æŒ‡é’ˆåŸŸçš„äºŒå‰é“¾è¡¨
     using Ancestry = std::stack<std::reference_wrapper<NodeType*>>;
-    NodeType* root{ nullptr }; // ¸ùÖ¸Õë
+    NodeType* root{ nullptr }; // æ ¹æŒ‡é’ˆ
     Compare compare{};
 
     BinarySearchTree() {}
@@ -34,8 +34,8 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
         if (root) delete root;
     }
 
-    virtual NodeType* Insert(E data /* ĞÂÊı¾İ */) {
-        // ·µ»ØĞÂ²åÈëµÄÊı¾İ¶ÔÓ¦µÄ½áµã
+    virtual NodeType* Insert(E data /* æ–°æ•°æ® */) {
+        // è¿”å›æ–°æ’å…¥çš„æ•°æ®å¯¹åº”çš„ç»“ç‚¹
         NodeType** pp{ &root };
         NodeType* p;
         while (true) {
@@ -45,7 +45,7 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
                 switch (policy)
                 {
                 case ERROR:
-                    throw std::runtime_error{ "²åÈëÖØ¸´Êı¾İ" };
+                    throw std::runtime_error{ "æ’å…¥é‡å¤æ•°æ®" };
                 case IGNORE:
                     return nullptr;
                 case INSERT:
@@ -65,14 +65,14 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
         return node;
     }
 
-    NodeType*& Search(E data /* ´ı¼ìË÷Êı¾İ */) {
-        // ²éÕÒÖ¸¶¨Êı¾İ£¬·µ»Ø½áµãÖ¸Õë
+    NodeType*& Search(E data /* å¾…æ£€ç´¢æ•°æ® */) {
+        // æŸ¥æ‰¾æŒ‡å®šæ•°æ®ï¼Œè¿”å›ç»“ç‚¹æŒ‡é’ˆ
         NodeType** pp{ &root };
         NodeType* p;
         while (true) {
             p = *pp;
-            if (p == nullptr) break; // Ã»ÓĞÕÒµ½Ö¸¶¨Êı¾İ
-            if (data == p->data) break; // ³É¹¦ÕÒµ½Ö¸¶¨Êı¾İ
+            if (p == nullptr) break; // æ²¡æœ‰æ‰¾åˆ°æŒ‡å®šæ•°æ®
+            if (data == p->data) break; // æˆåŠŸæ‰¾åˆ°æŒ‡å®šæ•°æ®
             else if (compare(data, p->data))
                 pp = &(p->lChild);
             else
@@ -83,16 +83,16 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
 
     template <class Callable>
     void GetAncestry(NodeType* node, Callable filter, Ancestry& ancestry) {
-        // »ñÈ¡Ö¸¶¨½áµãµÄ×æÏÈ½áµã
-        if (node == nullptr) return; // ²ÎÊı´íÎó
+        // è·å–æŒ‡å®šç»“ç‚¹çš„ç¥–å…ˆç»“ç‚¹
+        if (node == nullptr) return; // å‚æ•°é”™è¯¯
         NodeType** pp{ &root };
         NodeType* p;
         while ((p = *pp) != nullptr) {
-            if (node == p) break; // ³É¹¦ÕÒµ½Ö¸¶¨½áµã
+            if (node == p) break; // æˆåŠŸæ‰¾åˆ°æŒ‡å®šç»“ç‚¹
             if constexpr (std::is_function_v<Callable>) {
-                if (filter(p)) ancestry.push(*pp); // ×æÏÈ½áµãÈëÕ»
+                if (filter(p)) ancestry.push(*pp); // ç¥–å…ˆç»“ç‚¹å…¥æ ˆ
             }
-            else ancestry.push(*pp); // ×æÏÈ½áµãÈëÕ»
+            else ancestry.push(*pp); // ç¥–å…ˆç»“ç‚¹å…¥æ ˆ
             if (compare(node->data, p->data))
                 pp = &(p->lChild);
             else
@@ -100,29 +100,29 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
         }
     }
 
-    NodeType*& MaxChild(NodeType* node /* ³ö·¢µã */ = nullptr) {
+    NodeType*& MaxChild(NodeType* node /* å‡ºå‘ç‚¹ */ = nullptr) {
         NodeType*& lLeaf{ LeftmostLeaf(node) };
         NodeType*& rLeaf{ RightmostLeaf(node) };
         if (compare(lLeaf->data, rLeaf->data)) return rLeaf;
         else                                   return lLeaf;
     }
 
-    E Max(NodeType* node /* ³ö·¢µã */ = nullptr) {
+    E Max(NodeType* node /* å‡ºå‘ç‚¹ */ = nullptr) {
         return MaxChild(node)->data;
     }
 
-    NodeType*& MinChild(NodeType* node /* ³ö·¢µã */ = nullptr) {
+    NodeType*& MinChild(NodeType* node /* å‡ºå‘ç‚¹ */ = nullptr) {
         NodeType*& lLeaf{ LeftmostLeaf(node) };
         NodeType*& rLeaf{ RightmostLeaf(node) };
         if (compare(lLeaf->data, rLeaf->data)) return lLeaf;
         else                                   return rLeaf;
     }
 
-    E Min(NodeType* node /* ³ö·¢µã */ = nullptr) {
+    E Min(NodeType* node /* å‡ºå‘ç‚¹ */ = nullptr) {
         return MinChild(node)->data;
     }
 
-    NodeType*& LeftmostLeaf(NodeType* node /* ³ö·¢µã */ = nullptr) {
+    NodeType*& LeftmostLeaf(NodeType* node /* å‡ºå‘ç‚¹ */ = nullptr) {
         NodeType** pp{ &(node == nullptr ? root : node) };
         NodeType* p{ *pp };
         if (p == nullptr) return root;
@@ -133,7 +133,7 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
         return *pp;
     }
 
-    NodeType*& RightmostLeaf(NodeType* node /* ³ö·¢µã */ = nullptr) {
+    NodeType*& RightmostLeaf(NodeType* node /* å‡ºå‘ç‚¹ */ = nullptr) {
         NodeType** pp{ &(node == nullptr ? root : node) };
         NodeType* p{ *pp };
         if (p == nullptr) return root;
@@ -144,18 +144,18 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
         return *pp;
     }
 
-    virtual void Delete(NodeType*& node /* ´ıÉ¾³ıµÄ½áµã */) {
+    virtual void Delete(NodeType*& node /* å¾…åˆ é™¤çš„ç»“ç‚¹ */) {
         if (node == nullptr) return;
         if (node->lChild != nullptr && node->rChild != nullptr) {
-            // `node` ¼ÈÓĞ×ó×ÓÊ÷£¬ÓÖÓĞÓÒ×ÓÊ÷
+            // `node` æ—¢æœ‰å·¦å­æ ‘ï¼Œåˆæœ‰å³å­æ ‘
             NodeType*& chosen{ RightmostLeaf(node->lChild) };
             node->data = chosen->data;
-            NodeType* lChild{ chosen->lChild }; // Ôİ´æ `chosen` µÄ×ó×ÓÊ÷µÄ¸±±¾
-            chosen->lChild = nullptr; delete chosen; // ¶Ï¿ªÁ´½Ó£¬²¢ÊÍ·ÅÄÚ´æ
-            chosen = lChild; // °Ñ `chosen` µÄÇ×½áµãµÄÓÒ×ÓÊ÷£¨»ò×ó×ÓÊ÷£©ÖÃÎª `chosen` µÄ×ó×ÓÊ÷
+            NodeType* lChild{ chosen->lChild }; // æš‚å­˜ `chosen` çš„å·¦å­æ ‘çš„å‰¯æœ¬
+            chosen->lChild = nullptr; delete chosen; // æ–­å¼€é“¾æ¥ï¼Œå¹¶é‡Šæ”¾å†…å­˜
+            chosen = lChild; // æŠŠ `chosen` çš„äº²ç»“ç‚¹çš„å³å­æ ‘ï¼ˆæˆ–å·¦å­æ ‘ï¼‰ç½®ä¸º `chosen` çš„å·¦å­æ ‘
             return;
         }
-        NodeType* nodeCopy{ node }; // Ôİ´æ `node` µÄ¸±±¾£¬ÓÃÓÚÊÍ·ÅÄÚ´æ
+        NodeType* nodeCopy{ node }; // æš‚å­˜ `node` çš„å‰¯æœ¬ï¼Œç”¨äºé‡Šæ”¾å†…å­˜
         if (node->lChild != nullptr)
             node = node->lChild;
         else if (node->rChild != nullptr)
@@ -166,7 +166,7 @@ struct BinarySearchTree { // ¶ş²æËÑË÷Ê÷
         delete nodeCopy;
     }
 
-    virtual void Delete(E data /* ´ıÉ¾³ıµÄÊı¾İ */) {
+    virtual void Delete(E data /* å¾…åˆ é™¤çš„æ•°æ® */) {
         Delete(Search(data));
     }
 
@@ -174,14 +174,14 @@ protected:
 
 private:
     enum {
-        ERROR = 0, // ²åÈëÖØ¸´ÊıÖµ»á±¨´í
-        IGNORE = 1, // ²åÈëÖØ¸´ÊıÖµ»á±»ºöÂÔ
-        INSERT = 2 // ÖØ¸´ÊıÖµ²åÈëµ½×ó×ÓÊ÷
+        ERROR = 0, // æ’å…¥é‡å¤æ•°å€¼ä¼šæŠ¥é”™
+        IGNORE = 1, // æ’å…¥é‡å¤æ•°å€¼ä¼šè¢«å¿½ç•¥
+        INSERT = 2 // é‡å¤æ•°å€¼æ’å…¥åˆ°å·¦å­æ ‘
     } policy{ IGNORE };
 };
 
 //==================================
-// AVL Ê÷
+// AVL æ ‘
 
 template <class NodeType>
 int GetBalanceFactor(const NodeType* node) {
@@ -190,7 +190,7 @@ int GetBalanceFactor(const NodeType* node) {
 }
 
 template <class E, std::strict_weak_order<E, E> Compare = std::less<E>>
-struct AdelsonVelskyLandis : public BinarySearchTree<E, Compare> { // AVL Ê÷
+struct AdelsonVelskyLandis : public BinarySearchTree<E, Compare> { // AVL æ ‘
     using BST = BinarySearchTree<E, Compare>;
     using NodeType = typename BST::NodeType;
     using Ancestry = typename BST::Ancestry;
@@ -210,37 +210,37 @@ struct AdelsonVelskyLandis : public BinarySearchTree<E, Compare> { // AVL Ê÷
             << "bf: " << GetBalanceFactor(p)\
              << " } ...\n";\
     });\
-    std::cout << "\tÊ÷ÖĞ½áµã¸öÊı = " << Count(this->BST::root) << '\n';
+    std::cout << "\tæ ‘ä¸­ç»“ç‚¹ä¸ªæ•° = " << Count(this->BST::root) << '\n';
 
-    virtual NodeType* Insert(E data /* ĞÂÊı¾İ */) override {
-        // ·µ»ØĞÂ²åÈëµÄÊı¾İ¶ÔÓ¦µÄ½áµã
+    virtual NodeType* Insert(E data /* æ–°æ•°æ® */) override {
+        // è¿”å›æ–°æ’å…¥çš„æ•°æ®å¯¹åº”çš„ç»“ç‚¹
         auto node = this->BST::Insert(data);
-        std::cout << "²åÈëĞÂÊı¾İ { data: " << data << " } ...\n";
+        std::cout << "æ’å…¥æ–°æ•°æ® { data: " << data << " } ...\n";
         TRAVERSE_TREE;
 
         Ancestry ancestry{};
         if (node != nullptr && GetNearestUnbalancedAncestor(node, ancestry)) {
-            AutoBalance(ancestry.top().get()); // ×î½üµÄÊ§ºâ×æÏÈ½áµã
+            AutoBalance(ancestry.top().get()); // æœ€è¿‘çš„å¤±è¡¡ç¥–å…ˆç»“ç‚¹
         }
 
         return node;
     }
-    virtual void Delete(NodeType*& node /* ´ıÉ¾³ıµÄ½áµã */) override {
-        std::cout << "\t´ıÉ¾³ıµÄ½áµã = { "
+    virtual void Delete(NodeType*& node /* å¾…åˆ é™¤çš„ç»“ç‚¹ */) override {
+        std::cout << "\tå¾…åˆ é™¤çš„ç»“ç‚¹ = { "
             << "addr: " << node << ", "
             << "data: " << node->data
             << " } ...\n";
 
-        std::cout << "\tÉ¾³ı½áµãÇ°£¬¸÷¸ö½áµãµÄÆ½ºâÒò×Ó = \n";
+        std::cout << "\tåˆ é™¤ç»“ç‚¹å‰ï¼Œå„ä¸ªç»“ç‚¹çš„å¹³è¡¡å› å­ = \n";
         TRAVERSE_TREE;
 
         Ancestry ancestry{};
         this->BST::GetAncestry(node, nullptr, ancestry);
         this->BST::Delete(node);
 
-        std::cout << "\tÉ¾³ı½áµãºó£¬¸ù½áµãµÄÆ½ºâÒò×Ó = "
+        std::cout << "\tåˆ é™¤ç»“ç‚¹åï¼Œæ ¹ç»“ç‚¹çš„å¹³è¡¡å› å­ = "
             << GetBalanceFactor(this->BST::root) << '\n';
-        std::cout << "\tÉ¾³ı½áµãºó£¬¸÷¸ö½áµãµÄÆ½ºâÒò×Ó = \n";
+        std::cout << "\tåˆ é™¤ç»“ç‚¹åï¼Œå„ä¸ªç»“ç‚¹çš„å¹³è¡¡å› å­ = \n";
         TRAVERSE_TREE;
 
         while (!ancestry.empty()) {
@@ -248,7 +248,7 @@ struct AdelsonVelskyLandis : public BinarySearchTree<E, Compare> { // AVL Ê÷
             ancestry.pop();
             int bf{ GetBalanceFactor(parentOfNode) };
 
-            std::cout << "×Ô¶¯Æ½ºâ½áµã { "
+            std::cout << "è‡ªåŠ¨å¹³è¡¡ç»“ç‚¹ { "
                 << "addr: " << parentOfNode << ", "
                 << "data: " << parentOfNode->data << ", "
                 << "lchd: " << parentOfNode->lChild << ", "
@@ -256,7 +256,7 @@ struct AdelsonVelskyLandis : public BinarySearchTree<E, Compare> { // AVL Ê÷
                 << "bf: " << bf
                 << " } ...\n";
 
-            if (bf >= 2 || bf <= -2) // ½áµãÊ§ºâ£¬ĞèÒªĞı×ª
+            if (bf >= 2 || bf <= -2) // ç»“ç‚¹å¤±è¡¡ï¼Œéœ€è¦æ—‹è½¬
                 AutoBalance(parentOfNode);
         }
     }
@@ -268,17 +268,17 @@ private:
         return -1 <= bf && bf <= 1;
     }
     bool GetNearestUnbalancedAncestor(NodeType* newlyInsertedNode, Ancestry& ancestry) {
-        // Ñ°ÕÒ¾àÀëĞÂ²åÈë½áµã×î½üµÄ×æÏÈ½áµã£¬µÃµ½×îĞ¡²»Æ½ºâ×ÓÊ÷
+        // å¯»æ‰¾è·ç¦»æ–°æ’å…¥ç»“ç‚¹æœ€è¿‘çš„ç¥–å…ˆç»“ç‚¹ï¼Œå¾—åˆ°æœ€å°ä¸å¹³è¡¡å­æ ‘
         this->BST::GetAncestry(newlyInsertedNode, [&](auto p) { return !this->IsBalanced(p); }, ancestry);
-        std::cout << "\tÊ§ºâ×æÏÈÕ»´óĞ¡ = " << ancestry.size() << '\n';
+        std::cout << "\tå¤±è¡¡ç¥–å…ˆæ ˆå¤§å° = " << ancestry.size() << '\n';
         return !ancestry.empty();
     }
     void RotateLeft(NodeType*& node) {
-        // ½« `node` ×óĞı£¬±ä³ÉËüµÄÓÒ×Ó½áµã `p` µÄ×ó×Ó½áµã
-        // `node` µÄ×ó×Ó½áµã²»±ä
-        // Èç¹û `p` ÒÑ¾­ÓĞÒ»¸ö·Ç¿Õ×ó×Ó½áµã `q` ÁË£¬¾ÍÈÃ `q` ±ä³É `node` µÄÓÒ×Ó½áµã
-        // ÈÃ `p` ´úÌæËüÁ¬½Óµ½ËüµÄÇ×½áµãÉÏ
-        std::cout << "×óĞı½áµã { "
+        // å°† `node` å·¦æ—‹ï¼Œå˜æˆå®ƒçš„å³å­ç»“ç‚¹ `p` çš„å·¦å­ç»“ç‚¹
+        // `node` çš„å·¦å­ç»“ç‚¹ä¸å˜
+        // å¦‚æœ `p` å·²ç»æœ‰ä¸€ä¸ªéç©ºå·¦å­ç»“ç‚¹ `q` äº†ï¼Œå°±è®© `q` å˜æˆ `node` çš„å³å­ç»“ç‚¹
+        // è®© `p` ä»£æ›¿å®ƒè¿æ¥åˆ°å®ƒçš„äº²ç»“ç‚¹ä¸Š
+        std::cout << "å·¦æ—‹ç»“ç‚¹ { "
             << "addr: " << node << ", "
             << "data: " << node->data << ", "
             << "lchd: " << node->lChild << ", "
@@ -294,11 +294,11 @@ private:
         TRAVERSE_TREE;
     }
     void RotateRight(NodeType*& node) {
-        // ½« `node` ÓÒĞı£¬±ä³ÉËüµÄ×ó×Ó½áµã `p` µÄÓÒ×Ó½áµã
-        // `node` µÄÓÒ×Ó½áµã²»±ä
-        // Èç¹û `p` ÒÑ¾­ÓĞÒ»¸ö·Ç¿ÕÓÒ×Ó½áµã `q` ÁË£¬¾ÍÈÃ `q` ±ä³É `node` µÄ×ó×Ó½áµã
-        // ÈÃ `p` ´úÌæËüÁ¬½Óµ½ËüµÄÇ×½áµãÉÏ
-        std::cout << "ÓÒĞı½áµã { "
+        // å°† `node` å³æ—‹ï¼Œå˜æˆå®ƒçš„å·¦å­ç»“ç‚¹ `p` çš„å³å­ç»“ç‚¹
+        // `node` çš„å³å­ç»“ç‚¹ä¸å˜
+        // å¦‚æœ `p` å·²ç»æœ‰ä¸€ä¸ªéç©ºå³å­ç»“ç‚¹ `q` äº†ï¼Œå°±è®© `q` å˜æˆ `node` çš„å·¦å­ç»“ç‚¹
+        // è®© `p` ä»£æ›¿å®ƒè¿æ¥åˆ°å®ƒçš„äº²ç»“ç‚¹ä¸Š
+        std::cout << "å³æ—‹ç»“ç‚¹ { "
             << "addr: " << node << ", "
             << "data: " << node->data << ", "
             << "lchd: " << node->lChild << ", "
@@ -323,10 +323,10 @@ private:
         case 2:
             switch (bfL)
             {
-            case -1: // LR ĞÍ£¨ÏÈ×óĞıÊ§ºâ½áµãµÄ×óº¢×Ó£¬ÔÙÓÒĞıÊ§ºâ½áµã±¾Éí£©
+            case -1: // LR å‹ï¼ˆå…ˆå·¦æ—‹å¤±è¡¡ç»“ç‚¹çš„å·¦å­©å­ï¼Œå†å³æ—‹å¤±è¡¡ç»“ç‚¹æœ¬èº«ï¼‰
                 RotateLeft(node->lChild);
                 [[fallthrough]];
-            case 1: // LL ĞÍ£¨Ö±½ÓÓÒĞıÊ§ºâ½áµã£©
+            case 1: // LL å‹ï¼ˆç›´æ¥å³æ—‹å¤±è¡¡ç»“ç‚¹ï¼‰
                 RotateRight(node);
                 break;
             }
@@ -334,17 +334,17 @@ private:
         case -2:
             switch (bfR)
             {
-            case 1: // RL ĞÍ£¨ÏÈÓÒĞıÊ§ºâ½áµãµÄÓÒº¢×Ó£¬ÔÙ×óĞıÊ§ºâ½áµã±¾Éí£©
+            case 1: // RL å‹ï¼ˆå…ˆå³æ—‹å¤±è¡¡ç»“ç‚¹çš„å³å­©å­ï¼Œå†å·¦æ—‹å¤±è¡¡ç»“ç‚¹æœ¬èº«ï¼‰
                 RotateRight(node->rChild);
                 [[fallthrough]];
-            case -1: // RR ĞÍ£¨Ö±½Ó×óĞıÊ§ºâ½áµã£©
+            case -1: // RR å‹ï¼ˆç›´æ¥å·¦æ—‹å¤±è¡¡ç»“ç‚¹ï¼‰
                 RotateLeft(node);
                 break;
             }
             break;
         }
 
-        std::cout << "\t×Ô¶¯Æ½ºâºó£¬¸÷¸ö½áµãµÄÆ½ºâÒò×Ó = \n";
+        std::cout << "\tè‡ªåŠ¨å¹³è¡¡åï¼Œå„ä¸ªç»“ç‚¹çš„å¹³è¡¡å› å­ = \n";
         TRAVERSE_TREE;
     }
 };

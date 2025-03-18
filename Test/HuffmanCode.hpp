@@ -1,29 +1,27 @@
 #pragma once
-#ifndef HUFFMAN_CODE_H
-#define HUFFMAN_CODE_H
 
 #include <cstring>
 #include "HuffmanTree.hpp"
 
 template <typename ElemType>
 char** CreateHuffmanCode(const HuffmanTree<ElemType> ht, int n) {
-    char** hc{ new char* [n + 1] }; // ·ÖÅä´æ´¢ n ¸ö×Ö·û±àÂëµÄ±àÂë±í¿Õ¼ä
-    char* cd{ new char[n] {0} }; // ·ÖÅäÁÙÊ±´æ·ÅÃ¿¸ö×Ö·û±àÂëµÄ¶¯Ì¬Êı×é¿Õ¼ä
-    cd[n - 1] = '\0'; // ±àÂë½áÊø·û
-    for (int i = 1; i <= n; ++i) { // Öğ¸ö×Ö·ûÇó¹ş·òÂü±àÂë
-        int start{ n - 1 }; // start ¿ªÊ¼Ê±Ö¸Ïò×îºó£¬¼´±àÂë½áÊø·ûÎ»ÖÃ
+    char** hc{ new char* [n + 1] }; // åˆ†é…å­˜å‚¨ n ä¸ªå­—ç¬¦ç¼–ç çš„ç¼–ç è¡¨ç©ºé—´
+    char* cd{ new char[n] {0} }; // åˆ†é…ä¸´æ—¶å­˜æ”¾æ¯ä¸ªå­—ç¬¦ç¼–ç çš„åŠ¨æ€æ•°ç»„ç©ºé—´
+    cd[n - 1] = '\0'; // ç¼–ç ç»“æŸç¬¦
+    for (int i = 1; i <= n; ++i) { // é€ä¸ªå­—ç¬¦æ±‚å“ˆå¤«æ›¼ç¼–ç 
+        int start{ n - 1 }; // start å¼€å§‹æ—¶æŒ‡å‘æœ€åï¼Œå³ç¼–ç ç»“æŸç¬¦ä½ç½®
         int c{ i };
-        int f{ ht[i].parent }; // f Ö¸Ïò½áµã c µÄË«Ç×½áµã
+        int f{ ht[i].parent }; // f æŒ‡å‘ç»“ç‚¹ c çš„åŒäº²ç»“ç‚¹
         while (f != 0) {
-            --start; // »ØËİÒ»´Î£¬start ÏòÇ°Ö¸Ò»¸öÎ»ÖÃ
+            --start; // å›æº¯ä¸€æ¬¡ï¼Œstart å‘å‰æŒ‡ä¸€ä¸ªä½ç½®
             if (ht[f].lChild == c) {
-                cd[start] = '0'; // ½áµã c ÊÇ f µÄ×óº¢×Ó£¬Éú³É´úÂë 0
+                cd[start] = '0'; // ç»“ç‚¹ c æ˜¯ f çš„å·¦å­©å­ï¼Œç”Ÿæˆä»£ç  0
             }
             else {
-                cd[start] = '1'; // ½áµã c ÊÇ f µÄÓÒº¢×Ó£¬Éú³É´úÂë 1
+                cd[start] = '1'; // ç»“ç‚¹ c æ˜¯ f çš„å³å­©å­ï¼Œç”Ÿæˆä»£ç  1
             }
             c = f;
-            f = ht[f].parent; // ¼ÌĞøÏòÉÏ»ØËİ
+            f = ht[f].parent; // ç»§ç»­å‘ä¸Šå›æº¯
         }
         hc[i] = new char[n - start] {0};
         const char* src{ &cd[start] };
@@ -32,6 +30,33 @@ char** CreateHuffmanCode(const HuffmanTree<ElemType> ht, int n) {
     }
     delete[] cd;
     return hc;
+}
+
+#ifdef DEBUG
+#include <iostream>
+
+void TestHuffmanCode() {
+    const int weights[]{ 5, 29, 7, 8, 14, 23, 3, 11 };
+    const int n{ sizeof(weights) / sizeof(weights[0]) };
+    HuffmanTree<int> ht{ CreateHuffmanTree(weights, n) };
+    const int m{ 2 * n - 1 };
+    std::cout << "å“ˆå¤«æ›¼æ ‘çš„å¸¦æƒè·¯å¾„é•¿åº¦ WPL=" << GetWeightedPathLength(ht, m) << std::endl;
+    ht[0].data = 0; // æ–¹ä¾¿å±‚æ¬¡éå†
+    TEST_TRAVERSE("å“ˆå¤«æ›¼æ ‘çš„å…ˆåºåºåˆ—ï¼š", ht, m, TraversePrOrderR);
+    TEST_TRAVERSE("å“ˆå¤«æ›¼æ ‘çš„ä¸­åºåºåˆ—ï¼š", ht, m, TraverseInOrderR);
+    TEST_TRAVERSE("å“ˆå¤«æ›¼æ ‘çš„ååºåºåˆ—ï¼š", ht, m, TraversePsOrderR);
+    TEST_TRAVERSE("å“ˆå¤«æ›¼æ ‘çš„å±‚æ¬¡åºåˆ—ï¼š", ht, m, TraverseTlOrderNR);
+
+    char** hc{ CreateHuffmanCode(ht, n) };
+    std::cout << "ç¼–ç è¡¨ï¼š\n";
+    for (int i = 1; i <= n; ++i) {
+        std::cout << "hc[" << i << "]=" << hc[i] << '\0' << std::endl;
+        delete hc[i];
+    }
+    delete[] hc;
+    delete ht;
+
+    return 0;
 }
 
 #endif

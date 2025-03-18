@@ -1,8 +1,8 @@
-// ¡°ÈËÀÇÑò²Ë¡±ÎÊÌâ
-// ÎÊÌâ³éÏóÎª£º
-// ´Ó×´Ì¬ `0b0000` ³ö·¢£¬Ñ°ÕÒÈ«²¿ÓÉ°²È«×´Ì¬¹¹³ÉµÄ×´Ì¬ĞòÁĞ£¬Ö±µ½×îÖÕÄ¿±ê `0b1111`
-// ×´Ì¬ĞòÁĞÖĞ£¬Ã¿¸ö×´Ì¬¶¼¿ÉÒÔÓÉËüµÄÇ°ÇıÍ¨¹ı¡°ÈË´øÒ»Ñù¶«Î÷»®´¬¹ıºÓ¡±µÄ¶¯×÷µ½´ï
-// ĞòÁĞÖĞ²»ÄÜ³öÏÖÖØ¸´×´Ì¬
+// â€œäººç‹¼ç¾Šèœâ€é—®é¢˜
+// é—®é¢˜æŠ½è±¡ä¸ºï¼š
+// ä»çŠ¶æ€ `0b0000` å‡ºå‘ï¼Œå¯»æ‰¾å…¨éƒ¨ç”±å®‰å…¨çŠ¶æ€æ„æˆçš„çŠ¶æ€åºåˆ—ï¼Œç›´åˆ°æœ€ç»ˆç›®æ ‡ `0b1111`
+// çŠ¶æ€åºåˆ—ä¸­ï¼Œæ¯ä¸ªçŠ¶æ€éƒ½å¯ä»¥ç”±å®ƒçš„å‰é©±é€šè¿‡â€œäººå¸¦ä¸€æ ·ä¸œè¥¿åˆ’èˆ¹è¿‡æ²³â€çš„åŠ¨ä½œåˆ°è¾¾
+// åºåˆ—ä¸­ä¸èƒ½å‡ºç°é‡å¤çŠ¶æ€
 #pragma once
 
 #include <iostream>
@@ -13,27 +13,27 @@
 #include <sstream>
 
 enum Role : std::uint32_t {
-    FARMER      /* ÈË */ = 0x08,
-    WOLF        /* ÀÇ */ = 0x04,
-    CABBAGE     /* ²Ë */ = 0x02,
-    GOAT        /* Ñò */ = 0x01
+    FARMER      /* äºº */ = 0x08,
+    WOLF        /* ç‹¼ */ = 0x04,
+    CABBAGE     /* èœ */ = 0x02,
+    GOAT        /* ç¾Š */ = 0x01
 };
 
-union State {
+struct State {
     std::uint32_t v;
     
     State(std::uint32_t v) : v{ v } {}
 
-    bool IsPresent(Role role) const { // È·¶¨Ã¿¸ö½ÇÉ«Î»ÖÃ
+    bool IsPresent(Role role) const { // ç¡®å®šæ¯ä¸ªè§’è‰²ä½ç½®
         return (v & static_cast<std::uint32_t>(role)) != 0;
     }
 
-    bool IsValid() const { // ¼ì²é×´Ì¬ÊÇ·ñºÏ·¨£¬ºÏ·¨Ôò·µ»Ø true£¬·ñÔò·µ»Ø false
+    bool IsValid() const { // æ£€æŸ¥çŠ¶æ€æ˜¯å¦åˆæ³•ï¼Œåˆæ³•åˆ™è¿”å› trueï¼Œå¦åˆ™è¿”å› false
         return !(
             IsPresent(Role::GOAT) == IsPresent(Role::CABBAGE)
-            && IsPresent(Role::GOAT) != IsPresent(Role::FARMER) /* ÑòºÍ²Ë²»ÄÜ¹²´æ£¬Ñò»á³Ôµô²Ë */
+            && IsPresent(Role::GOAT) != IsPresent(Role::FARMER) /* ç¾Šå’Œèœä¸èƒ½å…±å­˜ï¼Œç¾Šä¼šåƒæ‰èœ */
             || IsPresent(Role::GOAT) == IsPresent(Role::WOLF)
-            && IsPresent(Role::GOAT) != IsPresent(Role::FARMER) /* ÀÇºÍÑò²»ÄÜ¹²´æ£¬ÀÇ»á³ÔµôÑò */
+            && IsPresent(Role::GOAT) != IsPresent(Role::FARMER) /* ç‹¼å’Œç¾Šä¸èƒ½å…±å­˜ï¼Œç‹¼ä¼šåƒæ‰ç¾Š */
         );
     }
     operator std::uint32_t() const {
@@ -42,15 +42,15 @@ union State {
     operator std::string() const {
         std::stringstream ss;
         if (!IsPresent(Role::FARMER))
-            ss << "ÈË";
+            ss << "äºº";
         if (!IsPresent(Role::WOLF))
-            ss << "ÀÇ";
+            ss << "ç‹¼";
         if (!IsPresent(Role::CABBAGE))
-            ss << "²Ë";
+            ss << "èœ";
         if (!IsPresent(Role::GOAT))
-            ss << "Ñò";
+            ss << "ç¾Š";
         if (ss.str().size() == 0)
-            ss << "¿Õ";
+            ss << "ç©º";
         return ss.str();
     }
     State operator&(std::uint32_t v) const {
@@ -61,32 +61,32 @@ union State {
     }
 };
 
-static void Solve() {
-    // ¼ÇÂ¼ÒÑ·ÃÎÊ¹ıµÄ×´Ì¬£¬ÒÔ¼°ÒÑ±»·¢ÏÖµÄÄÜ¹»µ½´ïµ±Ç°×´Ì¬µÄÂ·¾¶
-    // ËüµÄµÚ i ¸öÔªËØ±íÊ¾×´Ì¬ i ÊÇ·ñÒÑ±»·ÃÎÊ¹ı
-    // Èô route[i] ÒÑ±»·ÃÎÊ¹ı£¬¼ÇÈëÇ°Çı×´Ì¬Öµ
-    // ÓÃ (~0) ±íÊ¾Î´±»·ÃÎÊ¹ı
-    static const std::uint32_t initState{ static_cast<std::uint32_t>(~0) }; // ³õÊ¼×´Ì¬
-    std::vector<State> route(4 * 4 /* ¿ÉÄÜµÄ×´Ì¬µÄ¸öÊı */, initState);
+inline void Solve() {
+    // è®°å½•å·²è®¿é—®è¿‡çš„çŠ¶æ€ï¼Œä»¥åŠå·²è¢«å‘ç°çš„èƒ½å¤Ÿåˆ°è¾¾å½“å‰çŠ¶æ€çš„è·¯å¾„
+    // å®ƒçš„ç¬¬ i ä¸ªå…ƒç´ è¡¨ç¤ºçŠ¶æ€ i æ˜¯å¦å·²è¢«è®¿é—®è¿‡
+    // è‹¥ route[i] å·²è¢«è®¿é—®è¿‡ï¼Œè®°å…¥å‰é©±çŠ¶æ€å€¼
+    // ç”¨ (~0) è¡¨ç¤ºæœªè¢«è®¿é—®è¿‡
+    static const std::uint32_t initState{ static_cast<std::uint32_t>(~0) }; // åˆå§‹çŠ¶æ€
+    std::vector<State> route(4 * 4 /* å¯èƒ½çš„çŠ¶æ€çš„ä¸ªæ•° */, initState);
 
-    // ¼ÇÂ¼¿ÉÒÔ°²È«µ½´ïµÄÖĞ¼ä×´Ì¬
+    // è®°å½•å¯ä»¥å®‰å…¨åˆ°è¾¾çš„ä¸­é—´çŠ¶æ€
     std::queue<State> moveTo;
 
-    // ³õÊ¼»¯
+    // åˆå§‹åŒ–
     moveTo.push(0x00);
 
-    while (!moveTo.empty() /* ¶ÓÁĞ·Ç¿Õ */
-        && route[15] == initState /* »¹Ã»µ½´ï×îÖÕ×´Ì¬ */) {
-        State status{ moveTo.front() }; moveTo.pop(); // È¡³öµ±Ç°×´Ì¬
-        for (std::uint32_t movers /* ´ıÒÆ¶¯µÄ¶«Î÷ */ = 1;
+    while (!moveTo.empty() /* é˜Ÿåˆ—éç©º */
+        && route[15] == initState /* è¿˜æ²¡åˆ°è¾¾æœ€ç»ˆçŠ¶æ€ */) {
+        State status{ moveTo.front() }; moveTo.pop(); // å–å‡ºå½“å‰çŠ¶æ€
+        for (std::uint32_t movers /* å¾…ç§»åŠ¨çš„ä¸œè¥¿ */ = 1;
             movers <= 8; movers <<= 1) {
-            // ÒÀ´Î³¢ÊÔĞ¯´ø²»Í¬¶«Î÷£¨Ñò¡¢ÀÇ¡¢²Ë£©
+            // ä¾æ¬¡å°è¯•æºå¸¦ä¸åŒä¸œè¥¿ï¼ˆç¾Šã€ç‹¼ã€èœï¼‰
             if (static_cast<bool>(status & movers)
-                == status.IsPresent(Role::FARMER)) { // ÅĞ¶ÏÅ©·òºÍ´ıÒÆ¶¯µÄ¶«Î÷ÊÇ·ñÔÚÍ¬²à
-                // ÈË×ÜÊÇÔÚÒÆ¶¯£¬Ëæ×ÅÈËÒÆ¶¯µÄ£¬Ö»ÄÜÊÇÔÚÈËÍ¬²àµÄ¶«Î÷
+                == status.IsPresent(Role::FARMER)) { // åˆ¤æ–­å†œå¤«å’Œå¾…ç§»åŠ¨çš„ä¸œè¥¿æ˜¯å¦åœ¨åŒä¾§
+                // äººæ€»æ˜¯åœ¨ç§»åŠ¨ï¼Œéšç€äººç§»åŠ¨çš„ï¼Œåªèƒ½æ˜¯åœ¨äººåŒä¾§çš„ä¸œè¥¿
                 State newStatus{ status ^ (movers | 0x08) };
                 if (newStatus.IsValid() && route[newStatus] == initState) {
-                    // °²È«µÄ£¬²¢ÇÒÎ´¿¼ÂÇ¹ıµÄ×ß·¨
+                    // å®‰å…¨çš„ï¼Œå¹¶ä¸”æœªè€ƒè™‘è¿‡çš„èµ°æ³•
                     route[newStatus] = status;
                     moveTo.push(newStatus);
                 }
@@ -94,21 +94,17 @@ static void Solve() {
         }
     }
 
-    // ·´Ïò´òÓ¡³öÂ·¾¶
-    if (route[15] == initState) { // ÎŞ½â
+    // åå‘æ‰“å°å‡ºè·¯å¾„
+    if (route[15] == initState) { // æ— è§£
         std::cout << "No solution!\n";
         return;
     }
     std::cout << "The reverse path is:\n";
     for (State status = 15; status != 0; status = route[status]) {
         std::cout << "\t" << std::bitset<4>(status)
-            << "(Ô´°¶Ê£ÏÂ£º" << static_cast<std::string>(status) << ')'
-            << "(ÖÕ°¶Ê£ÏÂ£º" << static_cast<std::string>(~status) << ')'
+            << "(æºå²¸å‰©ä¸‹ï¼š" << static_cast<std::string>(status) << ')'
+            << "(ç»ˆå²¸å‰©ä¸‹ï¼š" << static_cast<std::string>(~status) << ')'
             << '\t' << std::boolalpha << status.IsValid()
             << '\n';
     }
-}
-
-void Test() {
-    Solve();
 }

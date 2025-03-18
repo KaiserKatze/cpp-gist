@@ -59,9 +59,6 @@
     <Filter Include="Application\Header Files\OperatingSystem">
       <UniqueIdentifier>{1584cc89-1bfc-4c30-888e-cd4af2d2f307}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Test Files">
-      <UniqueIdentifier>{05d735db-af3e-4cd4-b401-539d7c84b7ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Header Files\Huffman">
       <UniqueIdentifier>{7604964e-2d40-49f9-ba13-104a6e86588a}</UniqueIdentifier>
     </Filter>
@@ -79,21 +76,6 @@
     <ClCompile Include="Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="t2bt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HuffmanTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HuffmanCode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BinarySearchTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ThreadedBinaryTreeNode.hpp">
       <Filter>Container\Header Files\Tree</Filter>
     </ClCompile>
@@ -105,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="HeapSort.hpp">
       <Filter>Sort\Header Files\Select</Filter>
+    </ClCompile>
+    <ClCompile Include="TD5R.hpp">
+      <Filter>Application\Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="BTree.hpp">
       <Filter>Application\Header Files\Tree App</Filter>
-    </ClInclude>
-    <ClInclude Include="TestHuffmanTree.hpp">
-      <Filter>Application\Test Files</Filter>
     </ClInclude>
     <ClInclude Include="KMath.hpp">
       <Filter>Application\Header Files\Number Theory</Filter>
