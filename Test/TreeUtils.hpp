@@ -1,34 +1,34 @@
-#pragma once
+ï»¿#pragma once
 
 template <class NodeType>
 int Depth(const NodeType* tree) {
-    // ¼ÆËã¶ş²æÊ÷µÄÉî¶È
-    if (!tree) return 0; // ¿ÕÊ÷Éî¶ÈÎªÁã
+    // è®¡ç®—äºŒå‰æ ‘çš„æ·±åº¦
+    if (!tree) return 0; // ç©ºæ ‘æ·±åº¦ä¸ºé›¶
     int ld{ Depth(tree->lChild) };
     int rd{ Depth(tree->rChild) };
-    if (ld > rd) return ld + 1; // ×ó×ÓÊ÷¸üÉî
-    else         return rd + 1; // ÓÒ×ÓÊ÷¸üÉî
+    if (ld > rd) return ld + 1; // å·¦å­æ ‘æ›´æ·±
+    else         return rd + 1; // å³å­æ ‘æ›´æ·±
 }
 
 template <class NodeType>
 int Count(const NodeType* tree) {
-    // Í³¼Æ¶ş²æÊ÷ÖĞ½áµãµÄ¸öÊı
-    if (!tree) return 0; // ¿ÕÊ÷µÄ½áµã¸öÊıÎªÁã
-    // ·Ç¿ÕÊ÷µÄ½áµã¸öÊıµÈÓÚ×ó¡¢ÓÒ×ÓÊ÷½áµã¸öÊıÖ®ºÍÔÙ¼ÓÒ»
+    // ç»Ÿè®¡äºŒå‰æ ‘ä¸­ç»“ç‚¹çš„ä¸ªæ•°
+    if (!tree) return 0; // ç©ºæ ‘çš„ç»“ç‚¹ä¸ªæ•°ä¸ºé›¶
+    // éç©ºæ ‘çš„ç»“ç‚¹ä¸ªæ•°ç­‰äºå·¦ã€å³å­æ ‘ç»“ç‚¹ä¸ªæ•°ä¹‹å’Œå†åŠ ä¸€
     return Count(tree->lChild) + Count(tree->rChild) + 1;
 }
 
 template <typename NodeType>
 int Count(const NodeType* tree, int degree) {
-    // ·ÖÀàÍ³¼Æ¶ş²æÊ÷ÖĞ²»Í¬¶ÈµÄ½áµãµÄ¸öÊı£¨¸ÃËã·¨±¾ÖÊÉÏÊÇÏÈĞò±éÀúµÄµİ¹éËã·¨µÄÓ¦ÓÃ£©
-    if (!tree) return 0; // ¿ÕÊ÷µÄ½áµã¸öÊıÎªÁã
-    if (degree < 0 || degree > 2) return -1; // ÆÚÍûµÄÊäÈëÊÇ 0,1,2£¬³ı´ËÒÔÍâ¶¼·µ»Ø -1 ±íÊ¾Òì³£
-    int d{ 0 }; // ¸ù½áµãµÄ¶È
-    const NodeType* p1{ tree->lChild }; // ×ó×ÓÊ÷
-    const NodeType* p2{ tree->rChild }; // ÓÒ×ÓÊ÷
+    // åˆ†ç±»ç»Ÿè®¡äºŒå‰æ ‘ä¸­ä¸åŒåº¦çš„ç»“ç‚¹çš„ä¸ªæ•°ï¼ˆè¯¥ç®—æ³•æœ¬è´¨ä¸Šæ˜¯å…ˆåºéå†çš„é€’å½’ç®—æ³•çš„åº”ç”¨ï¼‰
+    if (!tree) return 0; // ç©ºæ ‘çš„ç»“ç‚¹ä¸ªæ•°ä¸ºé›¶
+    if (degree < 0 || degree > 2) return -1; // æœŸæœ›çš„è¾“å…¥æ˜¯ 0,1,2ï¼Œé™¤æ­¤ä»¥å¤–éƒ½è¿”å› -1 è¡¨ç¤ºå¼‚å¸¸
+    int d{ 0 }; // æ ¹ç»“ç‚¹çš„åº¦
+    const NodeType* p1{ tree->lChild }; // å·¦å­æ ‘
+    const NodeType* p2{ tree->rChild }; // å³å­æ ‘
     if (p1) ++d;
     if (p2) ++d;
-    int cnt = Count(p1, degree) + Count(p2, degree); // ×ó¡¢ÓÒ×ÓÊ÷ÖĞ¶ÈÎª `degree` µÄ½áµã×ÜÊı
+    int cnt = Count(p1, degree) + Count(p2, degree); // å·¦ã€å³å­æ ‘ä¸­åº¦ä¸º `degree` çš„ç»“ç‚¹æ€»æ•°
     if (d == degree)
         return cnt + 1;
     return cnt;

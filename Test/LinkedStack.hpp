@@ -1,9 +1,9 @@
-#pragma once 
+ï»¿#pragma once 
 
 template <typename ElemType>
-class Stack { // Õ»
+class Stack { // æ ˆ
     struct Node {
-        ElemType data; // Êı¾İÓò
+        ElemType data; // æ•°æ®åŸŸ
         Node* next;
 
         Node(const ElemType& data, Node* next) : data{ data }, next{ next } {}

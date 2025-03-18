@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <algorithm> // std::max
 #include <cassert> // assert
@@ -34,8 +34,8 @@ struct BigInteger {
     using iterator = typename data_type::iterator;
     using const_iterator = typename data_type::const_iterator;
 
-    sign_type sign; // ´óÕûÊıµÄ·ûºÅÎ»µ¥¶À´¦Àí
-    data_type data; // ´óÕûÊıµÄÊıÖµÎ»±íÊ¾ÎªÈô¸É¸ö64Î»ÕûÊıµÄË³Ğò±í
+    sign_type sign; // å¤§æ•´æ•°çš„ç¬¦å·ä½å•ç‹¬å¤„ç†
+    data_type data; // å¤§æ•´æ•°çš„æ•°å€¼ä½è¡¨ç¤ºä¸ºè‹¥å¹²ä¸ª64ä½æ•´æ•°çš„é¡ºåºè¡¨
 
     BigInteger(std::integral auto data)
         : BigInteger(data > 0 ? sign_type::greater : data == 0 ? sign_type::equal : sign_type::less, { static_cast<int_type>(std::abs(data)) }) {
@@ -55,21 +55,21 @@ struct BigInteger {
     }
 
     template <size_t N>
-    BigInteger(const char(&number)[N]) { // ¶ÁÈ¡Ê®½øÖÆÊı×Ö
+    BigInteger(const char(&number)[N]) { // è¯»å–åè¿›åˆ¶æ•°å­—
         throw NotImplemented;
         auto begin{ std::begin(number) };
-        if (*begin == '\0') { // ¿Õ×Ö·û´®
+        if (*begin == '\0') { // ç©ºå­—ç¬¦ä¸²
             throw std::invalid_argument{ "Invalid argument: empty string!" };
         }
-        else if (*begin == '-') { // µÚÒ»¸ö×Ö·ûÊÇ¸ººÅ
-            this->sign = sign_type::less; // ÔİÇÒÅĞ¶¨´óÕûÊıÊÇ¸ºÊı
+        else if (*begin == '-') { // ç¬¬ä¸€ä¸ªå­—ç¬¦æ˜¯è´Ÿå·
+            this->sign = sign_type::less; // æš‚ä¸”åˆ¤å®šå¤§æ•´æ•°æ˜¯è´Ÿæ•°
             ++begin;
         }
         else {
-            if (*begin == '+') { // µÚÒ»¸ö×Ö·û´®ÊÇÕıºÅ
+            if (*begin == '+') { // ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²æ˜¯æ­£å·
                 ++begin;
             }
-            else if (!is_numeric(*begin)) { // µÚÒ»¸ö×Ö·û´®²»ÊÇ·ûºÅÒ²²»ÊÇÊı×Ö
+            else if (!is_numeric(*begin)) { // ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²ä¸æ˜¯ç¬¦å·ä¹Ÿä¸æ˜¯æ•°å­—
                 throw_exception_becoz_invalid_char_in_number:
                 std::stringstream ss;
                 ss << "Invalid argument: char '"
@@ -77,18 +77,18 @@ struct BigInteger {
                     << "' can't be a part of a number!";
                 throw std::invalid_argument{ ss.str() };
             }
-            this->sign = sign_type::greater; // ÔİÇÒÅĞ¶¨´óÕûÊıÊÇÕıÊı
+            this->sign = sign_type::greater; // æš‚ä¸”åˆ¤å®šå¤§æ•´æ•°æ˜¯æ­£æ•°
         }
-        if (*begin == '\0') { // ×Ö·û´®ÖĞÖ»ÓĞ·ûºÅ£¬Ã»ÓĞÊı×Ö
+        if (*begin == '\0') { // å­—ç¬¦ä¸²ä¸­åªæœ‰ç¬¦å·ï¼Œæ²¡æœ‰æ•°å­—
             throw std::invalid_argument{ "Invalid argument: any sign should be followed by digits!" };
         }
-        while (*begin++ == '0'); // µ±×Ö·ûÊÇ '0' Ê±ÂÔ¹ı
-        if (*begin == '\0') { // ÊıÖµ²¿·ÖÈ«ÊÇÁã
+        while (*begin++ == '0'); // å½“å­—ç¬¦æ˜¯ '0' æ—¶ç•¥è¿‡
+        if (*begin == '\0') { // æ•°å€¼éƒ¨åˆ†å…¨æ˜¯é›¶
             this->sign = sign_type::equal;
             this->data = { 0 };
             return;
         }
-        std::vector<char> digits(begin, std::end(number) - 1); // Öğ¸ö¸´ÖÆÊ£Óà×Ö·û£¨È¥µô×Ö·û´®ÖÕÖ¹·û '\0'£©
+        std::vector<char> digits(begin, std::end(number) - 1); // é€ä¸ªå¤åˆ¶å‰©ä½™å­—ç¬¦ï¼ˆå»æ‰å­—ç¬¦ä¸²ç»ˆæ­¢ç¬¦ '\0'ï¼‰
         for (char& c : digits) {
             c -= '0';
         }
@@ -105,24 +105,24 @@ struct BigInteger {
     }
 
     static size_t get_size_between_iterators_back2front(const_reverse_iterator& begin, const const_reverse_iterator& end) {
-        for (; begin != end && *begin == 0; ++begin); // Èç¹ûĞòÁĞÖĞµÄÕûÊıÈ«ÎªÁã£¬µÃµ½µÄ·µ»ØÖµ¾ÍÊÇÁã
+        for (; begin != end && *begin == 0; ++begin); // å¦‚æœåºåˆ—ä¸­çš„æ•´æ•°å…¨ä¸ºé›¶ï¼Œå¾—åˆ°çš„è¿”å›å€¼å°±æ˜¯é›¶
         const ptrdiff_t size{ std::distance(begin, end) };
         assert(size >= 0);
         return static_cast<size_t>((size >= 0) ? size : 0);
     }
 
     static size_t get_size_between_iterators_front2back(const const_iterator& begin, const_iterator& end) {
-        for (; end != begin && *--end == 0;); // Èç¹ûĞòÁĞÖĞµÄÕûÊıÈ«ÎªÁã£¬µÃµ½µÄ·µ»ØÖµ¾ÍÊÇÁã
+        for (; end != begin && *--end == 0;); // å¦‚æœåºåˆ—ä¸­çš„æ•´æ•°å…¨ä¸ºé›¶ï¼Œå¾—åˆ°çš„è¿”å›å€¼å°±æ˜¯é›¶
         const ptrdiff_t size{ std::distance(begin, ++end) };
         assert(size >= 0);
         return static_cast<size_t>((size >= 0) ? size : 0);
     }
 
     /// <summary>
-    /// ¼ÆËã´óÕûÊıÊµ¼ÊÕ¼ÓÃµÄ´æ´¢¿Õ¼ä´óĞ¡
+    /// è®¡ç®—å¤§æ•´æ•°å®é™…å ç”¨çš„å­˜å‚¨ç©ºé—´å¤§å°
     /// </summary>
-    /// <param name="target">´óÕûÊıµÄÊıÖµ</param>
-    /// <returns>´óÕûÊıÊµ¼ÊÕ¼ÓÃµÄ´æ´¢¿Õ¼ä´óĞ¡</returns>
+    /// <param name="target">å¤§æ•´æ•°çš„æ•°å€¼</param>
+    /// <returns>å¤§æ•´æ•°å®é™…å ç”¨çš„å­˜å‚¨ç©ºé—´å¤§å°</returns>
     static size_t get_size_data_back2front(const data_type& target) {
         auto begin{ target.crbegin() };
         const auto end{ target.crend() };
@@ -137,16 +137,16 @@ struct BigInteger {
         return target_size;
     }
 
-    size_t size() const { // ¼ÆËã´óÕûÊıÊµ¼ÊÕ¼ÓÃµÄ´æ´¢¿Õ¼ä´óĞ¡
+    size_t size() const { // è®¡ç®—å¤§æ•´æ•°å®é™…å ç”¨çš„å­˜å‚¨ç©ºé—´å¤§å°
         return get_size_data_back2front(this->data);
     }
 
-    size_t capacity() const { // ¼ÆËã´óÕûÊıĞû³ÆÕ¼ÓÃµÄ´æ´¢¿Õ¼ä´óĞ¡
+    size_t capacity() const { // è®¡ç®—å¤§æ•´æ•°å®£ç§°å ç”¨çš„å­˜å‚¨ç©ºé—´å¤§å°
         return this->data.size();
     }
 
     /// <summary>
-    /// ½«´óÕûÊıÍ·²¿µÄÁãÔªËØÇåÀíµô
+    /// å°†å¤§æ•´æ•°å¤´éƒ¨çš„é›¶å…ƒç´ æ¸…ç†æ‰
     /// </summary>
     void shrink_to_fit() {
         data_type& data{ this->data };
@@ -156,7 +156,7 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// Âß¼­À©Õ¹
+    /// é€»è¾‘æ‰©å±•
     /// </summary>
     static void unsigned_extend(data_type& target, size_t count = 1) {
         while (count-- > 0) {
@@ -165,7 +165,7 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// ËãÊõÀ©Õ¹
+    /// ç®—æœ¯æ‰©å±•
     /// </summary>
     static void signed_extend(data_type& target, size_t count = 1) {
         static constexpr int_type num[2] = { 0, std::numeric_limits<int_type>::max() };
@@ -175,35 +175,35 @@ struct BigInteger {
         }
     }
 
-    static void bitwise_not(data_type& target) { // °´Î»È¡·´
+    static void bitwise_not(data_type& target) { // æŒ‰ä½å–å
         for (int_type& x : target) {
             x = ~x;
         }
     }
 
     /// <summary>
-    /// Á½¸ö 64 Î»ÕûÊıÏà¼Ó
+    /// ä¸¤ä¸ª 64 ä½æ•´æ•°ç›¸åŠ 
     /// </summary>
-    /// <param name="lhs">µÚÒ»¸ö¼ÓÊı</param>
-    /// <param name="rhs">µÚ¶ş¸ö¼ÓÊı</param>
-    /// <param name="carry">³õÊ¼½øÎ»</param>
-    /// <returns>¼Ó·¨¼ÆËã½á¹û£¬°üÀ¨½øÎ»ÓëºÍ</returns>
+    /// <param name="lhs">ç¬¬ä¸€ä¸ªåŠ æ•°</param>
+    /// <param name="rhs">ç¬¬äºŒä¸ªåŠ æ•°</param>
+    /// <param name="carry">åˆå§‹è¿›ä½</param>
+    /// <returns>åŠ æ³•è®¡ç®—ç»“æœï¼ŒåŒ…æ‹¬è¿›ä½ä¸å’Œ</returns>
     static std::pair<int_type, int_type> add(const int_type lhs, const int_type rhs, const int_type carry = 0) {
-        static constexpr int_type half_digits{ std::numeric_limits<int_type>::digits / 2 }; // ³£Á¿=32
-        static constexpr int_type full_bits{ std::numeric_limits<int_type>::max() }; // ³£Á¿ 0xffff_ffff_ffff_ffff
-        static constexpr int_type lower_mask{ full_bits >> half_digits }; // ³£Á¿ 0xffff_ffff
-        int_type result_lower{ (lhs & lower_mask) + (rhs & lower_mask) + carry }; // ¼ÆËãµÍ32Î»Ö®ºÍ
-        const int_type carry_lower{ result_lower >> half_digits }; // È¡µÃµÍ32Î»Ïà¼ÓµÄ½øÎ»
-        result_lower &= lower_mask; // Ö»È¡µÍ32Î»£¬Å×Æú½øÎ»
-        int_type result_higher{ (lhs >> half_digits) + (rhs >> half_digits) + carry_lower }; // ¼ÆËã¸ß32Î»Ö®ºÍ£¨´øÉÏ½øÎ»£©
-        const int_type carry_higher{ result_higher >> half_digits }; // È¡µÃ¸ß32Î»Ïà¼ÓµÄ½øÎ»
-        result_higher &= lower_mask; // Ö»È¡µÍ32Î»£¬Å×Æú½øÎ»
+        static constexpr int_type half_digits{ std::numeric_limits<int_type>::digits / 2 }; // å¸¸é‡=32
+        static constexpr int_type full_bits{ std::numeric_limits<int_type>::max() }; // å¸¸é‡ 0xffff_ffff_ffff_ffff
+        static constexpr int_type lower_mask{ full_bits >> half_digits }; // å¸¸é‡ 0xffff_ffff
+        int_type result_lower{ (lhs & lower_mask) + (rhs & lower_mask) + carry }; // è®¡ç®—ä½32ä½ä¹‹å’Œ
+        const int_type carry_lower{ result_lower >> half_digits }; // å–å¾—ä½32ä½ç›¸åŠ çš„è¿›ä½
+        result_lower &= lower_mask; // åªå–ä½32ä½ï¼ŒæŠ›å¼ƒè¿›ä½
+        int_type result_higher{ (lhs >> half_digits) + (rhs >> half_digits) + carry_lower }; // è®¡ç®—é«˜32ä½ä¹‹å’Œï¼ˆå¸¦ä¸Šè¿›ä½ï¼‰
+        const int_type carry_higher{ result_higher >> half_digits }; // å–å¾—é«˜32ä½ç›¸åŠ çš„è¿›ä½
+        result_higher &= lower_mask; // åªå–ä½32ä½ï¼ŒæŠ›å¼ƒè¿›ä½
         const int_type result{ (result_higher << half_digits) | result_lower }; 
-        return { carry_higher, result }; // ·µ»ØÈ«²¿64Î»¼Ó·¨µÄ½øÎ»¡¢ºÍ
+        return { carry_higher, result }; // è¿”å›å…¨éƒ¨64ä½åŠ æ³•çš„è¿›ä½ã€å’Œ
     }
 
     /// <summary>
-    /// Ò»¸öÕûÊıĞòÁĞÓëÒ»¸öÕûÊıÏà¼Ó
+    /// ä¸€ä¸ªæ•´æ•°åºåˆ—ä¸ä¸€ä¸ªæ•´æ•°ç›¸åŠ 
     /// </summary>
     static void add(data_type& target, int_type other) {
         if (other == 0) {
@@ -227,24 +227,24 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// Á½¸öÕûÊıĞòÁĞÏà¼Ó
+    /// ä¸¤ä¸ªæ•´æ•°åºåˆ—ç›¸åŠ 
     /// </summary>
-    /// <param name="target">µÚÒ»¸ö¼ÓÊı£¬Ò²ÓÃÓÚ±£´æ¼ÆËã½á¹û</param>
-    /// <param name="other">µÚ¶ş¸ö¼ÓÊı</param>
+    /// <param name="target">ç¬¬ä¸€ä¸ªåŠ æ•°ï¼Œä¹Ÿç”¨äºä¿å­˜è®¡ç®—ç»“æœ</param>
+    /// <param name="other">ç¬¬äºŒä¸ªåŠ æ•°</param>
     static void add(data_type& target, const data_type& other) {
         auto begin_lhs{ target.begin() };
         const auto end_lhs{ target.end() };
         auto begin_rhs{ other.cbegin() };
         const auto end_rhs{ other.cend() };
         int_type carry{ 0 };
-        while (begin_lhs != end_lhs && begin_rhs != end_rhs) { // ´¦ÀíÁ½¸ö¼ÓÊıµÈ³¤µÄ²¿·Ö
+        while (begin_lhs != end_lhs && begin_rhs != end_rhs) { // å¤„ç†ä¸¤ä¸ªåŠ æ•°ç­‰é•¿çš„éƒ¨åˆ†
             int_type& lhs{ *begin_lhs };
             const int_type& rhs{ *begin_rhs };
             std::tie(carry, lhs) = add(lhs, rhs, carry);
             ++begin_lhs;
             ++begin_rhs;
         }
-        for (int_type result; begin_rhs != end_rhs; ++begin_rhs) { // ´¦ÀíµÚ¶ş¸ö¼ÓÊıÊ£Óà²¿·Ö
+        for (int_type result; begin_rhs != end_rhs; ++begin_rhs) { // å¤„ç†ç¬¬äºŒä¸ªåŠ æ•°å‰©ä½™éƒ¨åˆ†
             const int_type& rhs{ *begin_rhs };
             std::tie(carry, result) = add(0, rhs, carry);
             target.push_back(result);
@@ -255,7 +255,7 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// Ò»¸öÕûÊıĞòÁĞÓëÒ»¸öÕûÊıÏà¼õ
+    /// ä¸€ä¸ªæ•´æ•°åºåˆ—ä¸ä¸€ä¸ªæ•´æ•°ç›¸å‡
     /// </summary>
     static void sub(data_type& target, int_type other) {
         if (other == 0) {
@@ -279,7 +279,7 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// Á½¸öÕûÊıĞòÁĞÏà¼õ
+    /// ä¸¤ä¸ªæ•´æ•°åºåˆ—ç›¸å‡
     /// </summary>
     static void sub(data_type& data_dest, const data_type& data_lhs, const data_type& data_rhs) {
         //const size_t size_lhs{ get_size_data_back2front(data_lhs) };
@@ -289,8 +289,8 @@ struct BigInteger {
         const auto end_lhs{ data_lhs.cend() };
         auto begin_rhs{ data_rhs.cbegin() };
         const auto end_rhs{ data_rhs.cend() };
-        int_type carry_sub{ 1 }; // ¼õ·¨Ïàµ±ÓÚ²¹Âë¼Ó·¨
-        while (begin_lhs != end_lhs && begin_rhs != end_rhs) { // ´¦Àí±»¼õÊıÓë¼õÊıµÈ³¤µÄ²¿·Ö
+        int_type carry_sub{ 1 }; // å‡æ³•ç›¸å½“äºè¡¥ç åŠ æ³•
+        while (begin_lhs != end_lhs && begin_rhs != end_rhs) { // å¤„ç†è¢«å‡æ•°ä¸å‡æ•°ç­‰é•¿çš„éƒ¨åˆ†
             int_type& dest{ *begin_dest };
             const int_type& lhs{ *begin_lhs };
             const int_type& rhs{ *begin_rhs };
@@ -299,7 +299,7 @@ struct BigInteger {
             ++begin_rhs;
             ++begin_dest;
         }
-        for (int_type result_sub; begin_rhs != end_rhs; ++begin_rhs) { // ´¦Àí¼õÊıÊ£Óà²¿·Ö
+        for (int_type result_sub; begin_rhs != end_rhs; ++begin_rhs) { // å¤„ç†å‡æ•°å‰©ä½™éƒ¨åˆ†
             const int_type& rhs{ *begin_rhs };
             std::tie(carry_sub, result_sub) = add(0, ~rhs, carry_sub);
             data_dest.push_back(result_sub);
@@ -308,14 +308,14 @@ struct BigInteger {
         //assert(size_dest == 0 || size_dest == std::max(size_lhs, size_rhs));
     }
 
-    static std::pair<int_type, int_type> mul_brute_force(const int_type lhs, const int_type rhs) { // Á½¸ö64Î»ÕûÊıÏà³Ë
-        static constexpr int_type half_digits{ std::numeric_limits<int_type>::digits / 2 }; // ³£Á¿=32
-        static constexpr int_type full_bits{ std::numeric_limits<int_type>::max() }; // ³£Á¿ 0xffff_ffff_ffff_ffff
-        static constexpr int_type lower_mask{ full_bits >> half_digits }; // ³£Á¿ 0xffff_ffff
-        const int_type a{ lhs >> half_digits }; // µÚÒ»¸ö¼ÓÊıµÄ¸ß32Î»
-        const int_type b{ lhs & lower_mask }; // µÚÒ»¸ö¼ÓÊıµÄµÍ32Î»
-        const int_type c{ rhs >> half_digits }; // µÚ¶ş¸ö¼ÓÊıµÄ¸ß32Î»
-        const int_type d{ rhs & lower_mask }; // µÚ¶ş¸ö¼ÓÊıµÄµÍ32Î»
+    static std::pair<int_type, int_type> mul_brute_force(const int_type lhs, const int_type rhs) { // ä¸¤ä¸ª64ä½æ•´æ•°ç›¸ä¹˜
+        static constexpr int_type half_digits{ std::numeric_limits<int_type>::digits / 2 }; // å¸¸é‡=32
+        static constexpr int_type full_bits{ std::numeric_limits<int_type>::max() }; // å¸¸é‡ 0xffff_ffff_ffff_ffff
+        static constexpr int_type lower_mask{ full_bits >> half_digits }; // å¸¸é‡ 0xffff_ffff
+        const int_type a{ lhs >> half_digits }; // ç¬¬ä¸€ä¸ªåŠ æ•°çš„é«˜32ä½
+        const int_type b{ lhs & lower_mask }; // ç¬¬ä¸€ä¸ªåŠ æ•°çš„ä½32ä½
+        const int_type c{ rhs >> half_digits }; // ç¬¬äºŒä¸ªåŠ æ•°çš„é«˜32ä½
+        const int_type d{ rhs & lower_mask }; // ç¬¬äºŒä¸ªåŠ æ•°çš„ä½32ä½
         const int_type ac{ a * c };
         const int_type bd{ b * d };
         const int_type bc{ b * c };
@@ -329,38 +329,38 @@ struct BigInteger {
     static void mul_brute_force(data_type& target, const data_type& other) {
         const size_t target_size{ target.size() };
         const size_t other_size{ other.size() };
-        const size_t new_size{ target_size + other_size }; // »ıµÄ×î´ó³¤¶È=Á½¸ö³ËÊıµÄ×î´ó³¤¶ÈÖ®ºÍ
-        data_type result(new_size, 0); // ¿ª±ÙÁËÒ»¿é¸¨Öú´æ´¢¿Õ¼ä
-        const auto begin_lhs{ target.cbegin() }; // ´ÓµÚÒ»¸ö³ËÊıµÄ×îµÍÎ»¿ªÊ¼
+        const size_t new_size{ target_size + other_size }; // ç§¯çš„æœ€å¤§é•¿åº¦=ä¸¤ä¸ªä¹˜æ•°çš„æœ€å¤§é•¿åº¦ä¹‹å’Œ
+        data_type result(new_size, 0); // å¼€è¾Ÿäº†ä¸€å—è¾…åŠ©å­˜å‚¨ç©ºé—´
+        const auto begin_lhs{ target.cbegin() }; // ä»ç¬¬ä¸€ä¸ªä¹˜æ•°çš„æœ€ä½ä½å¼€å§‹
         const auto end_lhs{ target.cend() };
-        const auto begin_rhs{ other.cbegin() }; // ´ÓµÚ¶ş¸ö³ËÊıµÄ×îµÍÎ»¿ªÊ¼
+        const auto begin_rhs{ other.cbegin() }; // ä»ç¬¬äºŒä¸ªä¹˜æ•°çš„æœ€ä½ä½å¼€å§‹
         const auto end_rhs{ other.cend() };
-        auto result_iterator{ result.begin() }; // ´Ó½á¹ûµÄ×îµÍÎ»¿ªÊ¼
+        auto result_iterator{ result.begin() }; // ä»ç»“æœçš„æœ€ä½ä½å¼€å§‹
         for (auto it_lhs{ begin_lhs }; it_lhs != end_lhs; ++it_lhs) {
-            const auto save_result_iterator{ result_iterator }; // Ôİ´æ½á¹ûµü´úÆ÷
+            const auto save_result_iterator{ result_iterator }; // æš‚å­˜ç»“æœè¿­ä»£å™¨
             for (auto it_rhs{ begin_rhs }; it_rhs != end_rhs; ++it_rhs) {
-                const auto [carry, partial_result] = mul_brute_force(*it_lhs, *it_rhs); // °´¿é¼ÆËãÎ»»ı
-                *result_iterator += partial_result; // °´¿é´æÈëÎ»»ı
-                ++result_iterator; // ½á¹ûµü´úÆ÷ÏòÇ°ÒÆ¶¯
-                *result_iterator += carry; // °´¿é´æÈë½øÎ»
+                const auto [carry, partial_result] = mul_brute_force(*it_lhs, *it_rhs); // æŒ‰å—è®¡ç®—ä½ç§¯
+                *result_iterator += partial_result; // æŒ‰å—å­˜å…¥ä½ç§¯
+                ++result_iterator; // ç»“æœè¿­ä»£å™¨å‘å‰ç§»åŠ¨
+                *result_iterator += carry; // æŒ‰å—å­˜å…¥è¿›ä½
             }
-            result_iterator = save_result_iterator; // ¶ÁÈ¡Ö®Ç°Ôİ´æµÄ½á¹ûµü´úÆ÷
-            ++result_iterator; // ½á¹ûµü´úÆ÷ÏòÇ°ÒÆ¶¯
+            result_iterator = save_result_iterator; // è¯»å–ä¹‹å‰æš‚å­˜çš„ç»“æœè¿­ä»£å™¨
+            ++result_iterator; // ç»“æœè¿­ä»£å™¨å‘å‰ç§»åŠ¨
         }
-        target = result; // °Ñ¸¨Öú´æ´¢ÒÆ¶¯¸´ÖÆ¸øÄ¿±ê¶ÔÏó
+        target = result; // æŠŠè¾…åŠ©å­˜å‚¨ç§»åŠ¨å¤åˆ¶ç»™ç›®æ ‡å¯¹è±¡
     }
 
-    static std::pair<int_type, int_type> mul_karatsuba(const int_type lhs, const int_type rhs) { // Á½¸ö64Î»ÕûÊıÏà³Ë
-        static constexpr int_type half_digits{ std::numeric_limits<int_type>::digits / 2 }; // ³£Á¿=32
-        static constexpr int_type full_bits{ std::numeric_limits<int_type>::max() }; // ³£Á¿ 0xffff_ffff_ffff_ffff
-        static constexpr int_type lower_mask{ full_bits >> half_digits }; // ³£Á¿ 0xffff_ffff
-        const int_type a{ lhs >> half_digits }; // µÚÒ»¸ö¼ÓÊıµÄ¸ß32Î»
-        const int_type b{ lhs & lower_mask }; // µÚÒ»¸ö¼ÓÊıµÄµÍ32Î»
-        const int_type c{ rhs >> half_digits }; // µÚ¶ş¸ö¼ÓÊıµÄ¸ß32Î»
-        const int_type d{ rhs & lower_mask }; // µÚ¶ş¸ö¼ÓÊıµÄµÍ32Î»
+    static std::pair<int_type, int_type> mul_karatsuba(const int_type lhs, const int_type rhs) { // ä¸¤ä¸ª64ä½æ•´æ•°ç›¸ä¹˜
+        static constexpr int_type half_digits{ std::numeric_limits<int_type>::digits / 2 }; // å¸¸é‡=32
+        static constexpr int_type full_bits{ std::numeric_limits<int_type>::max() }; // å¸¸é‡ 0xffff_ffff_ffff_ffff
+        static constexpr int_type lower_mask{ full_bits >> half_digits }; // å¸¸é‡ 0xffff_ffff
+        const int_type a{ lhs >> half_digits }; // ç¬¬ä¸€ä¸ªåŠ æ•°çš„é«˜32ä½
+        const int_type b{ lhs & lower_mask }; // ç¬¬ä¸€ä¸ªåŠ æ•°çš„ä½32ä½
+        const int_type c{ rhs >> half_digits }; // ç¬¬äºŒä¸ªåŠ æ•°çš„é«˜32ä½
+        const int_type d{ rhs & lower_mask }; // ç¬¬äºŒä¸ªåŠ æ•°çš„ä½32ä½
         const int_type ac{ a * c };
         const int_type bd{ b * d };
-        const int_type ad_bc{ (a + b) * (c + d) - bd - ac }; // ¾«ÃîÖ®´¦¾ÍÔÚÓÚ´Ë£¬KaratsubaËã·¨¼õÉÙÁËÒ»´Î³Ë·¨£¬´ú¼ÛÊÇÔö¼ÓÁË3´Î¼Ó·¨
+        const int_type ad_bc{ (a + b) * (c + d) - bd - ac }; // ç²¾å¦™ä¹‹å¤„å°±åœ¨äºæ­¤ï¼ŒKaratsubaç®—æ³•å‡å°‘äº†ä¸€æ¬¡ä¹˜æ³•ï¼Œä»£ä»·æ˜¯å¢åŠ äº†3æ¬¡åŠ æ³•
         const int_type result{ (ad_bc << half_digits) + bd };
         const int_type carry{ ac + (ad_bc >> half_digits) };
         return { carry, result };
@@ -368,7 +368,7 @@ struct BigInteger {
 
     static int_type mul_karatsuba(iterator& begin_lhs, iterator& end_lhs, const_iterator& begin_rhs, const_iterator& end_rhs) {
         throw NotImplemented;
-        if (begin_lhs == end_lhs - 1 && begin_rhs == end_rhs - 1) { // Á½¸öÕûÊıĞòÁĞÖĞ¶¼Ö»ÓĞ 1 ¸öÔªËØ
+        if (begin_lhs == end_lhs - 1 && begin_rhs == end_rhs - 1) { // ä¸¤ä¸ªæ•´æ•°åºåˆ—ä¸­éƒ½åªæœ‰ 1 ä¸ªå…ƒç´ 
             const int_type& lhs{ *begin_lhs };
             const int_type& rhs{ *begin_rhs };
             int_type carry;
@@ -383,13 +383,13 @@ struct BigInteger {
 
     static void mul_karatsuba(data_type& target, const data_type& other) {
         throw NotImplemented;
-        // ÓÃ·ÖÖÎ·¨ÊµÏÖÁ½¸öÕûÊıĞòÁĞµÄ³Ë·¨
-        // 1. Èç¹ûÁ½¸öÕûÊıĞòÁĞµÄ³¤¶È¶¼Ğ¡ÓÚÄ³¸öãĞÖµ£¬¾ÍÓÃ±©Á¦·¨¼ÆËã³Ë·¨
-        // 2. ·ñÔò£¬½«Á½¸öÕûÊıĞòÁĞ·Ö³ÉÁ½°ë£¬·Ö±ğ¼ÆËã¸ß°ë²¿·ÖµÄ³Ë·¨¡¢µÍ°ë²¿·ÖµÄ³Ë·¨¡¢ÖĞ¼ä²¿·ÖµÄ³Ë·¨
-        // 3. µİ¹é¼ÆËã¸ß°ë²¿·ÖµÄ³Ë·¨¡¢µÍ°ë²¿·ÖµÄ³Ë·¨
-        // 4. ¼ÆËãÖĞ¼ä²¿·ÖµÄ³Ë·¨
-        // 5. ½«¸ß°ë²¿·ÖµÄ³Ë·¨¡¢µÍ°ë²¿·ÖµÄ³Ë·¨¡¢ÖĞ¼ä²¿·ÖµÄ³Ë·¨Ïà¼Ó
-        // 6. ·µ»Ø½á¹û
+        // ç”¨åˆ†æ²»æ³•å®ç°ä¸¤ä¸ªæ•´æ•°åºåˆ—çš„ä¹˜æ³•
+        // 1. å¦‚æœä¸¤ä¸ªæ•´æ•°åºåˆ—çš„é•¿åº¦éƒ½å°äºæŸä¸ªé˜ˆå€¼ï¼Œå°±ç”¨æš´åŠ›æ³•è®¡ç®—ä¹˜æ³•
+        // 2. å¦åˆ™ï¼Œå°†ä¸¤ä¸ªæ•´æ•°åºåˆ—åˆ†æˆä¸¤åŠï¼Œåˆ†åˆ«è®¡ç®—é«˜åŠéƒ¨åˆ†çš„ä¹˜æ³•ã€ä½åŠéƒ¨åˆ†çš„ä¹˜æ³•ã€ä¸­é—´éƒ¨åˆ†çš„ä¹˜æ³•
+        // 3. é€’å½’è®¡ç®—é«˜åŠéƒ¨åˆ†çš„ä¹˜æ³•ã€ä½åŠéƒ¨åˆ†çš„ä¹˜æ³•
+        // 4. è®¡ç®—ä¸­é—´éƒ¨åˆ†çš„ä¹˜æ³•
+        // 5. å°†é«˜åŠéƒ¨åˆ†çš„ä¹˜æ³•ã€ä½åŠéƒ¨åˆ†çš„ä¹˜æ³•ã€ä¸­é—´éƒ¨åˆ†çš„ä¹˜æ³•ç›¸åŠ 
+        // 6. è¿”å›ç»“æœ
         iterator begin_lhs{ target.begin() };
         iterator end_lhs{ target.end() };
         const_iterator begin_rhs{ other.cbegin() };
@@ -418,29 +418,29 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// ±È½ÏÒ»¸öÕûÊıĞòÁĞÓëÒ»¸öÕûÊıµÄÏà¶Ô´óĞ¡
+    /// æ¯”è¾ƒä¸€ä¸ªæ•´æ•°åºåˆ—ä¸ä¸€ä¸ªæ•´æ•°çš„ç›¸å¯¹å¤§å°
     /// </summary>
     static sign_type compare(const data_type& target, int_type other) {
         const auto begin{ target.cbegin() };
-        return (get_size_data_back2front(target) == 1) // ÕûÊıĞòÁĞÖĞÖ»ÓĞ 1 ¸öÔªËØ
-            ? (*begin <=> other) // Ö±½Ó½«Î¨Ò»Ò»¸öÔªËØÓë other ½øĞĞ±È½Ï
-            : sign_type::greater; // ÕûÊıĞòÁĞÓĞ 2 ¸öÒÔÉÏÔªËØ£¬±Ø¶¨±ÈÈÎÒâÒ»¸ö 64 Î»ÕûÊı¸ü´ó
+        return (get_size_data_back2front(target) == 1) // æ•´æ•°åºåˆ—ä¸­åªæœ‰ 1 ä¸ªå…ƒç´ 
+            ? (*begin <=> other) // ç›´æ¥å°†å”¯ä¸€ä¸€ä¸ªå…ƒç´ ä¸ other è¿›è¡Œæ¯”è¾ƒ
+            : sign_type::greater; // æ•´æ•°åºåˆ—æœ‰ 2 ä¸ªä»¥ä¸Šå…ƒç´ ï¼Œå¿…å®šæ¯”ä»»æ„ä¸€ä¸ª 64 ä½æ•´æ•°æ›´å¤§
     }
 
     /// <summary>
-    /// ±È½ÏÒ»¸ö´óÕûÊıÓëÒ»¸öÕûÊıµÄÏà¶Ô´óĞ¡
+    /// æ¯”è¾ƒä¸€ä¸ªå¤§æ•´æ•°ä¸ä¸€ä¸ªæ•´æ•°çš„ç›¸å¯¹å¤§å°
     /// </summary>
     sign_type operator<=>(int_type other) const {
-        if (this->sign == 0) { // ´óÕûÊıÊÇÁã
+        if (this->sign == 0) { // å¤§æ•´æ•°æ˜¯é›¶
             return 0 <=> other;
         }
-        return (this->sign == other <=> 0) // ¼ì²é´óÕûÊıµÄ·ûºÅÓëÕûÊıµÄ·ûºÅÊÇ·ñÏàÍ¬
-            ? compare(this->data, other) // ·ûºÅÏàÍ¬£¬¸ù¾İ¾ø¶ÔÖµÅĞ¶Ï´óĞ¡
-            : this->sign; // ·ûºÅ²»ÏàÍ¬Ê±£¬Ö±½Ó¸ù¾İ·ûºÅÅĞ¶Ï´óĞ¡
+        return (this->sign == other <=> 0) // æ£€æŸ¥å¤§æ•´æ•°çš„ç¬¦å·ä¸æ•´æ•°çš„ç¬¦å·æ˜¯å¦ç›¸åŒ
+            ? compare(this->data, other) // ç¬¦å·ç›¸åŒï¼Œæ ¹æ®ç»å¯¹å€¼åˆ¤æ–­å¤§å°
+            : this->sign; // ç¬¦å·ä¸ç›¸åŒæ—¶ï¼Œç›´æ¥æ ¹æ®ç¬¦å·åˆ¤æ–­å¤§å°
     }
 
     /// <summary>
-    /// ±È½ÏÁ½¸öÕûÊıĞòÁĞµÄÏà¶Ô´óĞ¡
+    /// æ¯”è¾ƒä¸¤ä¸ªæ•´æ•°åºåˆ—çš„ç›¸å¯¹å¤§å°
     /// </summary>
     static sign_type compare(const data_type& target, const data_type& other) {
         auto begin_target{ target.crbegin() };
@@ -450,10 +450,10 @@ struct BigInteger {
         const size_t size_target{ get_size_between_iterators_back2front(begin_target, end_target) };
         const size_t size_other{ get_size_between_iterators_back2front(begin_other, end_other) };
         const sign_type cmp_result{ size_target <=> size_other };
-        if (cmp_result != 0) { // Á½¸öĞòÁĞÊµ¼ÊÕ¼ÓÃ´æ´¢¿Õ¼ä²»Ò»ÖÂ
-            return cmp_result; // ÄÄ¸öĞòÁĞÕ¼ÓÃµÄ´æ´¢¿Õ¼äÔ½¶à£¬ÄÄ¸ö´óÕûÊıµÄ¾ø¶ÔÖµ¾ÍÔ½´ó
+        if (cmp_result != 0) { // ä¸¤ä¸ªåºåˆ—å®é™…å ç”¨å­˜å‚¨ç©ºé—´ä¸ä¸€è‡´
+            return cmp_result; // å“ªä¸ªåºåˆ—å ç”¨çš„å­˜å‚¨ç©ºé—´è¶Šå¤šï¼Œå“ªä¸ªå¤§æ•´æ•°çš„ç»å¯¹å€¼å°±è¶Šå¤§
         }
-        while (begin_target != end_target) { // ´Ó×î¸ßÎ»¿ªÊ¼Öğ¸ö¼ì²éÕûÊıÏà¶Ô´óĞ¡
+        while (begin_target != end_target) { // ä»æœ€é«˜ä½å¼€å§‹é€ä¸ªæ£€æŸ¥æ•´æ•°ç›¸å¯¹å¤§å°
             if (*begin_target != *begin_other) {
                 return *begin_target <=> *begin_other;
             }
@@ -464,15 +464,15 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// ±È½ÏÁ½¸ö´óÕûÊıµÄÏà¶Ô´óĞ¡
+    /// æ¯”è¾ƒä¸¤ä¸ªå¤§æ•´æ•°çš„ç›¸å¯¹å¤§å°
     /// </summary>
     sign_type operator<=>(const BigInteger& other) const {
         if (this->sign == 0) {
             return 0 <=> other.sign;
         }
         return (this->sign == other <=> 0)
-            ? compare(this->data, other.data) // ·ûºÅÏàÍ¬£¬¸ù¾İ¾ø¶ÔÖµÅĞ¶Ï´óĞ¡
-            : this->sign; // ·ûºÅ²»ÏàÍ¬Ê±£¬Ö±½Ó¸ù¾İ·ûºÅÅĞ¶Ï´óĞ¡
+            ? compare(this->data, other.data) // ç¬¦å·ç›¸åŒï¼Œæ ¹æ®ç»å¯¹å€¼åˆ¤æ–­å¤§å°
+            : this->sign; // ç¬¦å·ä¸ç›¸åŒæ—¶ï¼Œç›´æ¥æ ¹æ®ç¬¦å·åˆ¤æ–­å¤§å°
     }
 
     bool operator<(const IntegralEx auto& other) const {
@@ -500,7 +500,7 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// È¡Ïà·´Êı
+    /// å–ç›¸åæ•°
     /// </summary>
     BigInteger& negate() {
         this->sign = 0 <=> this->sign;
@@ -508,7 +508,7 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// È¡Ïà·´Êı
+    /// å–ç›¸åæ•°
     /// </summary>
     BigInteger operator-() const {
         return BigInteger{ *this }.negate();
@@ -520,23 +520,23 @@ struct BigInteger {
     }
 
     /// <summary>
-    /// Á½¸ö´óÕûÊıÏà¼õ
+    /// ä¸¤ä¸ªå¤§æ•´æ•°ç›¸å‡
     /// </summary>
     /// <param name="dest"></param>
     /// <param name="lhs"></param>
     /// <param name="rhs"></param>
     /// <returns></returns>
     static BigInteger& sub(BigInteger& dest, const BigInteger& lhs, const BigInteger& rhs) {
-        // ÅĞ¶Ï lhs Óë rhs µÄ¾ø¶ÔÖµµÄÏà¶Ô´óĞ¡£¬ÒÔÈ·¶¨½á¹û dest µÄ·ûºÅ
+        // åˆ¤æ–­ lhs ä¸ rhs çš„ç»å¯¹å€¼çš„ç›¸å¯¹å¤§å°ï¼Œä»¥ç¡®å®šç»“æœ dest çš„ç¬¦å·
         const sign_type cmp_result{ compare(lhs.data, rhs.data) };
-        if (cmp_result == 0) { // lhs Óë rhs µÄ¾ø¶ÔÖµÏàµÈ
+        if (cmp_result == 0) { // lhs ä¸ rhs çš„ç»å¯¹å€¼ç›¸ç­‰
             dest = { sign_type::equal, { 0 } };
         }
-        if (cmp_result > 0) { // lhs µÄ¾ø¶ÔÖµ¸ü´ó
+        if (cmp_result > 0) { // lhs çš„ç»å¯¹å€¼æ›´å¤§
             sub(dest.data, lhs.data, rhs.data);
             dest.sign = sign_type::greater;
         }
-        else { // if (cmp_result < 0) // rhs µÄ¾ø¶ÔÖµ¸ü´ó
+        else { // if (cmp_result < 0) // rhs çš„ç»å¯¹å€¼æ›´å¤§
             sub(dest.data, rhs.data, lhs.data);
             dest.sign = sign_type::less;
         }
@@ -544,45 +544,45 @@ struct BigInteger {
     }
 
     BigInteger& operator+=(const BigInteger& other) {
-        if (this->sign == 0) { // µÚÒ»¸ö¼ÓÊıÊÇÁã
-            return *this = other; // ¸´ÖÆµÚ¶ş¸ö¼ÓÊıµÄ·ûºÅºÍÊıÖµ
+        if (this->sign == 0) { // ç¬¬ä¸€ä¸ªåŠ æ•°æ˜¯é›¶
+            return *this = other; // å¤åˆ¶ç¬¬äºŒä¸ªåŠ æ•°çš„ç¬¦å·å’Œæ•°å€¼
         }
-        if (other.sign == 0) { // µÚÒ»¸ö¼ÓÊı²»ÊÇÁã£¬µÚ¶ş¸ö¼ÓÊıÊÇÁã
-            return *this; // Ã»ÓĞÈÎºÎ±ä»¯£¬Ö±½Ó·µ»Ø
-        } // ÏÂÃæ¼¸ÖÖÇé¿öÏÂ£¬Á½¸ö¼ÓÊı¶¼²»ÊÇÁã
-        if (this->sign == other.sign) { // Á½¸ö¼ÓÊı·ûºÅÏàÍ¬£¨Á½¸ö¼ÓÊı¶¼ÊÇÕıÊı£¬»òÕßÁ½¸ö¼ÓÊı¶¼ÊÇ¸ºÊı£©
-            return add(*this, other); // Á½¸ö¼ÓÊı·ûºÅÏàÍ¬£¬Ïàµ±ÓÚ×ö¼Ó·¨
+        if (other.sign == 0) { // ç¬¬ä¸€ä¸ªåŠ æ•°ä¸æ˜¯é›¶ï¼Œç¬¬äºŒä¸ªåŠ æ•°æ˜¯é›¶
+            return *this; // æ²¡æœ‰ä»»ä½•å˜åŒ–ï¼Œç›´æ¥è¿”å›
+        } // ä¸‹é¢å‡ ç§æƒ…å†µä¸‹ï¼Œä¸¤ä¸ªåŠ æ•°éƒ½ä¸æ˜¯é›¶
+        if (this->sign == other.sign) { // ä¸¤ä¸ªåŠ æ•°ç¬¦å·ç›¸åŒï¼ˆä¸¤ä¸ªåŠ æ•°éƒ½æ˜¯æ­£æ•°ï¼Œæˆ–è€…ä¸¤ä¸ªåŠ æ•°éƒ½æ˜¯è´Ÿæ•°ï¼‰
+            return add(*this, other); // ä¸¤ä¸ªåŠ æ•°ç¬¦å·ç›¸åŒï¼Œç›¸å½“äºåšåŠ æ³•
         }
-        return (this->sign > 0) // Á½¸ö¼ÓÊı·ûºÅ²»Í¬£¨Ò»¸öÊÇÕıÊı£¬Ò»¸öÊÇ¸ºÊı£©£¬Ïàµ±ÓÚ×ö¼õ·¨
-            ? sub(*this, *this, other) // µÚÒ»¸ö¼ÓÊıÊÇÕıÊı£¬µÚ¶ş¸ö¼ÓÊıÊÇ¸ºÊı
-            : sub(*this, other, *this); // µÚÒ»¸ö¼ÓÊıÊÇ¸ºÊı£¬µÚ¶ş¸ö¼ÓÊıÊÇÕıÊı
+        return (this->sign > 0) // ä¸¤ä¸ªåŠ æ•°ç¬¦å·ä¸åŒï¼ˆä¸€ä¸ªæ˜¯æ­£æ•°ï¼Œä¸€ä¸ªæ˜¯è´Ÿæ•°ï¼‰ï¼Œç›¸å½“äºåšå‡æ³•
+            ? sub(*this, *this, other) // ç¬¬ä¸€ä¸ªåŠ æ•°æ˜¯æ­£æ•°ï¼Œç¬¬äºŒä¸ªåŠ æ•°æ˜¯è´Ÿæ•°
+            : sub(*this, other, *this); // ç¬¬ä¸€ä¸ªåŠ æ•°æ˜¯è´Ÿæ•°ï¼Œç¬¬äºŒä¸ªåŠ æ•°æ˜¯æ­£æ•°
     }
 
     BigInteger& operator-=(const BigInteger& other) {
-        if (this->sign == 0) { // ±»¼õÊıÊÇÁã
-            return *this = -other; // ¸´ÖÆ¼õÊıµÄÊıÖµ£¬µ«ÊÇ·ûºÅÈ¡·´
+        if (this->sign == 0) { // è¢«å‡æ•°æ˜¯é›¶
+            return *this = -other; // å¤åˆ¶å‡æ•°çš„æ•°å€¼ï¼Œä½†æ˜¯ç¬¦å·å–å
         }
-        if (other.sign == 0) { // ±»¼õÊı²»ÊÇÁã£¬¼õÊıÊÇÁã
-            return *this; // Ã»ÓĞÈÎºÎ±ä»¯£¬Ö±½Ó·µ»Ø
-        } // ÏÂÃæ¼¸ÖÖÇé¿öÏÂ£¬±»¼õÊıºÍ¼õÊı¶¼²»ÊÇÁã
-        if (this->sign == other.sign) { // ±»¼õÊıºÍ¼õÊı·ûºÅÏàÍ¬£¨¶¼ÊÇÕıÊı£¬»òÕß¶¼ÊÇ¸ºÊı£©
+        if (other.sign == 0) { // è¢«å‡æ•°ä¸æ˜¯é›¶ï¼Œå‡æ•°æ˜¯é›¶
+            return *this; // æ²¡æœ‰ä»»ä½•å˜åŒ–ï¼Œç›´æ¥è¿”å›
+        } // ä¸‹é¢å‡ ç§æƒ…å†µä¸‹ï¼Œè¢«å‡æ•°å’Œå‡æ•°éƒ½ä¸æ˜¯é›¶
+        if (this->sign == other.sign) { // è¢«å‡æ•°å’Œå‡æ•°ç¬¦å·ç›¸åŒï¼ˆéƒ½æ˜¯æ­£æ•°ï¼Œæˆ–è€…éƒ½æ˜¯è´Ÿæ•°ï¼‰
             return (this->sign > 0)
-                ? sub(*this, *this, other) // ±»¼õÊı¡¢¼õÊı¶¼ÊÇÕıÊı£¬ÈÃ±»¼õÊı¼õÈ¥¼õÊı
-                : sub(*this, other, *this); // ±»¼õÊı¡¢¼õÊı¶¼ÊÇ¸ºÊı£¬ÈÃ¼õÊıµÄ¾ø¶ÔÖµ¼õÈ¥±»¼õÊıµÄ¾ø¶ÔÖµ
+                ? sub(*this, *this, other) // è¢«å‡æ•°ã€å‡æ•°éƒ½æ˜¯æ­£æ•°ï¼Œè®©è¢«å‡æ•°å‡å»å‡æ•°
+                : sub(*this, other, *this); // è¢«å‡æ•°ã€å‡æ•°éƒ½æ˜¯è´Ÿæ•°ï¼Œè®©å‡æ•°çš„ç»å¯¹å€¼å‡å»è¢«å‡æ•°çš„ç»å¯¹å€¼
         }
         return (this->sign > 0)
-            ? add(*this, other) // ±»¼õÊıÊÇÕıÊı£¬¼õÊıÊÇ¸ºÊı£¬Ïàµ±ÓÚ×ö¼Ó·¨
-            : sub(*this, other, *this); // ±»¼õÊıÊÇ¸ºÊı£¬¼õÊıÊÇÕıÊı£¬Ïàµ±ÓÚ×ö¼õ·¨
+            ? add(*this, other) // è¢«å‡æ•°æ˜¯æ­£æ•°ï¼Œå‡æ•°æ˜¯è´Ÿæ•°ï¼Œç›¸å½“äºåšåŠ æ³•
+            : sub(*this, other, *this); // è¢«å‡æ•°æ˜¯è´Ÿæ•°ï¼Œå‡æ•°æ˜¯æ­£æ•°ï¼Œç›¸å½“äºåšå‡æ³•
     }
 
     BigInteger& operator+=(const std::integral auto& other) {
-        // FIXME ÎŞ·¨´¦ÀíÓĞ·ûºÅÊı£¨ÌØ±ğÊÇ¸ºÊı£©
+        // FIXME æ— æ³•å¤„ç†æœ‰ç¬¦å·æ•°ï¼ˆç‰¹åˆ«æ˜¯è´Ÿæ•°ï¼‰
         add(this->data, other);
         return *this;
     }
 
     BigInteger& operator-=(const std::integral auto& other) {
-        // FIXME ÎŞ·¨´¦ÀíÓĞ·ûºÅÊı£¨ÌØ±ğÊÇ¸ºÊı£©
+        // FIXME æ— æ³•å¤„ç†æœ‰ç¬¦å·æ•°ï¼ˆç‰¹åˆ«æ˜¯è´Ÿæ•°ï¼‰
         sub(this->data, other);
         return *this;
     }
@@ -615,14 +615,14 @@ struct BigInteger {
 
     std::string to_string(const char seperator) const {
         static constexpr size_t chunk_size_in_quadruple_bits{ 4 };
-        static constexpr size_t chunk_size_in_bits{ 4 * chunk_size_in_quadruple_bits }; // 0xffff Õ¼ÓÃ 16 Î»
-        static constexpr int_type chunk_mask{ (1 << chunk_size_in_bits) - 1 }; // ³£Á¿=0xffff
-        static constexpr int_type chunk_count{ std::numeric_limits<int_type>::digits / chunk_size_in_bits }; // ³£Á¿=16
+        static constexpr size_t chunk_size_in_bits{ 4 * chunk_size_in_quadruple_bits }; // 0xffff å ç”¨ 16 ä½
+        static constexpr int_type chunk_mask{ (1 << chunk_size_in_bits) - 1 }; // å¸¸é‡=0xffff
+        static constexpr int_type chunk_count{ std::numeric_limits<int_type>::digits / chunk_size_in_bits }; // å¸¸é‡=16
         using chunk_type = std::uint16_t;
         auto begin{ this->data.crbegin() };
         const auto end{ this->data.crend() };
         size_t size{ get_size_between_iterators_back2front(begin, end) };
-        if (size == 0) { // ÕûÊıĞòÁĞÖĞÈ«ÊÇÁã
+        if (size == 0) { // æ•´æ•°åºåˆ—ä¸­å…¨æ˜¯é›¶
             return "0x0";
         }
         std::stringstream out;
@@ -630,11 +630,11 @@ struct BigInteger {
             return static_cast<chunk_type>(x >> i * chunk_size_in_bits & chunk_mask);
         };
         auto print_int = [&](int_type x, bool first) {
-            // µÚÒ»¸ö·ÇÁãÕûÊıµÄ¸ßÎ»ÁãÒ²ĞèÒªÌø¹ı£¬²¢ÇÒ´ÓµÚ¶ş¸öÕûÊı¿ªÊ¼ĞèÒªÇ°½ÓÏÂ»®Ïß
+            // ç¬¬ä¸€ä¸ªéé›¶æ•´æ•°çš„é«˜ä½é›¶ä¹Ÿéœ€è¦è·³è¿‡ï¼Œå¹¶ä¸”ä»ç¬¬äºŒä¸ªæ•´æ•°å¼€å§‹éœ€è¦å‰æ¥ä¸‹åˆ’çº¿
             size_t i{ chunk_count };
-            if (first) { // ÕıÔÚ´òÓ¡µÄÕûÊıÊÇÕûÊıĞòÁĞÖĞµÄµÚÒ»¸ö·ÇÁãÊı×Ö£¨´Ó¸ßµ½µÍ£©
-                // °ÑÒ»¸ö 64 Î»ÕûÊı·Ö³É 4 ¿é£¬Ã¿Ò»¿é¶¼ÓĞ 16 Î»
-                // Èç¹ûÕâÒ»¿éÖĞÃ¿Ò»Î»¶¼ÊÇÁã£¬ÄÇÃ´Ìø¹ı£¬²»´òÓ¡ÕâÒ»¿é
+            if (first) { // æ­£åœ¨æ‰“å°çš„æ•´æ•°æ˜¯æ•´æ•°åºåˆ—ä¸­çš„ç¬¬ä¸€ä¸ªéé›¶æ•°å­—ï¼ˆä»é«˜åˆ°ä½ï¼‰
+                // æŠŠä¸€ä¸ª 64 ä½æ•´æ•°åˆ†æˆ 4 å—ï¼Œæ¯ä¸€å—éƒ½æœ‰ 16 ä½
+                // å¦‚æœè¿™ä¸€å—ä¸­æ¯ä¸€ä½éƒ½æ˜¯é›¶ï¼Œé‚£ä¹ˆè·³è¿‡ï¼Œä¸æ‰“å°è¿™ä¸€å—
                 while (i != 0) {
                     chunk_type chunk{ get_chunk(x, --i) };
                     if (chunk != 0) {
@@ -645,7 +645,7 @@ struct BigInteger {
             }
             while (i != 0) {
                 if (!first) {
-                    out << seperator // ÔÚ×î¸ß 4 Î»Êı×ÖÒÔºó£¬Ã¿ 4 Î»Êı×ÖÖ®Ç°£¬¼ÓÉÏÏÂ»®Ïß
+                    out << seperator // åœ¨æœ€é«˜ 4 ä½æ•°å­—ä»¥åï¼Œæ¯ 4 ä½æ•°å­—ä¹‹å‰ï¼ŒåŠ ä¸Šä¸‹åˆ’çº¿
                         << std::setfill('0')
                         << std::setw(chunk_size_in_quadruple_bits);
                 }
@@ -653,13 +653,13 @@ struct BigInteger {
                 out << chunk;
                 first = false;
             }
-        }; // ´òÓ¡ÕûÊı²»ĞèÒª·µ»ØÖµ
+        }; // æ‰“å°æ•´æ•°ä¸éœ€è¦è¿”å›å€¼
         if (this->sign < 0) {
             out << '-';
         }
         out << "0x";
         out << std::hex;
-        print_int(*begin++, true); // ´òÓ¡×î¸ßµÄ 64 Î»·ÇÁãÊı×Ö
+        print_int(*begin++, true); // æ‰“å°æœ€é«˜çš„ 64 ä½éé›¶æ•°å­—
         while (begin != end) {
             print_int(*begin++, false);
         }

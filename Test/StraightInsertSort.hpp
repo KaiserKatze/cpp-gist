@@ -1,20 +1,20 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 
 template <class ElemType>
 void StraightInsertSort(ElemType* array, size_t start, size_t end) {
-    // Ö±½Ó²åÈëÅÅĞò£¨²»´ø¼àÊÓÉÚ£©
-    for (size_t i{ start + 1 }; i < end; ++i) { // ´ÓµÚ¶ş¸öÔªËØ¿ªÊ¼ÅÅĞò
-        ElemType* curr{ array + i }; // ÕıÔÚ¼ì²éµÄ¼ÇÂ¼
-        ElemType* prev{ curr - 1 }; // Ç°Ò»¸ö¼ÇÂ¼
-        if (*curr < *prev) { // µ±Ç°¼ÇÂ¼±ÈÇ°Ò»¸ö¼ÇÂ¼¸üĞ¡£¨±È½Ï¹Ø¼ü×Ö£©
-            ElemType pivot{ *curr }; // ¸´ÖÆ´ı²åÈëÔªËØ p£¨Ïàµ±ÓÚÔİ´æµ½¼àÊÓÉÚ£©
-            *curr = *prev; // ÈÃÇ°Ò»¸ö¼ÇÂ¼ÏòºóÒÆ¶¯
-            for (--prev; prev >= array + start && pivot < *prev; --prev) { // ´ÓºóÏòÇ°Ñ°ÕÒ²åÈëÎ»ÖÃ
-                *(prev + 1) = *prev; // ¼ÇÂ¼Öğ¸öÏòºóÒÆ¶¯£¬Ö±µ½ÕÒµ½¿ÉÒÔ²åÈëÔªËØ p µÄÎ»ÖÃ
+    // ç›´æ¥æ’å…¥æ’åºï¼ˆä¸å¸¦ç›‘è§†å“¨ï¼‰
+    for (size_t i{ start + 1 }; i < end; ++i) { // ä»ç¬¬äºŒä¸ªå…ƒç´ å¼€å§‹æ’åº
+        ElemType* curr{ array + i }; // æ­£åœ¨æ£€æŸ¥çš„è®°å½•
+        ElemType* prev{ curr - 1 }; // å‰ä¸€ä¸ªè®°å½•
+        if (*curr < *prev) { // å½“å‰è®°å½•æ¯”å‰ä¸€ä¸ªè®°å½•æ›´å°ï¼ˆæ¯”è¾ƒå…³é”®å­—ï¼‰
+            ElemType pivot{ *curr }; // å¤åˆ¶å¾…æ’å…¥å…ƒç´  pï¼ˆç›¸å½“äºæš‚å­˜åˆ°ç›‘è§†å“¨ï¼‰
+            *curr = *prev; // è®©å‰ä¸€ä¸ªè®°å½•å‘åç§»åŠ¨
+            for (--prev; prev >= array + start && pivot < *prev; --prev) { // ä»åå‘å‰å¯»æ‰¾æ’å…¥ä½ç½®
+                *(prev + 1) = *prev; // è®°å½•é€ä¸ªå‘åç§»åŠ¨ï¼Œç›´åˆ°æ‰¾åˆ°å¯ä»¥æ’å…¥å…ƒç´  p çš„ä½ç½®
             }
-            *(prev + 1) = pivot; // °ÑÔªËØ p ²åÈëµ½ÕıÈ·µÄÎ»ÖÃ
+            *(prev + 1) = pivot; // æŠŠå…ƒç´  p æ’å…¥åˆ°æ­£ç¡®çš„ä½ç½®
         }
     }
 }

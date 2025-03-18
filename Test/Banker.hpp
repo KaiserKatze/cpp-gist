@@ -1,4 +1,4 @@
-// @see: https://www.geeksforgeeks.org/bankers-algorithm-in-operating-system-2/
+ï»¿// @see: https://www.geeksforgeeks.org/bankers-algorithm-in-operating-system-2/
 
 #include <cassert>
 #include <vector>
@@ -7,19 +7,19 @@
 #include <initializer_list>
 #include "Matrix.hpp"
 
-struct BankersAlgorithm { // Dijkstra µÄÒøĞĞ¼ÒËã·¨
-    std::vector<size_t> _available; // ¿ÉÀûÓÃ×ÊÔ´ÏòÁ¿
-    const size_t _concurrency; // ²¢·¢¶È n£¨ÏµÍ³ÖĞ½ø³ÌÊıÁ¿£©
-    const size_t _size; // ×ÊÔ´µÄÖÖÊı m
-    Matrix<size_t> _max; // ×î´óĞèÇó¾ØÕó£¨¶¨ÒåÃ¿Ò»¸ö½ø³Ì¶Ô¸÷Àà×ÊÔ´µÄ×î´óĞèÇó£©
-    Matrix<size_t> _allocation; // ·ÖÅä¾ØÕó£¨¶¨ÒåÏµÍ³ÖØÃ¿Ò»Àà×ÊÔ´µ±Ç°ÒÑ·ÖÅä¸øÃ¿Ò»½ø³ÌµÄ×ÊÔ´Êı£©
-    Matrix<size_t> _need; // ĞèÇó¾ØÕó£¨±íÊ¾Ã¿Ò»¸ö½ø³ÌÉĞĞèµÄ¸÷Àà×ÊÔ´Êı£©
-    // ÉÏÊöÈı¸ö¾ØÕóÖ®¼ä´æÔÚÏÂÊö¹ØÏµ£º
+struct BankersAlgorithm { // Dijkstra çš„é“¶è¡Œå®¶ç®—æ³•
+    std::vector<size_t> _available; // å¯åˆ©ç”¨èµ„æºå‘é‡
+    const size_t _concurrency; // å¹¶å‘åº¦ nï¼ˆç³»ç»Ÿä¸­è¿›ç¨‹æ•°é‡ï¼‰
+    const size_t _size; // èµ„æºçš„ç§æ•° m
+    Matrix<size_t> _max; // æœ€å¤§éœ€æ±‚çŸ©é˜µï¼ˆå®šä¹‰æ¯ä¸€ä¸ªè¿›ç¨‹å¯¹å„ç±»èµ„æºçš„æœ€å¤§éœ€æ±‚ï¼‰
+    Matrix<size_t> _allocation; // åˆ†é…çŸ©é˜µï¼ˆå®šä¹‰ç³»ç»Ÿé‡æ¯ä¸€ç±»èµ„æºå½“å‰å·²åˆ†é…ç»™æ¯ä¸€è¿›ç¨‹çš„èµ„æºæ•°ï¼‰
+    Matrix<size_t> _need; // éœ€æ±‚çŸ©é˜µï¼ˆè¡¨ç¤ºæ¯ä¸€ä¸ªè¿›ç¨‹å°šéœ€çš„å„ç±»èµ„æºæ•°ï¼‰
+    // ä¸Šè¿°ä¸‰ä¸ªçŸ©é˜µä¹‹é—´å­˜åœ¨ä¸‹è¿°å…³ç³»ï¼š
     //      _need[i,j] == _max[i,j] - _allocation[i,j]
-    std::queue<size_t, std::vector<size_t>> _blocked; // ½ø³Ì×èÈû¶ÓÁĞ
+    std::queue<size_t, std::vector<size_t>> _blocked; // è¿›ç¨‹é˜»å¡é˜Ÿåˆ—
 
-    BankersAlgorithm(const size_t nMaxProcess /* ²¢·¢¶È */,
-        const std::initializer_list<size_t>&& resources /* ³õÊ¼È«²¿¿ÉÀûÓÃ×ÊÔ´ */)
+    BankersAlgorithm(const size_t nMaxProcess /* å¹¶å‘åº¦ */,
+        const std::initializer_list<size_t>&& resources /* åˆå§‹å…¨éƒ¨å¯åˆ©ç”¨èµ„æº */)
         : _available{ resources },
         _concurrency{ nMaxProcess },
         _size{ _available.size() },
@@ -33,41 +33,41 @@ struct BankersAlgorithm { // Dijkstra µÄÒøĞĞ¼ÒËã·¨
     BankersAlgorithm(BankersAlgorithm&&) = delete;
 
     bool Check() {
-        // °²È«ĞÔ¼ì²é
+        // å®‰å…¨æ€§æ£€æŸ¥
 
-        // µÚ (1) ²½£¬ÉèÖÃÁ½¸öÏòÁ¿
-        std::vector<size_t> _work(_available); // ¹¤×÷ÏòÁ¿£¨±íÊ¾ÏµÍ³¿ÉÌá¹©¸ø½ø³Ì¼ÌĞøÔËĞĞËùĞèµÄ¸÷Àà×ÊÔ´ÊıÄ¿£©
-        std::vector<bool> _finish(_concurrency, false); // ±íÊ¾ÏµÍ³ÊÇ·ñÓĞ×ã¹»µÄ×ÊÔ´·ÖÅä¸ø½ø³Ì£¬Ê¹Ö®ÔËĞĞÍê³É
+        // ç¬¬ (1) æ­¥ï¼Œè®¾ç½®ä¸¤ä¸ªå‘é‡
+        std::vector<size_t> _work(_available); // å·¥ä½œå‘é‡ï¼ˆè¡¨ç¤ºç³»ç»Ÿå¯æä¾›ç»™è¿›ç¨‹ç»§ç»­è¿è¡Œæ‰€éœ€çš„å„ç±»èµ„æºæ•°ç›®ï¼‰
+        std::vector<bool> _finish(_concurrency, false); // è¡¨ç¤ºç³»ç»Ÿæ˜¯å¦æœ‰è¶³å¤Ÿçš„èµ„æºåˆ†é…ç»™è¿›ç¨‹ï¼Œä½¿ä¹‹è¿è¡Œå®Œæˆ
 #ifdef DEBUG
-        std::vector<size_t> _safe_seq; // °²È«ĞòÁĞ
+        std::vector<size_t> _safe_seq; // å®‰å…¨åºåˆ—
         _safe_seq.reserve(_concurrency);
 #endif
 
-        size_t _safe_process{ std::numeric_limits<size_t>::max() }; // ¿ÉÒÔ°²È«Ö´ĞĞµÄ½ø³ÌµÄ id
-        bool _retry{ true }; // ×î¶àÓĞÒ»´Î»ú»á
+        size_t _safe_process{ std::numeric_limits<size_t>::max() }; // å¯ä»¥å®‰å…¨æ‰§è¡Œçš„è¿›ç¨‹çš„ id
+        bool _retry{ true }; // æœ€å¤šæœ‰ä¸€æ¬¡æœºä¼š
         while (_retry) {
             _retry = false;
-            // µÚ (2) ²½£¬ÔÚ½ø³Ì¼¯ºÏÖĞÕÒµ½Ò»¸öÉĞÎ´ÄÃµ½×ã¹»×ÊÔ´µÄ½ø³Ì
+            // ç¬¬ (2) æ­¥ï¼Œåœ¨è¿›ç¨‹é›†åˆä¸­æ‰¾åˆ°ä¸€ä¸ªå°šæœªæ‹¿åˆ°è¶³å¤Ÿèµ„æºçš„è¿›ç¨‹
             for (size_t i = 0; i < _concurrency; ++i) {
                 if (!_retry && _safe_process == i) {
-                    // ×î½üÒ»ÂÖ²éÕÒµÃµ½µÄ¿ÉÒÔ°²È«Ö´ĞĞµÄ½ø³ÌµÄ id ÊÇ _safe_process£¬
-                    // ±¾ÂÖ²éÕÒÔÙ´ÎÉ¨Ãèµ½Õâ¸ö½ø³Ì£¬²¢ÇÒ _retry Îª false£¨Ã»ÓĞÏÂÒ»ÂÖ²éÕÒÁË£©£¬
-                    // ËµÃ÷Ã»ÓĞÆäËû°²È«Ö´ĞĞµÄ½ø³ÌÁË£¬ÔÚÕâÀï½áÊø²éÕÒ£¬¿ÉÒÔ½ÚÊ¡Ò»Ğ©³£ÊıÊ±¼ä
-                    break; // Ìø³ö for Ñ­»·£¬×¼±¸Ìø³ö while Ñ­»·
+                    // æœ€è¿‘ä¸€è½®æŸ¥æ‰¾å¾—åˆ°çš„å¯ä»¥å®‰å…¨æ‰§è¡Œçš„è¿›ç¨‹çš„ id æ˜¯ _safe_processï¼Œ
+                    // æœ¬è½®æŸ¥æ‰¾å†æ¬¡æ‰«æåˆ°è¿™ä¸ªè¿›ç¨‹ï¼Œå¹¶ä¸” _retry ä¸º falseï¼ˆæ²¡æœ‰ä¸‹ä¸€è½®æŸ¥æ‰¾äº†ï¼‰ï¼Œ
+                    // è¯´æ˜æ²¡æœ‰å…¶ä»–å®‰å…¨æ‰§è¡Œçš„è¿›ç¨‹äº†ï¼Œåœ¨è¿™é‡Œç»“æŸæŸ¥æ‰¾ï¼Œå¯ä»¥èŠ‚çœä¸€äº›å¸¸æ•°æ—¶é—´
+                    break; // è·³å‡º for å¾ªç¯ï¼Œå‡†å¤‡è·³å‡º while å¾ªç¯
                 }
-                if (_finish[i]) { // ÏµÍ³ÓĞ×ã¹»µÄ×ÊÔ´¿ÉÒÔ·ÖÅä¸øµÚ i ¸ö½ø³Ì
-                    continue; // ¼ÌĞø¼ì²éÏÂÒ»¸ö½ø³ÌÊÇ·ñ°²È«
+                if (_finish[i]) { // ç³»ç»Ÿæœ‰è¶³å¤Ÿçš„èµ„æºå¯ä»¥åˆ†é…ç»™ç¬¬ i ä¸ªè¿›ç¨‹
+                    continue; // ç»§ç»­æ£€æŸ¥ä¸‹ä¸€ä¸ªè¿›ç¨‹æ˜¯å¦å®‰å…¨
                 }
                 size_t j = 0;
                 const auto& _need_row{ _need[i] };
                 for (; j < _size; ++j) {
-                    if (_need_row[j] > _work[j]) { // ÏµÍ³¿É¹©·ÖÅäµÄ×ÊÔ´²»×ãÒÔÖ§³ÖµÚ i ¸ö½ø³Ì¼ÌĞøÖ´ĞĞ
+                    if (_need_row[j] > _work[j]) { // ç³»ç»Ÿå¯ä¾›åˆ†é…çš„èµ„æºä¸è¶³ä»¥æ”¯æŒç¬¬ i ä¸ªè¿›ç¨‹ç»§ç»­æ‰§è¡Œ
                         break;
                     }
                 }
-                if (j < _size) { // ¼ì²éÏÂÒ»¸ö½ø³ÌÊÇ·ñÂú×ãÌõ¼ş
+                if (j < _size) { // æ£€æŸ¥ä¸‹ä¸€ä¸ªè¿›ç¨‹æ˜¯å¦æ»¡è¶³æ¡ä»¶
 #ifdef DEBUG
-                    std::cout << "µÚ " << i << " ¸ö½ø³ÌÉĞ²»Âú×ãÌõ¼ş.";
+                    std::cout << "ç¬¬ " << i << " ä¸ªè¿›ç¨‹å°šä¸æ»¡è¶³æ¡ä»¶.";
                     std::cout << "\twork=(";
                     for (const auto& x : _work) {
                         std::cout << x << ",";
@@ -81,7 +81,7 @@ struct BankersAlgorithm { // Dijkstra µÄÒøĞĞ¼ÒËã·¨
                     continue;
                 }
 #ifdef DEBUG
-                std::cout << "µÚ " << i << " ¸ö½ø³ÌÂú×ãÌõ¼ş.";
+                std::cout << "ç¬¬ " << i << " ä¸ªè¿›ç¨‹æ»¡è¶³æ¡ä»¶.";
                 std::cout << "\t\twork=(";
                 for (const auto& x : _work) {
                     std::cout << x << ",";
@@ -92,62 +92,62 @@ struct BankersAlgorithm { // Dijkstra µÄÒøĞĞ¼ÒËã·¨
                 }
                 std::cout << ")\n";
 #endif
-                _retry = true; // ³É¹¦ÕÒµ½Ò»¸öÂú×ãÌõ¼şµÄ½ø³Ì£¬¿ÉÒÔ½øĞĞÏÂÒ»ÂÖ²éÕÒ
-                _safe_process = i; // Âú×ãÌõ¼şµÄ½ø³ÌµÄ id
+                _retry = true; // æˆåŠŸæ‰¾åˆ°ä¸€ä¸ªæ»¡è¶³æ¡ä»¶çš„è¿›ç¨‹ï¼Œå¯ä»¥è¿›è¡Œä¸‹ä¸€è½®æŸ¥æ‰¾
+                _safe_process = i; // æ»¡è¶³æ¡ä»¶çš„è¿›ç¨‹çš„ id
 
-                // µÚ (3) ²½£¬Èç¹ûµÚ i ¸ö½ø³ÌÂú×ãÉÏÊöÌõ¼ş£¬ÄÇÃ´Ëü¿ÉÒÔË³ÀûÖ´ĞĞ£¬Ö±ÖÁÍê³É£¬²¢ÊÍ·Å³ö·ÖÅä¸øËüµÄ×ÊÔ´
+                // ç¬¬ (3) æ­¥ï¼Œå¦‚æœç¬¬ i ä¸ªè¿›ç¨‹æ»¡è¶³ä¸Šè¿°æ¡ä»¶ï¼Œé‚£ä¹ˆå®ƒå¯ä»¥é¡ºåˆ©æ‰§è¡Œï¼Œç›´è‡³å®Œæˆï¼Œå¹¶é‡Šæ”¾å‡ºåˆ†é…ç»™å®ƒçš„èµ„æº
                 const auto& _allocation_row{ _allocation[i] };
                 for (size_t j = 0; j < _size; ++j) {
-                    _work[j] += _allocation_row[j]; // ÊÍ·Å×ÊÔ´£¬¾ÍÊÇÈÃ¿É·ÖÅä×ÊÔ´Ôö¼ÓµÚ i ¸ö½ø³ÌÖ®Ç°·ÖÅäµÃµ½µÄ×ÊÔ´
+                    _work[j] += _allocation_row[j]; // é‡Šæ”¾èµ„æºï¼Œå°±æ˜¯è®©å¯åˆ†é…èµ„æºå¢åŠ ç¬¬ i ä¸ªè¿›ç¨‹ä¹‹å‰åˆ†é…å¾—åˆ°çš„èµ„æº
                 }
-                _finish[i] = true; // µÚ i ¸ö½ø³Ì½øÈëÖÕÖ¹Ì¬£¬²»ÔÙ²ÎÓë½ø³Ìµ÷¶È
+                _finish[i] = true; // ç¬¬ i ä¸ªè¿›ç¨‹è¿›å…¥ç»ˆæ­¢æ€ï¼Œä¸å†å‚ä¸è¿›ç¨‹è°ƒåº¦
 #ifdef DEBUG
                 _safe_seq.push_back(i);
-                std::cout << "\t½ø³ÌÊÍ·Å×ÊÔ´£º\t\tallocation[" << i << "]=";
+                std::cout << "\tè¿›ç¨‹é‡Šæ”¾èµ„æºï¼š\t\tallocation[" << i << "]=";
                 std::copy(_allocation_row.begin(), _allocation_row.end(), std::ostream_iterator<size_t>(std::cout, ", "));
                 std::cout << '\n';
-                std::cout << "\t¹¤×÷ÏòÁ¿£¨¸üĞÂ£©£º\t";
+                std::cout << "\tå·¥ä½œå‘é‡ï¼ˆæ›´æ–°ï¼‰ï¼š\t";
                 std::copy(_work.begin(), _work.end(), std::ostream_iterator<size_t>(std::cout, ", "));
                 std::cout << '\n';
 #endif
-                // »Øµ½µÚ (2) ²½
+                // å›åˆ°ç¬¬ (2) æ­¥
             } // <end-for>
         } // <end-while>
 
-        // µÚ (4) ²½£¬¼ì²éÊÇ·ñËùÓĞ½ø³Ì¶¼Âú×ã _finish[i] == true
+        // ç¬¬ (4) æ­¥ï¼Œæ£€æŸ¥æ˜¯å¦æ‰€æœ‰è¿›ç¨‹éƒ½æ»¡è¶³ _finish[i] == true
         for (size_t i = 0; i < _concurrency; ++i) {
             if (!_finish[i]) {
 #ifdef DEBUG
-                std::cout << "Ã»ÓĞ°²È«ĞòÁĞ!\n";
+                std::cout << "æ²¡æœ‰å®‰å…¨åºåˆ—!\n";
 #endif
-                return false; // ÏµÍ³´¦ÓÚ²»°²È«×´Ì¬
+                return false; // ç³»ç»Ÿå¤„äºä¸å®‰å…¨çŠ¶æ€
             }
         }
 
 #ifdef DEBUG
-        std::cout << "°²È«ĞòÁĞ£º";
+        std::cout << "å®‰å…¨åºåˆ—ï¼š";
         std::copy(_safe_seq.begin(), _safe_seq.end(),
             std::ostream_iterator<size_t>(std::cout, " -> "));
         std::cout << '\n';
 #endif
 
-        return true; // ÏµÍ³´¦ÓÚ°²È«×´Ì¬
+        return true; // ç³»ç»Ÿå¤„äºå®‰å…¨çŠ¶æ€
     }
 
-    bool Require(const size_t i /* ÉêÇë×ÊÔ´µÄ½ø³Ì id */,
-        const std::vector<size_t>& request /* ÇëÇóÏòÁ¿ */) {
-        // ´¦Àí¸÷¸ö½ø³ÌµÄ×ÊÔ´ÇëÇóÏòÁ¿
+    bool Require(const size_t i /* ç”³è¯·èµ„æºçš„è¿›ç¨‹ id */,
+        const std::vector<size_t>& request /* è¯·æ±‚å‘é‡ */) {
+        // å¤„ç†å„ä¸ªè¿›ç¨‹çš„èµ„æºè¯·æ±‚å‘é‡
         for (size_t j = 0; j < _size; ++j) {
             if (request[j] > _need[i][j]) {
-                return false; // ËùĞèÒªµÄ×ÊÔ´´óÓÚËùĞû²¼µÄ×î´óÖµ£¬³ö´í
+                return false; // æ‰€éœ€è¦çš„èµ„æºå¤§äºæ‰€å®£å¸ƒçš„æœ€å¤§å€¼ï¼Œå‡ºé”™
             }
         }
         for (size_t j = 0; j < _size; ++j) {
             if (request[j] > _available[j]) {
-                _blocked.push(i); // ÉĞÎŞ×ã¹»µÄ×ÊÔ´£¬ĞëµÈ´ı£¬°Ñ¸Ã½ø³ÌÑ¹Èë×èÈû¶ÓÁĞ
+                _blocked.push(i); // å°šæ— è¶³å¤Ÿçš„èµ„æºï¼Œé¡»ç­‰å¾…ï¼ŒæŠŠè¯¥è¿›ç¨‹å‹å…¥é˜»å¡é˜Ÿåˆ—
             }
         }
-        // ÏµÍ³ÊÔÌ½×Å°Ñ×ÊÔ´·ÖÅä¸ø½ø³Ì£¬ĞŞ¸ÄÒ»ÏÂÊı¾İ½á¹¹
+        // ç³»ç»Ÿè¯•æ¢ç€æŠŠèµ„æºåˆ†é…ç»™è¿›ç¨‹ï¼Œä¿®æ”¹ä¸€ä¸‹æ•°æ®ç»“æ„
         std::vector<bool> _allocTest(_size, false);
         for (size_t j = 0; j < _size; ++j) {
             if (request[j] > _available[j]) {
@@ -158,13 +158,13 @@ struct BankersAlgorithm { // Dijkstra µÄÒøĞĞ¼ÒËã·¨
                 _allocTest[j] = true;
             }
         }
-        // Ö´ĞĞ°²È«ĞÔËã·¨£¬¼ì²é´Ë´Î×ÊÔ´·ÖÅäºóÏµÍ³ÊÇ·ñ´¦ÓÚ°²È«×´Ì¬
+        // æ‰§è¡Œå®‰å…¨æ€§ç®—æ³•ï¼Œæ£€æŸ¥æ­¤æ¬¡èµ„æºåˆ†é…åç³»ç»Ÿæ˜¯å¦å¤„äºå®‰å…¨çŠ¶æ€
         if (Check()) {
-            // Èô°²È«£¬²ÅÕıÊ½°Ñ×ÊÔ´·ÖÅä¸ø¸Ã½ø³Ì£¬Íê³É±¾´Î·ÖÅä£»
+            // è‹¥å®‰å…¨ï¼Œæ‰æ­£å¼æŠŠèµ„æºåˆ†é…ç»™è¯¥è¿›ç¨‹ï¼Œå®Œæˆæœ¬æ¬¡åˆ†é…ï¼›
             return true;
         }
         else {
-            // ·ñÔò£¬½«±¾´ÎÊÔÌ½·ÖÅä×÷·Ï£¬»Ö¸´Ô­À´µÄ×ÊÔ´·ÖÅä×´Ì¬£¬ÈÃ¸Ã½ø³ÌµÈ´ı
+            // å¦åˆ™ï¼Œå°†æœ¬æ¬¡è¯•æ¢åˆ†é…ä½œåºŸï¼Œæ¢å¤åŸæ¥çš„èµ„æºåˆ†é…çŠ¶æ€ï¼Œè®©è¯¥è¿›ç¨‹ç­‰å¾…
             for (size_t j = 0; j < _size; ++j) {
                 if (_allocTest[j]) {
                     _available[j] += request[j];
@@ -204,11 +204,11 @@ void TestBanker() {
     //banker._available = { 3,3,2 };
     banker._available -= _allocation_sum;
 
-    std::cout << "×î´óĞèÇó¾ØÕó£º\n" << static_cast<std::string>(banker._max) << "\n";
-    std::cout << "·ÖÅä¾ØÕó£º\n" << static_cast<std::string>(banker._allocation) << "\n";
-    std::cout << "·ÖÅä¾ØÕó£¨ºÏ¼Æ£©£º\n" << static_cast<std::string>(_allocation_sum) << '\n';
-    std::cout << "ĞèÇó¾ØÕó£º\n" << static_cast<std::string>(banker._need) << "\n";
-    std::cout << "¿ÉÓÃÏòÁ¿£º\n\t"; std::copy(banker._available.begin(), banker._available.end(), std::ostream_iterator<size_t>(std::cout, ", ")); std::cout << '\n';
+    std::cout << "æœ€å¤§éœ€æ±‚çŸ©é˜µï¼š\n" << static_cast<std::string>(banker._max) << "\n";
+    std::cout << "åˆ†é…çŸ©é˜µï¼š\n" << static_cast<std::string>(banker._allocation) << "\n";
+    std::cout << "åˆ†é…çŸ©é˜µï¼ˆåˆè®¡ï¼‰ï¼š\n" << static_cast<std::string>(_allocation_sum) << '\n';
+    std::cout << "éœ€æ±‚çŸ©é˜µï¼š\n" << static_cast<std::string>(banker._need) << "\n";
+    std::cout << "å¯ç”¨å‘é‡ï¼š\n\t"; std::copy(banker._available.begin(), banker._available.end(), std::ostream_iterator<size_t>(std::cout, ", ")); std::cout << '\n';
     bool safety{ banker.Check() };
-    std::cout << "ÏµÍ³°²È«ĞÔ£º" << std::boolalpha << safety << "\n";
+    std::cout << "ç³»ç»Ÿå®‰å…¨æ€§ï¼š" << std::boolalpha << safety << "\n";
 }

@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 #include "Graph.hpp"
 
 template <Graph G>
 struct MinimalSpanningTree_Kruskal {
-    // Ê±¼ä¸´ÔÓ¶È£ºO(e log(e))
-    // Ê±¼ä¸´ÔÓ¶ÈÖ»Óë±ßÊı e ÓĞ¹Ø£¬ÊÊºÏÓÚ¶¥µãÊı½Ï¶à¡¢±ßÊı½ÏÉÙµÄÍ¼
+    // æ—¶é—´å¤æ‚åº¦ï¼šO(e log(e))
+    // æ—¶é—´å¤æ‚åº¦åªä¸è¾¹æ•° e æœ‰å…³ï¼Œé€‚åˆäºé¡¶ç‚¹æ•°è¾ƒå¤šã€è¾¹æ•°è¾ƒå°‘çš„å›¾
 
     using ArcType = typename G::ArcType;
     using VexType = typename G::VexType;
-    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ÓÃÄ³¸öÊı×ÖÀ´±íÊ¾Á½¸ö¶¥µãÖ®¼äµÄ±ßÈ¨ÊÇÎŞÇî´ó£¬±íÊ¾Á½¸ö¶¥µãÖ®¼äÃ»ÓĞ±ß
+    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ç”¨æŸä¸ªæ•°å­—æ¥è¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹æƒæ˜¯æ— ç©·å¤§ï¼Œè¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´æ²¡æœ‰è¾¹
 
-    MinimalSpanningTree_Kruskal(const G& graph /* ÁÚ½Ó±í±íÊ¾ */) {
-        const int size{ graph.Size() }; // Í¼ÖĞ¶¥µã¸öÊı
+    MinimalSpanningTree_Kruskal(const G& graph /* é‚»æ¥è¡¨è¡¨ç¤º */) {
+        const int size{ graph.Size() }; // å›¾ä¸­é¡¶ç‚¹ä¸ªæ•°
         vexset.resize(size);
         for (int i = 0; i < size; ++i) {
-            vexset[i] = i; // ³õÊ¼»¯£¬¸÷¶¥µã×Ô³ÉÒ»¸öÁ¬Í¨·ÖÁ¿
+            vexset[i] = i; // åˆå§‹åŒ–ï¼Œå„é¡¶ç‚¹è‡ªæˆä¸€ä¸ªè¿é€šåˆ†é‡
         }
         edges.resize(size);
         graph.arcs.Replace(0, arcInfinity);
@@ -24,10 +24,10 @@ struct MinimalSpanningTree_Kruskal {
     // TODO
 private:
     struct Edge {
-        VexType head; // ±ßµÄÆğµã
-        VexType tail; // ±ßµÄÖÕµã
-        ArcType cost; // ±ßÈ¨
+        VexType head; // è¾¹çš„èµ·ç‚¹
+        VexType tail; // è¾¹çš„ç»ˆç‚¹
+        ArcType cost; // è¾¹æƒ
     };
-    std::vector<Edge> edges; // ¼ÇÂ¼´Ó U µ½ V-U ¾ßÓĞ×îĞ¡È¨ÖµµÄ±ß
-    std::vector<int> vexset; // ¼ÇÂ¼¸÷¸ö¶¥µãËùÊôµÄÁ¬Í¨·ÖÁ¿
+    std::vector<Edge> edges; // è®°å½•ä» U åˆ° V-U å…·æœ‰æœ€å°æƒå€¼çš„è¾¹
+    std::vector<int> vexset; // è®°å½•å„ä¸ªé¡¶ç‚¹æ‰€å±çš„è¿é€šåˆ†é‡
 };

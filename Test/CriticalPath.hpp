@@ -1,5 +1,5 @@
-//==================================
-// ¹Ø¼üÂ·¾¶
+ï»¿//==================================
+// å…³é”®è·¯å¾„
 
 #pragma once
 
@@ -9,48 +9,48 @@
 
 template <Number V, Number E>
 auto CriticalPath(const AdjacencyListGraph<V, E>& graph) {
-    // ÔÚ²ÉÓÃÁÚ½Ó±í´æ´¢½á¹¹µÄÓĞÏòÍ¼ÖĞÕÒ³ö¹Ø¼üÂ·¾¶
-    std::vector<std::pair<size_t, size_t>> criticalPath; // ¹Ø¼üÂ·¾¶£¨ÁÚ½Ó¶¥µã¶Ô£©
-    auto [status, topo] { TopologicalSort(graph) }; // ¿ÉÄÜÔÚÕâÀïÅ×³öÒì³££¨ÓĞÏòÍ¼ÓĞ»ØÂ·£©
-    if (!status) return std::pair{ false, criticalPath }; // ²»ÊÇÓĞÏòÎŞ»·Í¼£¬ÍË³ö
+    // åœ¨é‡‡ç”¨é‚»æ¥è¡¨å­˜å‚¨ç»“æ„çš„æœ‰å‘å›¾ä¸­æ‰¾å‡ºå…³é”®è·¯å¾„
+    std::vector<std::pair<size_t, size_t>> criticalPath; // å…³é”®è·¯å¾„ï¼ˆé‚»æ¥é¡¶ç‚¹å¯¹ï¼‰
+    auto [status, topo] { TopologicalSort(graph) }; // å¯èƒ½åœ¨è¿™é‡ŒæŠ›å‡ºå¼‚å¸¸ï¼ˆæœ‰å‘å›¾æœ‰å›è·¯ï¼‰
+    if (!status) return std::pair{ false, criticalPath }; // ä¸æ˜¯æœ‰å‘æ— ç¯å›¾ï¼Œé€€å‡º
     const size_t size{ graph.Size() };
-    std::vector<E> ve(size, 0); // ÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼ä
-    for (size_t i = 0; i < size; ++i) { // ÕıÏòÍØÆËÅÅĞò
-        const auto k{ topo[i] }; // È¡µÃÍØÆËĞòÁĞÖĞµÄ¶¥µãĞòºÅ k
+    std::vector<E> ve(size, 0); // äº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´
+    for (size_t i = 0; i < size; ++i) { // æ­£å‘æ‹“æ‰‘æ’åº
+        const auto k{ topo[i] }; // å–å¾—æ‹“æ‰‘åºåˆ—ä¸­çš„é¡¶ç‚¹åºå· k
         for (const auto& enode : graph.vertices[k].arcs) {
-            const auto j{ enode.adjvex }; // ÁÚ½Ó¶¥µãĞòºÅ
-            const E weight{ enode.info }; // ±ßÈ¨
-            ve[j] = std::max(ve[j], ve[k] + weight); // ¸üĞÂ¶¥µã j µÄ×îÔç·¢ÉúÊ±¼ä£¨È¡×î´óÖµ£©
+            const auto j{ enode.adjvex }; // é‚»æ¥é¡¶ç‚¹åºå·
+            const E weight{ enode.info }; // è¾¹æƒ
+            ve[j] = std::max(ve[j], ve[k] + weight); // æ›´æ–°é¡¶ç‚¹ j çš„æœ€æ—©å‘ç”Ÿæ—¶é—´ï¼ˆå–æœ€å¤§å€¼ï¼‰
         }
     }
-    std::vector<E> vl(size, ve[size - 1]); // ÊÂ¼şµÄ×î³Ù·¢ÉúÊ±¼ä
-    for (size_t i = size; i > 0;) { // ·´ÏòÍØÆËÅÅĞò
+    std::vector<E> vl(size, ve[size - 1]); // äº‹ä»¶çš„æœ€è¿Ÿå‘ç”Ÿæ—¶é—´
+    for (size_t i = size; i > 0;) { // åå‘æ‹“æ‰‘æ’åº
         --i;
-        const auto k{ topo[i] }; // È¡µÃÍØÆËĞòÁĞÖĞµÄ¶¥µãĞòºÅ k
+        const auto k{ topo[i] }; // å–å¾—æ‹“æ‰‘åºåˆ—ä¸­çš„é¡¶ç‚¹åºå· k
         for (const auto& enode : graph.vertices[k].arcs) {
-            const auto j{ enode.adjvex }; // ÁÚ½Ó¶¥µãĞòºÅ
-            const E weight{ enode.info }; // ±ßÈ¨
-            vl[k] = std::min(vl[k], vl[j] - weight); // ¸üĞÂ¶¥µã k µÄ×î³Ù·¢ÉúÊ±¼ä£¨È¡×îĞ¡Öµ£©
+            const auto j{ enode.adjvex }; // é‚»æ¥é¡¶ç‚¹åºå·
+            const E weight{ enode.info }; // è¾¹æƒ
+            vl[k] = std::min(vl[k], vl[j] - weight); // æ›´æ–°é¡¶ç‚¹ k çš„æœ€è¿Ÿå‘ç”Ÿæ—¶é—´ï¼ˆå–æœ€å°å€¼ï¼‰
         }
     }
-    for (size_t i = 0; i < size; ++i) { // ¼ÆËã»î¶¯µÄ×îÔç·¢ÉúÊ±¼äºÍ×îÍí·¢ÉúÊ±¼ä
-        // »î¶¯µÄ×îÔç·¢ÉúÊ±¼äÊÇËüµÄ»¡Î²ÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼ä
-        // »î¶¯µÄ×îÍí·¢ÉúÊ±¼äÊÇËüµÄ»¡Í·ÊÂ¼şµÄ×îÍí·¢ÉúÊ±¼ä£¬¼õÈ¥»î¶¯µÄ³ÖĞøÊ±¼ä£¨±ßÈ¨£©
+    for (size_t i = 0; i < size; ++i) { // è®¡ç®—æ´»åŠ¨çš„æœ€æ—©å‘ç”Ÿæ—¶é—´å’Œæœ€æ™šå‘ç”Ÿæ—¶é—´
+        // æ´»åŠ¨çš„æœ€æ—©å‘ç”Ÿæ—¶é—´æ˜¯å®ƒçš„å¼§å°¾äº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´
+        // æ´»åŠ¨çš„æœ€æ™šå‘ç”Ÿæ—¶é—´æ˜¯å®ƒçš„å¼§å¤´äº‹ä»¶çš„æœ€æ™šå‘ç”Ÿæ—¶é—´ï¼Œå‡å»æ´»åŠ¨çš„æŒç»­æ—¶é—´ï¼ˆè¾¹æƒï¼‰
         for (const auto& enode : graph.vertices[i].arcs) {
-            const auto j{ enode.adjvex }; // ÁÚ½Ó¶¥µãĞòºÅ
-            const E weight{ enode.info }; // ±ßÈ¨
-            const E e{ ve[i] }; // »î¶¯ <vi,vj> µÄ×îÔç¿ªÊ¼Ê±¼ä
-            const E l{ vl[j] - weight }; // »î¶¯ <vi,vj> µÄ×î³Ù¿ªÊ¼Ê±¼ä
-            if (e == l) // Èç¹û`×îÔç¿ªÊ¼Ê±¼ä`µÈÓÚ`×î³Ù¿ªÊ¼Ê±¼ä`
-                criticalPath.emplace_back(i, j); // ÄÇÃ´»î¶¯ <vi,vj> ¾ÍÊÇ¹Ø¼ü»î¶¯
+            const auto j{ enode.adjvex }; // é‚»æ¥é¡¶ç‚¹åºå·
+            const E weight{ enode.info }; // è¾¹æƒ
+            const E e{ ve[i] }; // æ´»åŠ¨ <vi,vj> çš„æœ€æ—©å¼€å§‹æ—¶é—´
+            const E l{ vl[j] - weight }; // æ´»åŠ¨ <vi,vj> çš„æœ€è¿Ÿå¼€å§‹æ—¶é—´
+            if (e == l) // å¦‚æœ`æœ€æ—©å¼€å§‹æ—¶é—´`ç­‰äº`æœ€è¿Ÿå¼€å§‹æ—¶é—´`
+                criticalPath.emplace_back(i, j); // é‚£ä¹ˆæ´»åŠ¨ <vi,vj> å°±æ˜¯å…³é”®æ´»åŠ¨
         }
     }
 #ifdef DEBUG
-    std::cout << "LOG <<< ÊÂ¼şµÄ×îÔç·¢ÉúÊ±¼ä£º\n";
+    std::cout << "LOG <<< äº‹ä»¶çš„æœ€æ—©å‘ç”Ÿæ—¶é—´ï¼š\n";
     for (size_t i = 0; i < size; ++i) {
         std::cout << "\tve[" << i << "] = " << ve[i] << ".\n";
     }
-    std::cout << "LOG <<< ÊÂ¼şµÄ×î³Ù·¢ÉúÊ±¼ä£º\n";
+    std::cout << "LOG <<< äº‹ä»¶çš„æœ€è¿Ÿå‘ç”Ÿæ—¶é—´ï¼š\n";
     for (size_t i = 0; i < size; ++i) {
         std::cout << "\tvl[" << i << "] = " << vl[i] << ".\n";
     }
@@ -78,7 +78,7 @@ void TestCriticalPath() {
     {
         auto [status, cp] { CriticalPath(graph) };
         if (status) {
-            std::cout << "LOG <<< ¹Ø¼üÂ·¾¶Îª£º\n";
+            std::cout << "LOG <<< å…³é”®è·¯å¾„ä¸ºï¼š\n";
             for (const auto& [v1, v2] : cp) {
                 std::cout << "\t{ " << v1 << " -> " << v2 << " }.\n";
             }

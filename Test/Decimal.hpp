@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <array>
 #include <vector> // std::vector
@@ -12,7 +12,7 @@
 #include <iostream>
 #include <type_traits>
 
-struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
+struct Decimal { // é«˜ç²¾åº¦åè¿›åˆ¶æ•°å­—ï¼ˆæ”¯æŒä»»æ„ç²¾åº¦çš„å°æ•°ï¼‰
     using sign_type = std::strong_ordering;
     using int_type = int;
     static_assert(std::is_signed_v<int_type>);
@@ -21,9 +21,9 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
     using iterator = typename data_type::iterator;
     using const_pair_type = std::pair<int_type, int_type>;
 
-    sign_type sign; // ·ûºÅÎ»
-    data_type integral_part; // ÕûÊı²¿·Ö
-    data_type fractional_part; // Ğ¡Êı²¿·Ö
+    sign_type sign; // ç¬¦å·ä½
+    data_type integral_part; // æ•´æ•°éƒ¨åˆ†
+    data_type fractional_part; // å°æ•°éƒ¨åˆ†
 
     Decimal() : sign{ sign_type::equal } {
     }
@@ -31,14 +31,14 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
     Decimal(const std::string& input) {
         auto begin{ input.cbegin() };
         auto end{ input.cend() };
-        if (begin == end) { // ¿Õ×Ö·û´®
+        if (begin == end) { // ç©ºå­—ç¬¦ä¸²
             throw std::invalid_argument{ "Invalid argument: empty string!" };
         }
-        for (; begin != end && *begin == ' '; ++begin); // Ìø¹ı¿Õ¸ñ
-        if (begin == end) { // ×Ö·û´®ÖĞÖ»ÓĞ¿Õ¸ñ
+        for (; begin != end && *begin == ' '; ++begin); // è·³è¿‡ç©ºæ ¼
+        if (begin == end) { // å­—ç¬¦ä¸²ä¸­åªæœ‰ç©ºæ ¼
             throw std::invalid_argument{ "Invalid argument: only spaces!" };
         }
-        switch (*begin) { // ÅĞ¶Ï·ûºÅÎ»
+        switch (*begin) { // åˆ¤æ–­ç¬¦å·ä½
         case '-':
             sign = sign_type::less;
             ++begin;
@@ -50,16 +50,16 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             sign = sign_type::greater;
             break;
         }
-        if (begin == end) { // ×Ö·û´®ÖĞÖ»ÓĞ·ûºÅ£¬Ã»ÓĞÊı×Ö
+        if (begin == end) { // å­—ç¬¦ä¸²ä¸­åªæœ‰ç¬¦å·ï¼Œæ²¡æœ‰æ•°å­—
             throw std::invalid_argument{ "Invalid argument: any sign should be followed by digits!" };
         }
-        for (; begin != end && *begin == '0'; ++begin); // Ìø¹ıÕûÊı²¿·ÖÍ·²¿µÄÁã
-        if (begin == end) { // ÊıÖµ²¿·ÖÈ«ÊÇÁã
+        for (; begin != end && *begin == '0'; ++begin); // è·³è¿‡æ•´æ•°éƒ¨åˆ†å¤´éƒ¨çš„é›¶
+        if (begin == end) { // æ•°å€¼éƒ¨åˆ†å…¨æ˜¯é›¶
             sign = sign_type::equal;
             return;
         }
-        for (; begin != end; ++begin) { // Öğ×Ö¸´ÖÆÕûÊı²¿·Ö
-            if (*begin == '.') { // Óöµ½Ğ¡Êıµã
+        for (; begin != end; ++begin) { // é€å­—å¤åˆ¶æ•´æ•°éƒ¨åˆ†
+            if (*begin == '.') { // é‡åˆ°å°æ•°ç‚¹
                 ++begin;
                 break;
             }
@@ -68,27 +68,27 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             }
             integral_part.push_back(*begin - '0');
         }
-        if (begin == end) { // Ã»ÓĞĞ¡Êı²¿·Ö
-            if (integral_part.empty()) { // ÕûÊı²¿·ÖÈ«ÊÇÁã
+        if (begin == end) { // æ²¡æœ‰å°æ•°éƒ¨åˆ†
+            if (integral_part.empty()) { // æ•´æ•°éƒ¨åˆ†å…¨æ˜¯é›¶
                 sign = sign_type::equal;
             }
             return;
         }
-        while (end != begin) { // Ìø¹ıĞ¡Êı²¿·ÖÎ²²¿µÄÁã
+        while (end != begin) { // è·³è¿‡å°æ•°éƒ¨åˆ†å°¾éƒ¨çš„é›¶
             --end;
-            if (*end == '0') { // ×îºóÒ»¸ö×Ö·ûÊÇÁã
+            if (*end == '0') { // æœ€åä¸€ä¸ªå­—ç¬¦æ˜¯é›¶
                 continue;
             }
-            ++end; // ×îºóÒ»¸ö×Ö·û²»ÊÇÁã
+            ++end; // æœ€åä¸€ä¸ªå­—ç¬¦ä¸æ˜¯é›¶
             break;
         }
-        if (begin == end && *begin == '0') { // Ğ¡Êı²¿·ÖÈ«ÊÇÁã
-            if (integral_part.empty()) { // ÕûÊı²¿·Ö¡¢Ğ¡Êı²¿·ÖÈ«ÊÇÁã
+        if (begin == end && *begin == '0') { // å°æ•°éƒ¨åˆ†å…¨æ˜¯é›¶
+            if (integral_part.empty()) { // æ•´æ•°éƒ¨åˆ†ã€å°æ•°éƒ¨åˆ†å…¨æ˜¯é›¶
                 sign = sign_type::equal;
             }
             return;
         }
-        for (; begin != end; ++begin) { // Öğ×Ö¸´ÖÆĞ¡Êı²¿·Ö
+        for (; begin != end; ++begin) { // é€å­—å¤åˆ¶å°æ•°éƒ¨åˆ†
             if (*begin < '0' || *begin > '9') {
                 throw std::invalid_argument{ "Invalid argument: any sign should be followed by digits!" };
             }
@@ -183,13 +183,13 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             size_t size_lhs_integral{ lhs.integral_part.size() };
             size_t size_rhs_integral{ rhs.integral_part.size() };
             sign_type cmp_result_integral{ size_lhs_integral <=> size_rhs_integral };
-            if (cmp_result_integral != 0) { // Á½ÕßÕûÊı²¿·Ö²»µÈ³¤
-                return cmp_result_integral; // ÕûÊı²¿·ÖÔ½³¤µÄ£¬¾ø¶ÔÖµÔ½´ó
+            if (cmp_result_integral != 0) { // ä¸¤è€…æ•´æ•°éƒ¨åˆ†ä¸ç­‰é•¿
+                return cmp_result_integral; // æ•´æ•°éƒ¨åˆ†è¶Šé•¿çš„ï¼Œç»å¯¹å€¼è¶Šå¤§
             }
             const_iterator begin_lhs_integral{ lhs.integral_part.cbegin() };
             const_iterator end_lhs_integral{ lhs.integral_part.cend() };
             const_iterator begin_rhs_integral{ rhs.integral_part.cbegin() };
-            while (begin_lhs_integral != end_lhs_integral) { // Á½ÕßÕûÊı²¿·ÖµÈ³¤£¬´Ó¸ßµ½µÍÖğÎ»±È½Ï
+            while (begin_lhs_integral != end_lhs_integral) { // ä¸¤è€…æ•´æ•°éƒ¨åˆ†ç­‰é•¿ï¼Œä»é«˜åˆ°ä½é€ä½æ¯”è¾ƒ
                 if (*begin_lhs_integral != *begin_rhs_integral) {
                     return *begin_lhs_integral <=> *begin_rhs_integral;
                 }
@@ -202,20 +202,20 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             const_iterator end_lhs_fractional{ lhs.fractional_part.cend() };
             const_iterator begin_rhs_fractional{ rhs.fractional_part.cbegin() };
             const_iterator end_rhs_fractional{ rhs.fractional_part.cend() };
-            while (begin_lhs_fractional != end_lhs_fractional && begin_rhs_fractional != end_rhs_fractional) { // ´Ó¸ßµ½µÍÖğÎ»±È½ÏÁ½ÕßµÄĞ¡Êı²¿·Ö
+            while (begin_lhs_fractional != end_lhs_fractional && begin_rhs_fractional != end_rhs_fractional) { // ä»é«˜åˆ°ä½é€ä½æ¯”è¾ƒä¸¤è€…çš„å°æ•°éƒ¨åˆ†
                 if (*begin_lhs_fractional != *begin_rhs_fractional) {
                     return *begin_lhs_fractional <=> *begin_rhs_fractional;
                 }
                 ++begin_lhs_fractional;
                 ++begin_rhs_fractional;
             }
-            if (begin_lhs_fractional == end_lhs_fractional && begin_rhs_fractional == end_rhs_fractional) { // Á½ÕßÍêÈ«Ò»ÖÂ
+            if (begin_lhs_fractional == end_lhs_fractional && begin_rhs_fractional == end_rhs_fractional) { // ä¸¤è€…å®Œå…¨ä¸€è‡´
                 return sign_type::equal;
             }
-            if (begin_lhs_fractional != end_lhs_fractional) { // Ç°ÕßĞ¡Êı²¿·Ö¸ü³¤£¬¹Ê¾ø¶ÔÖµ¸ü´ó
+            if (begin_lhs_fractional != end_lhs_fractional) { // å‰è€…å°æ•°éƒ¨åˆ†æ›´é•¿ï¼Œæ•…ç»å¯¹å€¼æ›´å¤§
                 return sign_type::greater;
             }
-            return sign_type::less; // ºóÕßĞ¡Êı²¿·Ö¸ü³¤£¬¾ø¶ÔÖµ¸ü´ó
+            return sign_type::less; // åè€…å°æ•°éƒ¨åˆ†æ›´é•¿ï¼Œç»å¯¹å€¼æ›´å¤§
         }
     }
 
@@ -224,47 +224,47 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             return 0 <=> rhs.sign;
         }
         return (lhs.sign == rhs.sign)
-            ? _compare_abs(lhs, rhs) // ·ûºÅÏàÍ¬£¬¸ù¾İ¾ø¶ÔÖµÅĞ¶Ï´óĞ¡
-            : lhs.sign; // ·ûºÅ²»ÏàÍ¬Ê±£¬Ö±½Ó¸ù¾İ·ûºÅÅĞ¶Ï´óĞ¡
+            ? _compare_abs(lhs, rhs) // ç¬¦å·ç›¸åŒï¼Œæ ¹æ®ç»å¯¹å€¼åˆ¤æ–­å¤§å°
+            : lhs.sign; // ç¬¦å·ä¸ç›¸åŒæ—¶ï¼Œç›´æ¥æ ¹æ®ç¬¦å·åˆ¤æ–­å¤§å°
     }
 
-    static Decimal& _add(Decimal& dest, const Decimal& lhs, const Decimal& rhs) { // Á½¸ö·ûºÅÏàÍ¬µÄÊı×ÖÏà¼Ó
+    static Decimal& _add(Decimal& dest, const Decimal& lhs, const Decimal& rhs) { // ä¸¤ä¸ªç¬¦å·ç›¸åŒçš„æ•°å­—ç›¸åŠ 
         assert(lhs.sign != 0);
         assert(lhs.fractional_part.size() > 0 || lhs.integral_part.size() > 0);
         assert(rhs.sign != 0);
         assert(rhs.fractional_part.size() > 0 || rhs.integral_part.size() > 0);
         int_type carry{ 0 };
-        { // Ê×ÏÈ¼ÆËãĞ¡Êı²¿·Ö
+        { // é¦–å…ˆè®¡ç®—å°æ•°éƒ¨åˆ†
             const data_type* data_lhs{ &lhs.fractional_part };
             const data_type* data_rhs{ &rhs.fractional_part };
             data_type& data_dest{ dest.fractional_part };
             size_t size_lhs{ data_lhs->size() };
             size_t size_rhs{ data_rhs->size() };
-            if (size_lhs < size_rhs) { // Ğ¡Êı²¿·ÖµÄÎ»Êı²»Ò»ÖÂ
-                std::swap(data_lhs, data_rhs); // ½»»»Ë³Ğò£¬Ê¹µÃ data_lhs µÄÎ»Êı²»Ğ¡ÓÚ data_rhs µÄÎ»Êı
+            if (size_lhs < size_rhs) { // å°æ•°éƒ¨åˆ†çš„ä½æ•°ä¸ä¸€è‡´
+                std::swap(data_lhs, data_rhs); // äº¤æ¢é¡ºåºï¼Œä½¿å¾— data_lhs çš„ä½æ•°ä¸å°äº data_rhs çš„ä½æ•°
                 std::swap(size_lhs, size_rhs);
             }
             const_iterator begin_lhs{ data_lhs->cbegin() };
             const_iterator end_lhs{ data_lhs->cend() };
-            if (size_lhs != size_rhs) { // Ğ¡Êı²¿·ÖµÄÎ»Êı²»Ò»ÖÂ
-                if (&data_dest != data_lhs) { // ±ÜÃâ×Ô¸³Öµ
+            if (size_lhs != size_rhs) { // å°æ•°éƒ¨åˆ†çš„ä½æ•°ä¸ä¸€è‡´
+                if (&data_dest != data_lhs) { // é¿å…è‡ªèµ‹å€¼
                     assert(&data_dest == data_rhs);
-                    std::advance(begin_lhs, size_rhs); // µ÷Õû begin_lhs µÄÎ»ÖÃ
-                    data_dest.insert(data_dest.cend(), begin_lhs, end_lhs); // ¸´ÖÆĞ¡Êı²¿·Ö
+                    std::advance(begin_lhs, size_rhs); // è°ƒæ•´ begin_lhs çš„ä½ç½®
+                    data_dest.insert(data_dest.cend(), begin_lhs, end_lhs); // å¤åˆ¶å°æ•°éƒ¨åˆ†
                     assert(data_dest.size() == size_lhs);
-                    end_lhs = begin_lhs; // µ÷Õû end_lhs µÄÎ»ÖÃ
-                    begin_lhs = data_lhs->cbegin(); // µ÷Õû begin_lhs µÄÎ»ÖÃ
+                    end_lhs = begin_lhs; // è°ƒæ•´ end_lhs çš„ä½ç½®
+                    begin_lhs = data_lhs->cbegin(); // è°ƒæ•´ begin_lhs çš„ä½ç½®
                 }
-                else { // Ö»ĞŞ¸Ä end_lhs µÄÎ»ÖÃ
-                    end_lhs = begin_lhs; // µ÷Õû end_lhs µÄÎ»ÖÃ
-                    std::advance(end_lhs, size_rhs); // ÕâÀï²»ÄÜ¸ÄÎª `std::advance(end_lhs, size_rhs - size_lhs);`
+                else { // åªä¿®æ”¹ end_lhs çš„ä½ç½®
+                    end_lhs = begin_lhs; // è°ƒæ•´ end_lhs çš„ä½ç½®
+                    std::advance(end_lhs, size_rhs); // è¿™é‡Œä¸èƒ½æ”¹ä¸º `std::advance(end_lhs, size_rhs - size_lhs);`
                 }
             }
             const_iterator end_rhs{ data_rhs->cbegin() };
             std::advance(end_rhs, size_rhs);
             iterator end_dest{ data_dest.begin() };
             std::advance(end_dest, size_rhs);
-            while (begin_lhs != end_lhs) { // ´¦ÀíµÈ³¤µÄ²¿·Ö
+            while (begin_lhs != end_lhs) { // å¤„ç†ç­‰é•¿çš„éƒ¨åˆ†
                 const int_type& num_lhs{ *--end_lhs };
                 const int_type& num_rhs{ *--end_rhs };
                 const int_type sum{ num_lhs + num_rhs + carry };
@@ -272,35 +272,35 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
                 *--end_dest = sum % 10;
             }
         }
-        { // È»ºó¼ÆËãÕûÊı²¿·Ö
+        { // ç„¶åè®¡ç®—æ•´æ•°éƒ¨åˆ†
             const data_type* data_lhs{ &lhs.integral_part };
             const data_type* data_rhs{ &rhs.integral_part };
             data_type& data_dest{ dest.integral_part };
             size_t size_lhs{ data_lhs->size() };
             size_t size_rhs{ data_rhs->size() };
-            if (size_lhs < size_rhs) { // ÕûÊı²¿·ÖµÄÎ»Êı²»Ò»ÖÂ
-                std::swap(data_lhs, data_rhs); // ½»»»Ë³Ğò£¬Ê¹µÃ data_lhs µÄÎ»Êı²»Ğ¡ÓÚ data_rhs µÄÎ»Êı
+            if (size_lhs < size_rhs) { // æ•´æ•°éƒ¨åˆ†çš„ä½æ•°ä¸ä¸€è‡´
+                std::swap(data_lhs, data_rhs); // äº¤æ¢é¡ºåºï¼Œä½¿å¾— data_lhs çš„ä½æ•°ä¸å°äº data_rhs çš„ä½æ•°
                 std::swap(size_lhs, size_rhs);
             }
             const_iterator begin_lhs{ data_lhs->cbegin() };
             const_iterator end_lhs{ data_lhs->cend() };
-            if (size_lhs != size_rhs) { // ÕûÊı²¿·ÖµÄÎ»Êı²»Ò»ÖÂ
-                if (&data_dest != data_lhs) { // ±ÜÃâ×Ô¸³Öµ
+            if (size_lhs != size_rhs) { // æ•´æ•°éƒ¨åˆ†çš„ä½æ•°ä¸ä¸€è‡´
+                if (&data_dest != data_lhs) { // é¿å…è‡ªèµ‹å€¼
                     assert(&data_dest == data_rhs);
                     end_lhs = begin_lhs;
-                    std::advance(end_lhs, size_lhs - size_rhs); // µ÷Õû begin_lhs µÄÎ»ÖÃ
-                    data_dest.insert(data_dest.cbegin(), begin_lhs, end_lhs); // ¸´ÖÆÕûÊı²¿·Ö
+                    std::advance(end_lhs, size_lhs - size_rhs); // è°ƒæ•´ begin_lhs çš„ä½ç½®
+                    data_dest.insert(data_dest.cbegin(), begin_lhs, end_lhs); // å¤åˆ¶æ•´æ•°éƒ¨åˆ†
                     assert(data_dest.size() == size_lhs);
-                    begin_lhs = end_lhs; // µ÷Õû begin_lhs µÄÎ»ÖÃ
-                    end_lhs = data_lhs->cend(); // µ÷Õû end_lhs µÄÎ»ÖÃ
+                    begin_lhs = end_lhs; // è°ƒæ•´ begin_lhs çš„ä½ç½®
+                    end_lhs = data_lhs->cend(); // è°ƒæ•´ end_lhs çš„ä½ç½®
                 }
-                else { // Ö»ĞŞ¸Ä begin_lhs µÄÎ»ÖÃ
+                else { // åªä¿®æ”¹ begin_lhs çš„ä½ç½®
                     std::advance(begin_lhs, size_lhs - size_rhs);
                 }
             }
             const_iterator end_rhs{ data_rhs->cend() };
             iterator end_dest{ data_dest.end() };
-            while (begin_lhs != end_lhs) { // ´¦ÀíµÈ³¤µÄ²¿·Ö
+            while (begin_lhs != end_lhs) { // å¤„ç†ç­‰é•¿çš„éƒ¨åˆ†
                 const int_type& num_lhs{ *--end_lhs };
                 const int_type& num_rhs{ *--end_rhs };
                 const int_type sum{ num_lhs + num_rhs + carry };
@@ -314,20 +314,20 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
         return dest;
     }
 
-    static Decimal& _sub(Decimal& dest, const Decimal& lhs, const Decimal& rhs) { // Á½¸ö·ûºÅÏàÍ¬µÄÊı×ÖÏà¼õ
+    static Decimal& _sub(Decimal& dest, const Decimal& lhs, const Decimal& rhs) { // ä¸¤ä¸ªç¬¦å·ç›¸åŒçš„æ•°å­—ç›¸å‡
         assert(lhs.sign != 0);
         assert(lhs.fractional_part.size() > 0 || lhs.integral_part.size() > 0);
         assert(rhs.sign != 0);
         assert(rhs.fractional_part.size() > 0 || rhs.integral_part.size() > 0);
         const sign_type cmp_result{ _compare_abs(lhs, rhs) };
-        if (cmp_result == 0) { // Á½Õß¾ø¶ÔÖµÏàÍ¬
-            dest._clear(); // ¾ø¶ÔÖµÏàÍ¬µÄÁ½¸öÊıÏà¼õµÃÁã
+        if (cmp_result == 0) { // ä¸¤è€…ç»å¯¹å€¼ç›¸åŒ
+            dest._clear(); // ç»å¯¹å€¼ç›¸åŒçš„ä¸¤ä¸ªæ•°ç›¸å‡å¾—é›¶
             return dest;
         }
         const Decimal* plhs{ &lhs };
         const Decimal* prhs{ &rhs };
-        if (cmp_result < 0) { // Ç°Õß¾ø¶ÔÖµ¸üĞ¡
-            std::swap(plhs, prhs); // ½»»»Ë³Ğò£¬±£Ö¤Ç°Õß¾ø¶ÔÖµ¸ü´ó
+        if (cmp_result < 0) { // å‰è€…ç»å¯¹å€¼æ›´å°
+            std::swap(plhs, prhs); // äº¤æ¢é¡ºåºï¼Œä¿è¯å‰è€…ç»å¯¹å€¼æ›´å¤§
             if (lhs.sign < 0) {
                 dest.sign = sign_type::greater;
             }
@@ -335,7 +335,7 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
                 dest.sign = sign_type::less;
             }
         }
-        else { // if (cmp_result > 0) // Ç°Õß¾ø¶ÔÖµ¸ü´ó
+        else { // if (cmp_result > 0) // å‰è€…ç»å¯¹å€¼æ›´å¤§
             if (lhs.sign < 0) {
                 dest.sign = sign_type::less;
             }
@@ -344,7 +344,7 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             }
         }
         int_type borrow{ 0 };
-        { // ÏÈ¼ÆËãĞ¡Êı²¿·Ö
+        { // å…ˆè®¡ç®—å°æ•°éƒ¨åˆ†
             const data_type& data_lhs{ plhs->fractional_part };
             const data_type& data_rhs{ prhs->fractional_part };
             const size_t size_lhs{ data_lhs.size() };
@@ -357,7 +357,7 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
             size_t size_diff{ size_max - size_min };
             const_iterator begin_lhs{ data_lhs.cend() };
             const_iterator begin_rhs{ data_rhs.cend() };
-            data_type data_dest(size_max, 0); // Ôİ´æ¼ÆËã½á¹û
+            data_type data_dest(size_max, 0); // æš‚å­˜è®¡ç®—ç»“æœ
             iterator begin_dest{ data_dest.end() };
             for (size_t i{ 0 }; i < size_max; ++i) {
                 int_type num_lhs;
@@ -398,15 +398,15 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
                 dest._shrink_fractional();
             }
         }
-        { // ÔÙ¼ÆËãÕûÊı²¿·Ö
+        { // å†è®¡ç®—æ•´æ•°éƒ¨åˆ†
             const data_type& data_lhs{ plhs->integral_part };
             const data_type& data_rhs{ prhs->integral_part };
             const size_t size_lhs{ data_lhs.size() };
             const size_t size_rhs{ data_rhs.size() };
-            assert(size_lhs >= size_rhs); // Ç°Õß¾ø¶ÔÖµ¸ü´ó£¬ÄÇÃ´Ç°ÕßÎ»Êı²»Ğ¡ÓÚºóÕß
+            assert(size_lhs >= size_rhs); // å‰è€…ç»å¯¹å€¼æ›´å¤§ï¼Œé‚£ä¹ˆå‰è€…ä½æ•°ä¸å°äºåè€…
             const_iterator begin_lhs{ data_lhs.cend() };
             const_iterator begin_rhs{ data_rhs.cend() };
-            data_type data_dest(size_lhs, 0); // Ôİ´æ¼ÆËã½á¹û
+            data_type data_dest(size_lhs, 0); // æš‚å­˜è®¡ç®—ç»“æœ
             iterator begin_dest{ data_dest.end() };
             for (size_t i{ 0 }; i < size_lhs; ++i) {
                 int_type num_lhs{ *(begin_lhs - 1 - i) };
@@ -427,7 +427,7 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
                 }
                 *(begin_dest - 1 - i) = result;
             }
-            //assert(borrow == 0); // ¾ø¶ÔÖµ´óµÄÊı¼õ¾ø¶ÔÖµĞ¡µÄÊı£¬¼ÆËãµ½×îºó£¬½èÎ»Ò»¶¨ÊÇÁã
+            //assert(borrow == 0); // ç»å¯¹å€¼å¤§çš„æ•°å‡ç»å¯¹å€¼å°çš„æ•°ï¼Œè®¡ç®—åˆ°æœ€åï¼Œå€Ÿä½ä¸€å®šæ˜¯é›¶
             dest.integral_part = data_dest;
             if (size_lhs != size_rhs) {
                 dest._shrink_integral();
@@ -437,19 +437,19 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
     }
 
     Decimal& operator+=(const Decimal& other) {
-        if (this->sign == sign_type::equal) { // µ±Ç°Êı×ÖÊÇÁã
+        if (this->sign == sign_type::equal) { // å½“å‰æ•°å­—æ˜¯é›¶
             return *this = other;
         }
-        if (other.sign == sign_type::equal) { // ÁíÒ»¸öÊı×ÖÊÇÁã
+        if (other.sign == sign_type::equal) { // å¦ä¸€ä¸ªæ•°å­—æ˜¯é›¶
             return *this;
         }
-        if (this->sign == other.sign) { // Á½¸öÊı×ÖµÄ·ûºÅÏàÍ¬
+        if (this->sign == other.sign) { // ä¸¤ä¸ªæ•°å­—çš„ç¬¦å·ç›¸åŒ
             return this->_add(*this, *this, other);
         }
-        if (this->sign > 0) { // µ±Ç°Êı×ÖÊÇÕıÊı
+        if (this->sign > 0) { // å½“å‰æ•°å­—æ˜¯æ­£æ•°
             return this->_sub(*this, *this, other);
         }
-        else { // µ±Ç°Êı×ÖÊÇ¸ºÊı
+        else { // å½“å‰æ•°å­—æ˜¯è´Ÿæ•°
             return this->_sub(*this, other, *this);
         }
     }
@@ -468,19 +468,19 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
     }
 
     Decimal& operator-=(const Decimal& other) {
-        if (this->sign == sign_type::equal) { // µ±Ç°Êı×ÖÊÇÁã
+        if (this->sign == sign_type::equal) { // å½“å‰æ•°å­—æ˜¯é›¶
             return *this = -other;
         }
-        if (other.sign == sign_type::equal) { // ÁíÒ»¸öÊı×ÖÊÇÁã
+        if (other.sign == sign_type::equal) { // å¦ä¸€ä¸ªæ•°å­—æ˜¯é›¶
             return *this;
         }
-        if (this->sign == other.sign) { // Á½¸öÊı×ÖµÄ·ûºÅÏàÍ¬
+        if (this->sign == other.sign) { // ä¸¤ä¸ªæ•°å­—çš„ç¬¦å·ç›¸åŒ
             return _sub(*this, *this, other);
         }
-        if (this->sign > 0) { // µ±Ç°Êı×ÖÊÇÕıÊı
+        if (this->sign > 0) { // å½“å‰æ•°å­—æ˜¯æ­£æ•°
             return _add(*this, *this, other);
         }
-        else { // µ±Ç°Êı×ÖÊÇ¸ºÊı
+        else { // å½“å‰æ•°å­—æ˜¯è´Ÿæ•°
             return _add(*this, other, *this);
         }
     }
@@ -581,7 +581,7 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
     }
 
     Decimal& operator*=(const Decimal& other) {
-        if (this->sign == sign_type::equal) { // µ±Ç°Êı×ÖÊÇÁã£¬»òÁíÒ»¸öÊı×ÖÊÇÁã
+        if (this->sign == sign_type::equal) { // å½“å‰æ•°å­—æ˜¯é›¶ï¼Œæˆ–å¦ä¸€ä¸ªæ•°å­—æ˜¯é›¶
             return *this;
         }
         if (other.sign == sign_type::equal) {
@@ -596,16 +596,16 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
     }
 
     static sign_type _compare_abs(const_iterator begin_lhs, const_iterator end_lhs,
-        const_iterator begin_rhs, const_iterator end_rhs) { // °ÑÁ½¸öÊı¶¼¿´³ÉÕûÊı
+        const_iterator begin_rhs, const_iterator end_rhs) { // æŠŠä¸¤ä¸ªæ•°éƒ½çœ‹æˆæ•´æ•°
         ptrdiff_t size_lhs{ end_lhs - begin_lhs };
         ptrdiff_t size_rhs{ end_rhs - begin_rhs };
         assert(size_lhs >= 0);
         assert(size_rhs >= 0);
         sign_type cmp_result_integral{ size_lhs <=> size_rhs };
-        if (cmp_result_integral != sign_type::equal) { // Á½ÕßÕûÊı²¿·Ö²»µÈ³¤
-            return cmp_result_integral; // ÕûÊı²¿·ÖÔ½³¤µÄ£¬¾ø¶ÔÖµÔ½´ó
+        if (cmp_result_integral != sign_type::equal) { // ä¸¤è€…æ•´æ•°éƒ¨åˆ†ä¸ç­‰é•¿
+            return cmp_result_integral; // æ•´æ•°éƒ¨åˆ†è¶Šé•¿çš„ï¼Œç»å¯¹å€¼è¶Šå¤§
         }
-        while (begin_lhs != end_lhs) { // Á½ÕßÕûÊı²¿·ÖµÈ³¤£¬´Ó¸ßµ½µÍÖğÎ»±È½Ï
+        while (begin_lhs != end_lhs) { // ä¸¤è€…æ•´æ•°éƒ¨åˆ†ç­‰é•¿ï¼Œä»é«˜åˆ°ä½é€ä½æ¯”è¾ƒ
             if (*begin_lhs != *begin_rhs) {
                 return *begin_lhs <=> *begin_rhs;
             }
@@ -664,7 +664,7 @@ struct Decimal { // ¸ß¾«¶ÈÊ®½øÖÆÊı×Ö£¨Ö§³ÖÈÎÒâ¾«¶ÈµÄĞ¡Êı£©
                 ? (*begin_lhs)
                 : (*begin_lhs * 10 + *++begin_lhs)
             };
-            int_type quotient{ num_lhs / num_rhs }; // ÉÌ
+            int_type quotient{ num_lhs / num_rhs }; // å•†
             *begin_dest++ = quotient;
             if (begin_dest == data_buffer.end()) {
                 break;

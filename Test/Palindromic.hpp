@@ -1,5 +1,5 @@
-#pragma once
-// ÅĞ¶Ï¡¢Éú³É»ØÎÄÊı
+ï»¿#pragma once
+// åˆ¤æ–­ã€ç”Ÿæˆå›æ–‡æ•°
 
 #include <utility>
 
@@ -13,10 +13,10 @@ int reverse(int x) {
 }
 
 std::pair<size_t, int> MakePalindromic(int x) {
-    // ½«ÊäÈëµÄ x ÓëËüµÄ·´×ªÖµ reverse(x) ½øĞĞ±È½Ï
-    int rx{ reverse(x) };  // ½øĞĞµÚÒ»´Î·´×ª
-    size_t step{ 0 };  // Í³¼Æ²Ù×÷´ÎÊı
-    while (x != rx) {  // Èç¹û x ²»ÊÇ»ØÎÄÊı
+    // å°†è¾“å…¥çš„ x ä¸å®ƒçš„åè½¬å€¼ reverse(x) è¿›è¡Œæ¯”è¾ƒ
+    int rx{ reverse(x) };  // è¿›è¡Œç¬¬ä¸€æ¬¡åè½¬
+    size_t step{ 0 };  // ç»Ÿè®¡æ“ä½œæ¬¡æ•°
+    while (x != rx) {  // å¦‚æœ x ä¸æ˜¯å›æ–‡æ•°
         x += rx;
         rx = reverse(x);
         ++step;

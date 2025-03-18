@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 #include "Graph.hpp"
@@ -6,20 +6,20 @@
 
 template <Graph G>
 struct MinimalSpanningTree_Prim {
-    // Ê±¼ä¸´ÔÓ¶È£ºO(n^2)
-    // Ê±¼ä¸´ÔÓ¶ÈÖ»Óë¶¥µãÊı n ÓĞ¹Ø£¬ÊÊºÏÓÚ±ßÊı½Ï¶à¡¢¶¥µãÊı½ÏÉÙµÄÍ¼
+    // æ—¶é—´å¤æ‚åº¦ï¼šO(n^2)
+    // æ—¶é—´å¤æ‚åº¦åªä¸é¡¶ç‚¹æ•° n æœ‰å…³ï¼Œé€‚åˆäºè¾¹æ•°è¾ƒå¤šã€é¡¶ç‚¹æ•°è¾ƒå°‘çš„å›¾
 
     using ArcType = typename G::ArcType;
     using ArcTuple = std::tuple<size_t, size_t, ArcType>;
 private:
     struct Cost {
-        size_t adjvex; // ¿çÔ½ U ºÍ V-U Á½¸ö¼¯ºÏµÄ×îĞ¡±ß£¬ÔÚ U ÖĞ¶ÔÓ¦µÄ¶¥µãµÄĞòºÅ
-        ArcType lowcost; // ×îĞ¡±ßÉÏµÄÈ¨Öµ£¨Èç¹û¶¥µãÒÑÔÚ¼¯ºÏ U ÖĞ£¬µÈÓÚ 0£»·ñÔò´óÓÚ 0£©
+        size_t adjvex; // è·¨è¶Š U å’Œ V-U ä¸¤ä¸ªé›†åˆçš„æœ€å°è¾¹ï¼Œåœ¨ U ä¸­å¯¹åº”çš„é¡¶ç‚¹çš„åºå·
+        ArcType lowcost; // æœ€å°è¾¹ä¸Šçš„æƒå€¼ï¼ˆå¦‚æœé¡¶ç‚¹å·²åœ¨é›†åˆ U ä¸­ï¼Œç­‰äº 0ï¼›å¦åˆ™å¤§äº 0ï¼‰
     };
 
-    std::vector<Cost> edges; // ¼ÇÂ¼´Ó U µ½ V-U ¾ßÓĞ×îĞ¡È¨ÖµµÄ±ß
-    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ÓÃÄ³¸öÊı×ÖÀ´±íÊ¾Á½¸ö¶¥µãÖ®¼äµÄ±ßÈ¨ÊÇÎŞÇî´ó£¬±íÊ¾Á½¸ö¶¥µãÖ®¼äÃ»ÓĞ±ß
-    std::vector<ArcTuple> mst; // ×îĞ¡Éú³ÉÊ÷
+    std::vector<Cost> edges; // è®°å½•ä» U åˆ° V-U å…·æœ‰æœ€å°æƒå€¼çš„è¾¹
+    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ç”¨æŸä¸ªæ•°å­—æ¥è¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹æƒæ˜¯æ— ç©·å¤§ï¼Œè¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´æ²¡æœ‰è¾¹
+    std::vector<ArcTuple> mst; // æœ€å°ç”Ÿæˆæ ‘
 
     size_t minCost() const {
         ArcType min_cost{ arcInfinity };
@@ -35,57 +35,57 @@ private:
     }
 
 public:
-    MinimalSpanningTree_Prim(G& graph /* ÁÚ½Ó¾ØÕó±íÊ¾ */, const size_t v0 /* ³õÊ¼¶¥µãĞòºÅ */) {
-        // ´Ó¶¥µã `v0` ³ö·¢£¬¹¹ÔìÎŞÏòÍø `graph` µÄ×îĞ¡Éú³ÉÊ÷ `T`
-        const size_t size{ graph.Size() }; // Í¼ÖĞ¶¥µã¸öÊı
-        mst.reserve(size); // ³õÊ¼»¯¿ÕÊ÷£¨Êä³ö½á¹û£©
-        edges.resize(size); // ³õÊ¼»¯£¨¸¨ÖúÊı¾İ½á¹¹£©
-        // ³õÊ¼»¯ `edges`
+    MinimalSpanningTree_Prim(G& graph /* é‚»æ¥çŸ©é˜µè¡¨ç¤º */, const size_t v0 /* åˆå§‹é¡¶ç‚¹åºå· */) {
+        // ä»é¡¶ç‚¹ `v0` å‡ºå‘ï¼Œæ„é€ æ— å‘ç½‘ `graph` çš„æœ€å°ç”Ÿæˆæ ‘ `T`
+        const size_t size{ graph.Size() }; // å›¾ä¸­é¡¶ç‚¹ä¸ªæ•°
+        mst.reserve(size); // åˆå§‹åŒ–ç©ºæ ‘ï¼ˆè¾“å‡ºç»“æœï¼‰
+        edges.resize(size); // åˆå§‹åŒ–ï¼ˆè¾…åŠ©æ•°æ®ç»“æ„ï¼‰
+        // åˆå§‹åŒ– `edges`
         {
-            const auto& row{ graph.arcs[v0] }; // ±ß±íµÄµÚ `v0` ĞĞ£¬¼´µÚ `v0` ¸ö¶¥µãÓëÆäÓà¸÷¸ö¶¥µãÖ®¼äµÄ±ß
+            const auto& row{ graph.arcs[v0] }; // è¾¹è¡¨çš„ç¬¬ `v0` è¡Œï¼Œå³ç¬¬ `v0` ä¸ªé¡¶ç‚¹ä¸å…¶ä½™å„ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹
             for (size_t j = 0; j < size; ++j) {
                 edges[j] = { v0, row[j] };
             }
-            edges[v0] = { v0, 0 }; // Ò»¿ªÊ¼ÓĞ $U = \{ v0 \}$
+            edges[v0] = { v0, 0 }; // ä¸€å¼€å§‹æœ‰ $U = \{ v0 \}$
         }
 
         for (size_t v = 0; v < size; ++v) {
-            if (v == v0) continue; // Ñ¡ÔñÆäÓà n-1 ¸ö¶¥µã£¬Éú³É n-1 Ìõ±ß£¨ÆäÖĞ n ÊÇ¶¥µã×ÜÊı£©
-            const size_t v1 = minCost(); // ´Ó¿çÔ½ $U$ ºÍ $V-U$ µÄ¸÷×é±ßÖĞ£¬ÕÒ³ö×îĞ¡±ß `edges[v1]`
+            if (v == v0) continue; // é€‰æ‹©å…¶ä½™ n-1 ä¸ªé¡¶ç‚¹ï¼Œç”Ÿæˆ n-1 æ¡è¾¹ï¼ˆå…¶ä¸­ n æ˜¯é¡¶ç‚¹æ€»æ•°ï¼‰
+            const size_t v1 = minCost(); // ä»è·¨è¶Š $U$ å’Œ $V-U$ çš„å„ç»„è¾¹ä¸­ï¼Œæ‰¾å‡ºæœ€å°è¾¹ `edges[v1]`
 #ifdef DEBUG
-            // ´òÓ¡ `edges`
-            std::cout << "LOG <<< µÚ [" << v << "] ÂÖ `edges`£º\n";
+            // æ‰“å° `edges`
+            std::cout << "LOG <<< ç¬¬ [" << v << "] è½® `edges`ï¼š\n";
             for (size_t j = 0; j < size; ++j) {
                 auto [adjvex, lowcost] = edges[j];
                 std::cout << "LOG <<< \t[" << j << "] = { adjvex: " << adjvex << ", lowcost: ";
-                if (lowcost == arcInfinity) std::cout << "¡Ş";
+                if (lowcost == arcInfinity) std::cout << "âˆ";
                 else                        std::cout << lowcost;
                 std::cout << " },\n";
             }
-            // ´òÓ¡¸Õ¸ÕÑ¡¶¨µÄ±ß
-            auto u0n{ graph.vertices[edges[v1].adjvex] }; // u0n ÊÇ×îĞ¡±ßµÄÊôÓÚ U µÄÄÇ¸ö¶¥µãµÄÃû³Æ
-            auto u1n{ graph.vertices[v1] }; // u1n ÊÇ×îĞ¡±ßµÄÊôÓÚ V-U µÄÄÇ¸ö¶¥µãµÄÃû³Æ
-            std::cout << "LOG <<< Ñ¡ÖĞµÄ×îĞ¡±ßÎª£º arc{ " << u0n << " -- " << u1n << " }£¬"
-                "±ßÈ¨Îª£º" << edges[v1].lowcost << ";\t<------------\n"; // ´òÓ¡
+            // æ‰“å°åˆšåˆšé€‰å®šçš„è¾¹
+            auto u0n{ graph.vertices[edges[v1].adjvex] }; // u0n æ˜¯æœ€å°è¾¹çš„å±äº U çš„é‚£ä¸ªé¡¶ç‚¹çš„åç§°
+            auto u1n{ graph.vertices[v1] }; // u1n æ˜¯æœ€å°è¾¹çš„å±äº V-U çš„é‚£ä¸ªé¡¶ç‚¹çš„åç§°
+            std::cout << "LOG <<< é€‰ä¸­çš„æœ€å°è¾¹ä¸ºï¼š arc{ " << u0n << " -- " << u1n << " }ï¼Œ"
+                "è¾¹æƒä¸ºï¼š" << edges[v1].lowcost << ";\t<------------\n"; // æ‰“å°
 #endif
-            mst.push_back({ edges[v1].adjvex, v1, edges[v1].lowcost }); // Ğ´Èë×îĞ¡Éú³ÉÊ÷
-            edges[v1] = { v1, 0 }; // µÚ v1 ¸ö¶¥µã²¢Èë U£¬¼´ $U := U \cup \{v1\}$
+            mst.push_back({ edges[v1].adjvex, v1, edges[v1].lowcost }); // å†™å…¥æœ€å°ç”Ÿæˆæ ‘
+            edges[v1] = { v1, 0 }; // ç¬¬ v1 ä¸ªé¡¶ç‚¹å¹¶å…¥ Uï¼Œå³ $U := U \cup \{v1\}$
 #ifdef DEBUG
-            std::cout << "LOG <<< ¸üĞÂÂ·¾¶³¤¶È£º\n";
+            std::cout << "LOG <<< æ›´æ–°è·¯å¾„é•¿åº¦ï¼š\n";
 #endif
             for (size_t j = 0; j < size; ++j) {
                 if (edges[j].lowcost == 0) {
 #ifdef DEBUG
-                    std::cout << "LOG <<< \tµÚ [" << j << "] ¸ö¶¥µãÒÑ²¢Èë U ²»¸üĞÂÂ·¾¶³¤¶È.\n";
+                    std::cout << "LOG <<< \tç¬¬ [" << j << "] ä¸ªé¡¶ç‚¹å·²å¹¶å…¥ U ä¸æ›´æ–°è·¯å¾„é•¿åº¦.\n";
 #endif
-                    continue; // ÒÑ¾­²¢Èë $U$ ÖĞµÄµã£¬²»¸üĞÂÂ·¾¶³¤¶È
+                    continue; // å·²ç»å¹¶å…¥ $U$ ä¸­çš„ç‚¹ï¼Œä¸æ›´æ–°è·¯å¾„é•¿åº¦
                 }
-                const ArcType w1{ graph.arcs[v1][j] }; // µÚ `v1` ¸ö¶¥µãÓëµÚ `j` ¸ö¶¥µãÖ®¼äµÄ±ßÈ¨
-                const ArcType w2{ edges[j].lowcost }; // µÚ `j` ¸ö¶¥µãÓëµÚ `edges[j].adjvex` ¸ö¶¥µãÖ®¼äµÄ±ßÈ¨
+                const ArcType w1{ graph.arcs[v1][j] }; // ç¬¬ `v1` ä¸ªé¡¶ç‚¹ä¸ç¬¬ `j` ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹æƒ
+                const ArcType w2{ edges[j].lowcost }; // ç¬¬ `j` ä¸ªé¡¶ç‚¹ä¸ç¬¬ `edges[j].adjvex` ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹æƒ
 #ifdef DEBUG
-                std::cout << "LOG <<< \tµÚ [" << j << "] ¸ö¶¥µã±¸Ñ¡Â·¾¶³¤¶ÈÎª { " << w1 << ", " << w2 << " }.\n";
+                std::cout << "LOG <<< \tç¬¬ [" << j << "] ä¸ªé¡¶ç‚¹å¤‡é€‰è·¯å¾„é•¿åº¦ä¸º { " << w1 << ", " << w2 << " }.\n";
 #endif
-                // ĞÂ¶¥µã²¢Èë U ºó£¬ÖØĞÂÑ¡Ôñ×îĞ¡±ß
+                // æ–°é¡¶ç‚¹å¹¶å…¥ U åï¼Œé‡æ–°é€‰æ‹©æœ€å°è¾¹
                 if (w1 < w2) edges[j] = { v1, w1 };
             }
         }
@@ -117,11 +117,11 @@ void Test() {
 
     int total_weight{ 0 };
     for (const auto& [v1, v2, w12] : mst.GetTree()) {
-        auto u1{ graph.vertices[v1] }; // u0n ÊÇ×îĞ¡±ßµÄÊôÓÚ U µÄÄÇ¸ö¶¥µãµÄÃû³Æ
-        auto u2{ graph.vertices[v2] }; // u1n ÊÇ×îĞ¡±ßµÄÊôÓÚ V-U µÄÄÇ¸ö¶¥µãµÄÃû³Æ
-        std::cout << "LOG <<< Ñ¡ÖĞµÄ×îĞ¡±ßÎª£º arc{ " << u1 << " -- " << u2 << " }£¬"
-            "±ßÈ¨Îª£º" << w12 << ";\t<------------\n"; // ´òÓ¡
+        auto u1{ graph.vertices[v1] }; // u0n æ˜¯æœ€å°è¾¹çš„å±äº U çš„é‚£ä¸ªé¡¶ç‚¹çš„åç§°
+        auto u2{ graph.vertices[v2] }; // u1n æ˜¯æœ€å°è¾¹çš„å±äº V-U çš„é‚£ä¸ªé¡¶ç‚¹çš„åç§°
+        std::cout << "LOG <<< é€‰ä¸­çš„æœ€å°è¾¹ä¸ºï¼š arc{ " << u1 << " -- " << u2 << " }ï¼Œ"
+            "è¾¹æƒä¸ºï¼š" << w12 << ";\t<------------\n"; // æ‰“å°
         total_weight += w12;
     }
-    std::cout << "LOG <<< ×Ü±ßÈ¨£º" << total_weight << ".\n";
+    std::cout << "LOG <<< æ€»è¾¹æƒï¼š" << total_weight << ".\n";
 }

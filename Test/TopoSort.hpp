@@ -1,5 +1,5 @@
-//==================================
-// ÍØÆËÅÅĞò
+ï»¿//==================================
+// æ‹“æ‰‘æ’åº
 
 #pragma once
 
@@ -9,30 +9,30 @@
 
 template <Number V, Number E>
 auto TopologicalSort(const AdjacencyListGraph<V, E>& graph) {
-    // ¶Ô²ÉÓÃÁÚ½Ó±í´æ´¢½á¹¹µÄÓĞÏòÍ¼½øĞĞÍØÆËÅÅĞò
-    const size_t size{ graph.Size() }; // Í¼ÖĞ¶¥µã¸öÊı
-    std::vector<size_t> topo(size, -1); // ´æ´¢Êä³ö½á¹û
-    std::vector<size_t> inDegree(size, 0); // ´æ´¢¸÷¶¥µãµÄÈë¶È
-    for (const auto& vnode : graph.vertices) { // ¼ÆËã¸÷¶¥µãµÄÈë¶È
+    // å¯¹é‡‡ç”¨é‚»æ¥è¡¨å­˜å‚¨ç»“æ„çš„æœ‰å‘å›¾è¿›è¡Œæ‹“æ‰‘æ’åº
+    const size_t size{ graph.Size() }; // å›¾ä¸­é¡¶ç‚¹ä¸ªæ•°
+    std::vector<size_t> topo(size, -1); // å­˜å‚¨è¾“å‡ºç»“æœ
+    std::vector<size_t> inDegree(size, 0); // å­˜å‚¨å„é¡¶ç‚¹çš„å…¥åº¦
+    for (const auto& vnode : graph.vertices) { // è®¡ç®—å„é¡¶ç‚¹çš„å…¥åº¦
         for (const auto& enode : vnode.arcs) {
             inDegree[enode.adjvex]++;
         }
     }
-    std::stack<size_t, std::list<size_t>> s; // Õ»
+    std::stack<size_t, std::list<size_t>> s; // æ ˆ
     for (size_t i = 0; i < size; ++i) {
         if (inDegree[i] == 0) {
-            s.push(i); // Èë¶ÈÎªÁãµÄ¶¥µãÈëÕ»
+            s.push(i); // å…¥åº¦ä¸ºé›¶çš„é¡¶ç‚¹å…¥æ ˆ
         }
     }
-    size_t m{ 0 }; // ¶ÔÊä³ö¶¥µã¼ÆÊı£¬³õÊ¼ÎªÁã
+    size_t m{ 0 }; // å¯¹è¾“å‡ºé¡¶ç‚¹è®¡æ•°ï¼Œåˆå§‹ä¸ºé›¶
     while (!s.empty()) {
-        size_t i{ s.top() }; s.pop(); // Õ»¶¥¶¥µã vi ³öÕ»
-        topo[m++] = i; // ½« vi ±£´æÔÚÍØÆËĞòÁĞÖĞ£¬¼ÆÊı¼ÓÒ»
+        size_t i{ s.top() }; s.pop(); // æ ˆé¡¶é¡¶ç‚¹ vi å‡ºæ ˆ
+        topo[m++] = i; // å°† vi ä¿å­˜åœ¨æ‹“æ‰‘åºåˆ—ä¸­ï¼Œè®¡æ•°åŠ ä¸€
         for (const auto& enode : graph.vertices[i].arcs) {
-            const size_t k{ enode.adjvex }; // vk ÊÇ vi µÄÁÚ½Óµã
-            --inDegree[k]; // vi µÄÃ¿¸öÁÚ½ÓµãµÄÈë¶È¼õÒ»
-            if (inDegree[k] == 0) {// Èô vk µÄÈë¶È¼õÎªÁã
-                s.push(k); // ÔòÈÃ vk ÈëÕ»
+            const size_t k{ enode.adjvex }; // vk æ˜¯ vi çš„é‚»æ¥ç‚¹
+            --inDegree[k]; // vi çš„æ¯ä¸ªé‚»æ¥ç‚¹çš„å…¥åº¦å‡ä¸€
+            if (inDegree[k] == 0) {// è‹¥ vk çš„å…¥åº¦å‡ä¸ºé›¶
+                s.push(k); // åˆ™è®© vk å…¥æ ˆ
             }
         }
     }
@@ -62,6 +62,6 @@ void TestTopoSort() {
 
     {
         auto [status, topo] { TopologicalSort(graph) };
-        std::cout << "LOG <<< ÊÇ·ñÓĞ»·£º" << std::boolalpha << !status << ".\n";
+        std::cout << "LOG <<< æ˜¯å¦æœ‰ç¯ï¼š" << std::boolalpha << !status << ".\n";
     }
 }

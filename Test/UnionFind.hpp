@@ -1,24 +1,24 @@
-// ²¢²é¼¯
+ï»¿// å¹¶æŸ¥é›†
 #pragma once
 
 #include <vector>
 #include <utility> // std::swap
 
 struct UnionFind {
-    // ²¢²é¼¯ÊÇÒ»ÖÖÊ÷
+    // å¹¶æŸ¥é›†æ˜¯ä¸€ç§æ ‘
     // @see: https://www.bilibili.com/video/BV1W34y1L734/
 
-    UnionFind(int count /* ²¢²é¼¯½áµã¸öÊı */)
+    UnionFind(int count /* å¹¶æŸ¥é›†ç»“ç‚¹ä¸ªæ•° */)
         : fa(count, -1), size(count, 1) {
-        // `fa` ³õÊ¼»¯£¬ÈÃÃ¿¸ö½áµãÖ¸ÏòËü×Ô¼º
+        // `fa` åˆå§‹åŒ–ï¼Œè®©æ¯ä¸ªç»“ç‚¹æŒ‡å‘å®ƒè‡ªå·±
         for (int i = 0; i < count; i++) {
             fa[i] = i;
         }
     }
 
     void Unite(int p, int q) {
-        // ºÏ²¢£ºÈÃÒ»¸ö¼¯ºÏµÄ¸ùÖ¸ÏòÁíÒ»¸ö¼¯ºÏµÄ¸ù
-        // Æô·¢Ê½ºÏ²¢/°´ÖÈºÏ²¢
+        // åˆå¹¶ï¼šè®©ä¸€ä¸ªé›†åˆçš„æ ¹æŒ‡å‘å¦ä¸€ä¸ªé›†åˆçš„æ ¹
+        // å¯å‘å¼åˆå¹¶/æŒ‰ç§©åˆå¹¶
         p = Find(p);
         q = Find(q);
         if (p == q) return;
@@ -28,8 +28,8 @@ struct UnionFind {
     }
 
     int Find(int p) {
-        // ²éÕÒ£ºÈ·¶¨Ä³¸öÔªËØËùÔÚµÄ¼¯ºÏ
-        // ´øÂ·¾¶Ñ¹ËõµÄ²éÕÒµÄµİ¹éÊµÏÖ
+        // æŸ¥æ‰¾ï¼šç¡®å®šæŸä¸ªå…ƒç´ æ‰€åœ¨çš„é›†åˆ
+        // å¸¦è·¯å¾„å‹ç¼©çš„æŸ¥æ‰¾çš„é€’å½’å®ç°
         if (fa[p] == p) return p;
         return fa[p] = Find(fa[p]);
     }
@@ -39,6 +39,6 @@ struct UnionFind {
     }
 
 private:
-    std::vector<int> fa; // ´æ·Å½áµã x µÄ¸¸½Úµã
-    std::vector<int> size; // ¼ÇÂ¼¸÷¸ö¼¯ºÏµÄ´óĞ¡
+    std::vector<int> fa; // å­˜æ”¾ç»“ç‚¹ x çš„çˆ¶èŠ‚ç‚¹
+    std::vector<int> size; // è®°å½•å„ä¸ªé›†åˆçš„å¤§å°
 };

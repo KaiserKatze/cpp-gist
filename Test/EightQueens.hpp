@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 // @see: https://www.bilibili.com/video/BV1ZK411K7A8/
 
@@ -32,24 +32,24 @@ struct EightQueens {
     }
 
     bool PutQueen(size_t x, size_t y) {
-        // ³¢ÊÔÔÚµÚ x ĞĞ¡¢µÚ y ÁĞ·ÅÈëÒ»¸ö»Êºó
+        // å°è¯•åœ¨ç¬¬ x è¡Œã€ç¬¬ y åˆ—æ”¾å…¥ä¸€ä¸ªçš‡å
         //std::cerr << "PutQueen(x=" << x << ", y=" << y << ").\n";
         if (!IsValid(x, y)) {
-            // ĞĞÊı¡¢ÁĞÊı·Ç·¨
+            // è¡Œæ•°ã€åˆ—æ•°éæ³•
             return false;
         }
         if (attack[x][y]) {
-            // Ö¸¶¨×ø±êÒÑ±»»Êºó¹¥»÷£¬²»¿É·ÅÈë
+            // æŒ‡å®šåæ ‡å·²è¢«çš‡åæ”»å‡»ï¼Œä¸å¯æ”¾å…¥
             return false;
         }
         for (size_t i = 0; i < N; i++) {
-            // ¹¥»÷µÚ x ĞĞ
+            // æ”»å‡»ç¬¬ x è¡Œ
             attack[x][i] = true;
-            // ¹¥»÷µÚ y ÁĞ
+            // æ”»å‡»ç¬¬ y åˆ—
             attack[i][y] = true;
         }
 
-        // ¹¥»÷¶Ô½ÇÏß¡¢·´¶Ô½ÇÏß
+        // æ”»å‡»å¯¹è§’çº¿ã€åå¯¹è§’çº¿
         for (int dx : {1, -1}) {
             for (int dy : {1, -1}) {
                 size_t x1{ x + dx };
@@ -74,7 +74,7 @@ struct EightQueens {
             }
         }
 
-        // ÔÚµÚ x ĞĞ¡¢µÚ y ÁĞ·ÅÈë»Êºó
+        // åœ¨ç¬¬ x è¡Œã€ç¬¬ y åˆ—æ”¾å…¥çš‡å
         pieces[x][y] = 'Q';
         return true;
     }
@@ -108,12 +108,12 @@ static auto SolveEightQueensProblem() {
     while (!problem.empty()) {
         P p = problem.front();
         problem.pop();
-        if (p.row == N) { // ÕÒµ½Ò»¸ö½â
+        if (p.row == N) { // æ‰¾åˆ°ä¸€ä¸ªè§£
             solutionSpace.push_back(p);
-            continue; // ¼ÌĞøÕÒÏÂÒ»¸ö½â
+            continue; // ç»§ç»­æ‰¾ä¸‹ä¸€ä¸ªè§£
         }
         for (size_t j = 0; j < N; j++) {
-            P q = p; // ±¸·İ
+            P q = p; // å¤‡ä»½
             if (q.PutQueen(q.row, j)) {
                 ++q.row;
                 problem.push(q);

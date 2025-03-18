@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef GRAPH_H
 #define GRAPH_H
 
@@ -16,7 +16,7 @@
 #include <stack>
 
 struct AbstractGraph {
-    virtual size_t Size() const = 0; // ·µ»ØÍ¼ÖĞ¶¥µã¸öÊı
+    virtual size_t Size() const = 0; // è¿”å›å›¾ä¸­é¡¶ç‚¹ä¸ªæ•°
 };
 
 template <class G>
@@ -32,22 +32,22 @@ struct BaseGraph : AbstractGraph {
 };
 
 template <Number V, Number E, E Infinity = std::numeric_limits<E>::max()>
-struct AdjacencyMatrixGraph : BaseGraph<V, E> { // ÓÃÁÚ½Ó¾ØÕó±íÊ¾µÄÍ¼
-    std::vector<V> vertices; // ¶¥µã±í
-    Matrix<E> arcs; // ±ß±í
-    size_t nArcs; // ±ßÊı
-    const bool directed; // ÊÇ·ñÓĞÏòÍ¼
+struct AdjacencyMatrixGraph : BaseGraph<V, E> { // ç”¨é‚»æ¥çŸ©é˜µè¡¨ç¤ºçš„å›¾
+    std::vector<V> vertices; // é¡¶ç‚¹è¡¨
+    Matrix<E> arcs; // è¾¹è¡¨
+    size_t nArcs; // è¾¹æ•°
+    const bool directed; // æ˜¯å¦æœ‰å‘å›¾
 
-    AdjacencyMatrixGraph(size_t nVertices /* ¶¥µã¸öÊı */, bool directed /* ÊÇ·ñÓĞÏòÍ¼ */)
+    AdjacencyMatrixGraph(size_t nVertices /* é¡¶ç‚¹ä¸ªæ•° */, bool directed /* æ˜¯å¦æœ‰å‘å›¾ */)
         : vertices(nVertices), arcs(nVertices, nVertices, Infinity), nArcs{ 0 }, directed{ directed } {
     }
     V& operator[](size_t index) {
         return vertices[index];
     }
-    size_t Size() const { // ¶¥µãÊı
+    size_t Size() const { // é¡¶ç‚¹æ•°
         return vertices.size();
     }
-    void Connect(size_t v1, size_t v2, E arcWeight) { // ¹¹ÔìĞÂµÄ±ß£¨»¡£©
+    void Connect(size_t v1, size_t v2, E arcWeight) { // æ„é€ æ–°çš„è¾¹ï¼ˆå¼§ï¼‰
         ++nArcs;
         arcs[v1][v2] = arcWeight;
         if (directed) return;
@@ -60,44 +60,44 @@ struct AdjacencyMatrixGraph : BaseGraph<V, E> { // ÓÃÁÚ½Ó¾ØÕó±íÊ¾µÄÍ¼
     }
 };
 /*
- * ÁÚ½Ó¾ØÕó±íÊ¾·¨µÄÓÅµã£º
- * - ±ãÓÚÅĞ¶ÏÁ½¸ö¶¥µãÖ®¼äÓĞÃ»ÓĞ±ß
- * - ±ãÓÚ¼ÆËã¸÷¸ö¶¥µãµÄ¶È£¨Ò»ĞĞÔªËØÖ®ºÍ¾ÍÊÇ¶ÔÓ¦¶¥µãµÄ³ö¶È£¬Ò»ÁĞÔªËØÖ®ºÍ¾ÍÊÇ¶ÔÓ¦¶¥µãµÄÈë¶È£©
- * ÁÚ½Ó¾ØÕó±íÊ¾·¨µÄÈ±µã£º
- * - ²»±ãÓÚÔö¼ÓºÍÉ¾³ı¶¥µã
- * - ²»±ãÓÚÍ³¼Æ±ßµÄÊıÄ¿£¨Ê±¼ä¸´ÔÓ¶ÈÎª $O(n^2)$£©
- * - ¿Õ¼ä¸´ÔÓ¶È¸ß£¨ÌØ±ğÊÇ¶ÔÏ¡ÊèÍ¼¶øÑÔ£©
+ * é‚»æ¥çŸ©é˜µè¡¨ç¤ºæ³•çš„ä¼˜ç‚¹ï¼š
+ * - ä¾¿äºåˆ¤æ–­ä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´æœ‰æ²¡æœ‰è¾¹
+ * - ä¾¿äºè®¡ç®—å„ä¸ªé¡¶ç‚¹çš„åº¦ï¼ˆä¸€è¡Œå…ƒç´ ä¹‹å’Œå°±æ˜¯å¯¹åº”é¡¶ç‚¹çš„å‡ºåº¦ï¼Œä¸€åˆ—å…ƒç´ ä¹‹å’Œå°±æ˜¯å¯¹åº”é¡¶ç‚¹çš„å…¥åº¦ï¼‰
+ * é‚»æ¥çŸ©é˜µè¡¨ç¤ºæ³•çš„ç¼ºç‚¹ï¼š
+ * - ä¸ä¾¿äºå¢åŠ å’Œåˆ é™¤é¡¶ç‚¹
+ * - ä¸ä¾¿äºç»Ÿè®¡è¾¹çš„æ•°ç›®ï¼ˆæ—¶é—´å¤æ‚åº¦ä¸º $O(n^2)$ï¼‰
+ * - ç©ºé—´å¤æ‚åº¦é«˜ï¼ˆç‰¹åˆ«æ˜¯å¯¹ç¨€ç–å›¾è€Œè¨€ï¼‰
  */
 
 template <Number V, Number E>
-struct AdjacencyListGraph : BaseGraph<V, E> { // ÓÃÁÚ½Ó±í±íÊ¾µÄÍ¼
-    // ÎªÃ¿¸ö¶¥µã½¨Á¢Ò»¸öµ¥Á´±í£¬Óë¸Ã¶¥µãÁÚ½ÓµÄ¶¥µã¶¼·ÅÔÚÕâ¸öÁ´±íÖĞ
-    // Á´±íµÄÍ·½áµãÖĞ´æ·ÅÓĞ¹Ø¶¥µãµÄĞÅÏ¢
-    // °ÑÕâĞ©Í·½áµãÁíĞĞ´®³ÉÒ»¸öÁ´±í£¨³ÆÎª±íÍ·½áµã±í£©
-    struct ENode { // ±ß½áµã
-        size_t adjvex; // ÁÚ½ÓµãÓò£¨Óë¶¥µãÁÚ½ÓµÄµãÔÚÍ¼ÖĞµÄÎ»ÖÃ£©
-        E info; // Êı¾İÓò£¨´æ´¢ºÍ±ßÏà¹ØµÄĞÅÏ¢£¬ÈçÈ¨ÖµµÈ£©
+struct AdjacencyListGraph : BaseGraph<V, E> { // ç”¨é‚»æ¥è¡¨è¡¨ç¤ºçš„å›¾
+    // ä¸ºæ¯ä¸ªé¡¶ç‚¹å»ºç«‹ä¸€ä¸ªå•é“¾è¡¨ï¼Œä¸è¯¥é¡¶ç‚¹é‚»æ¥çš„é¡¶ç‚¹éƒ½æ”¾åœ¨è¿™ä¸ªé“¾è¡¨ä¸­
+    // é“¾è¡¨çš„å¤´ç»“ç‚¹ä¸­å­˜æ”¾æœ‰å…³é¡¶ç‚¹çš„ä¿¡æ¯
+    // æŠŠè¿™äº›å¤´ç»“ç‚¹å¦è¡Œä¸²æˆä¸€ä¸ªé“¾è¡¨ï¼ˆç§°ä¸ºè¡¨å¤´ç»“ç‚¹è¡¨ï¼‰
+    struct ENode { // è¾¹ç»“ç‚¹
+        size_t adjvex; // é‚»æ¥ç‚¹åŸŸï¼ˆä¸é¡¶ç‚¹é‚»æ¥çš„ç‚¹åœ¨å›¾ä¸­çš„ä½ç½®ï¼‰
+        E info; // æ•°æ®åŸŸï¼ˆå­˜å‚¨å’Œè¾¹ç›¸å…³çš„ä¿¡æ¯ï¼Œå¦‚æƒå€¼ç­‰ï¼‰
 
         ENode() : adjvex{}, info{} {}
         ENode(size_t adjvex, E info) : adjvex{ adjvex }, info{ info } {}
     };
-    struct VNode { // ¶¥µã½áµã
-        V data; // Êı¾İÓò£¨´æ´¢¶¥µãµÄÃû³Æ»òÆäËûÓĞ¹ØĞÅÏ¢£©
-        std::forward_list<ENode> arcs; // Á´Óò£¨Óë¸Ã¶¥µã¹ØÁªµÄËùÓĞ±ß£©
+    struct VNode { // é¡¶ç‚¹ç»“ç‚¹
+        V data; // æ•°æ®åŸŸï¼ˆå­˜å‚¨é¡¶ç‚¹çš„åç§°æˆ–å…¶ä»–æœ‰å…³ä¿¡æ¯ï¼‰
+        std::forward_list<ENode> arcs; // é“¾åŸŸï¼ˆä¸è¯¥é¡¶ç‚¹å…³è”çš„æ‰€æœ‰è¾¹ï¼‰
 
         VNode() : data{} {}
     };
-    std::vector<VNode> vertices; // ¶¥µãË³Ğò±í
-    size_t nArcs; // ±ßÊı
-    const bool directed; // ÊÇ·ñÓĞÏòÍ¼
+    std::vector<VNode> vertices; // é¡¶ç‚¹é¡ºåºè¡¨
+    size_t nArcs; // è¾¹æ•°
+    const bool directed; // æ˜¯å¦æœ‰å‘å›¾
 
-    AdjacencyListGraph(size_t nVertices /* ¶¥µã¸öÊı */, bool directed /* ÊÇ·ñÓĞÏòÍ¼ */)
+    AdjacencyListGraph(size_t nVertices /* é¡¶ç‚¹ä¸ªæ•° */, bool directed /* æ˜¯å¦æœ‰å‘å›¾ */)
         : vertices(nVertices), nArcs{ 0 }, directed{ directed } {
     }
     V& operator[](size_t index) {
         return vertices[index].data;
     }
-    size_t Size() const { // ¶¥µãÊı
+    size_t Size() const { // é¡¶ç‚¹æ•°
         return vertices.size();
     }
 private:
@@ -107,7 +107,7 @@ private:
         enodes1.push_front({ v2, arcWeight });
     }
 public:
-    void Connect(size_t v1, size_t v2, E arcWeight) { // ¹¹ÔìĞÂµÄ±ß£¨»¡£©
+    void Connect(size_t v1, size_t v2, E arcWeight) { // æ„é€ æ–°çš„è¾¹ï¼ˆå¼§ï¼‰
         ++nArcs;
         _connect0(v1, v2, arcWeight);
         if (directed) return;
@@ -120,32 +120,32 @@ public:
     }
 };
 /*
- * ÁÚ½Ó±í±íÊ¾·¨µÄÓÅµã£º
- * - ÊÊºÏÓÃÀ´±íÊ¾Ï¡ÊèÍ¼
- * - ±ãÓÚÔö¼ÓºÍÉ¾³ı¶¥µã
- * - ±ãÓÚÍ³¼Æ±ßµÄÊıÄ¿£¨Ê±¼ä¸´ÔÓ¶ÈÎª $O(n+e)$£©
- * - ¿Õ¼äĞ§ÂÊ¸ß£¨¿Õ¼ä¸´ÔÓ¶ÈÎª $O(n+e)$£©
- * ÁÚ½Ó±í±íÊ¾·¨µÄÈ±µã£º
- * - ²»±ãÓÚÅĞ¶Ï¶¥µãÖ®¼äÓĞÃ»ÓĞ±ß£¨×î»µÇé¿öÏÂÊ±¼ä¸´ÔÓ¶ÈÎª $O(n)$£©
- * - ÁÚ½Ó±í±íÊ¾·¨²»±ãÓÚ¼ÆËãÓĞÏòÍ¼ÖĞ¸÷¸ö¶¥µãµÄÈë¶È£¬ÄæÁÚ½Ó±í±íÊ¾·¨²»±ãÓÚ¼ÆËãÓĞÏòÍ¼ÖĞ¸÷¸ö¶¥µãµÄ³ö¶È
+ * é‚»æ¥è¡¨è¡¨ç¤ºæ³•çš„ä¼˜ç‚¹ï¼š
+ * - é€‚åˆç”¨æ¥è¡¨ç¤ºç¨€ç–å›¾
+ * - ä¾¿äºå¢åŠ å’Œåˆ é™¤é¡¶ç‚¹
+ * - ä¾¿äºç»Ÿè®¡è¾¹çš„æ•°ç›®ï¼ˆæ—¶é—´å¤æ‚åº¦ä¸º $O(n+e)$ï¼‰
+ * - ç©ºé—´æ•ˆç‡é«˜ï¼ˆç©ºé—´å¤æ‚åº¦ä¸º $O(n+e)$ï¼‰
+ * é‚»æ¥è¡¨è¡¨ç¤ºæ³•çš„ç¼ºç‚¹ï¼š
+ * - ä¸ä¾¿äºåˆ¤æ–­é¡¶ç‚¹ä¹‹é—´æœ‰æ²¡æœ‰è¾¹ï¼ˆæœ€åæƒ…å†µä¸‹æ—¶é—´å¤æ‚åº¦ä¸º $O(n)$ï¼‰
+ * - é‚»æ¥è¡¨è¡¨ç¤ºæ³•ä¸ä¾¿äºè®¡ç®—æœ‰å‘å›¾ä¸­å„ä¸ªé¡¶ç‚¹çš„å…¥åº¦ï¼Œé€†é‚»æ¥è¡¨è¡¨ç¤ºæ³•ä¸ä¾¿äºè®¡ç®—æœ‰å‘å›¾ä¸­å„ä¸ªé¡¶ç‚¹çš„å‡ºåº¦
  */
 
 template <Number V, Number E>
-struct OrthogonalListGraph : BaseGraph<V, E> { // ÓÃÊ®×ÖÁ´±í±íÊ¾µÄÍ¼
-    struct ArcBox { // »¡½áµã
-        int tailvex; // Î²Óò£¨»¡Î²ÔÚÍ¼ÖĞµÄÎ»ÖÃ£©
-        int headvex; // Í·Óò£¨»¡Í·ÔÚÍ¼ÖĞµÄÎ»ÖÃ£©
-        ArcBox* hlink; // Á´Óò£¨Ö¸Ïò»¡Í·ÏàÍ¬µÄÏÂÒ»Ìõ»¡£©
-        ArcBox* tlink; // Á´Óò£¨Ö¸Ïò»¡Î²ÏàÍ¬µÄÏÂÒ»Ìõ»¡£©
-        E info; // »¡µÄÏà¹ØĞÅÏ¢
+struct OrthogonalListGraph : BaseGraph<V, E> { // ç”¨åå­—é“¾è¡¨è¡¨ç¤ºçš„å›¾
+    struct ArcBox { // å¼§ç»“ç‚¹
+        int tailvex; // å°¾åŸŸï¼ˆå¼§å°¾åœ¨å›¾ä¸­çš„ä½ç½®ï¼‰
+        int headvex; // å¤´åŸŸï¼ˆå¼§å¤´åœ¨å›¾ä¸­çš„ä½ç½®ï¼‰
+        ArcBox* hlink; // é“¾åŸŸï¼ˆæŒ‡å‘å¼§å¤´ç›¸åŒçš„ä¸‹ä¸€æ¡å¼§ï¼‰
+        ArcBox* tlink; // é“¾åŸŸï¼ˆæŒ‡å‘å¼§å°¾ç›¸åŒçš„ä¸‹ä¸€æ¡å¼§ï¼‰
+        E info; // å¼§çš„ç›¸å…³ä¿¡æ¯
     };
-    struct VertexNode { // ¶¥µã½áµã
-        V data; // Êı¾İÓò
-        ArcBox* firstin; // Á´Óò£¨Ö¸ÏòÒÔ¸Ã¶¥µãÎª»¡Í·µÄµÚÒ»¸ö»¡½áµã£©
-        ArcBox* firstout; // Á´Óò£¨Ö¸ÏòÒÔ¸Ã¶¥µãÎª»¡Î²µÄµÚÒ»¸ö»¡½áµã£©
+    struct VertexNode { // é¡¶ç‚¹ç»“ç‚¹
+        V data; // æ•°æ®åŸŸ
+        ArcBox* firstin; // é“¾åŸŸï¼ˆæŒ‡å‘ä»¥è¯¥é¡¶ç‚¹ä¸ºå¼§å¤´çš„ç¬¬ä¸€ä¸ªå¼§ç»“ç‚¹ï¼‰
+        ArcBox* firstout; // é“¾åŸŸï¼ˆæŒ‡å‘ä»¥è¯¥é¡¶ç‚¹ä¸ºå¼§å°¾çš„ç¬¬ä¸€ä¸ªå¼§ç»“ç‚¹ï¼‰
     };
-    std::vector<VertexNode> vertices; // ±íÍ·ÏòÁ¿
-    int nArcs; // ±ßÊı
+    std::vector<VertexNode> vertices; // è¡¨å¤´å‘é‡
+    int nArcs; // è¾¹æ•°
 
     V& operator[](int index) {
         if (0 <= index && index < vertices.Size())
@@ -154,27 +154,27 @@ struct OrthogonalListGraph : BaseGraph<V, E> { // ÓÃÊ®×ÖÁ´±í±íÊ¾µÄÍ¼
     }
 };
 /*
- * Ê®×ÖÁ´±í±íÊ¾·¨¿ÉÒÔ¿´³ÉÊÇ½«ÓĞÏòÍ¼µÄÁÚ½Ó±íºÍÄæÁÚ½Ó±í½áºÏÆğÀ´µÃµ½µÄÒ»ÖÖÁ´±í
+ * åå­—é“¾è¡¨è¡¨ç¤ºæ³•å¯ä»¥çœ‹æˆæ˜¯å°†æœ‰å‘å›¾çš„é‚»æ¥è¡¨å’Œé€†é‚»æ¥è¡¨ç»“åˆèµ·æ¥å¾—åˆ°çš„ä¸€ç§é“¾è¡¨
  */
 
 template <Number V, Number E>
-struct AdjacencyMultilistGraph : BaseGraph<V, E> { // ÓÃÁÚ½Ó¶àÖØ±í±íÊ¾µÄÍ¼
+struct AdjacencyMultilistGraph : BaseGraph<V, E> { // ç”¨é‚»æ¥å¤šé‡è¡¨è¡¨ç¤ºçš„å›¾
     // TODO
     struct EBox {
-        bool mark; // ·ÃÎÊ±ê¼Ç
-        int ivex; // ¸Ã±ßÒÀ¸½µÄÁ½¸ö¶¥µãµÄÎ»ÖÃ
+        bool mark; // è®¿é—®æ ‡è®°
+        int ivex; // è¯¥è¾¹ä¾é™„çš„ä¸¤ä¸ªé¡¶ç‚¹çš„ä½ç½®
         int jvex;
-        EBox* ilink; // ·Ö±ğÖ¸ÏòÒÀ¸½ÕâÁ½¸ö¶¥µãµÄÏÂÒ»Ìõ±ß
+        EBox* ilink; // åˆ†åˆ«æŒ‡å‘ä¾é™„è¿™ä¸¤ä¸ªé¡¶ç‚¹çš„ä¸‹ä¸€æ¡è¾¹
         EBox* jlink;
-        E info; // ±ßµÄĞÅÏ¢
+        E info; // è¾¹çš„ä¿¡æ¯
     };
     struct VBox {
         V data;
-        EBox* firstedge; // Ö¸ÏòµÚÒ»ÌõÒÀ¸½¸Ã¶¥µãµÄ±ß
+        EBox* firstedge; // æŒ‡å‘ç¬¬ä¸€æ¡ä¾é™„è¯¥é¡¶ç‚¹çš„è¾¹
     };
     std::vector<VBox> list;
-    int vexnum; // ¶¥µãÊı
-    int edgenum; // ±ßÊı
+    int vexnum; // é¡¶ç‚¹æ•°
+    int edgenum; // è¾¹æ•°
 };
 
 template <Number V, Number E>
@@ -183,7 +183,7 @@ int FirstAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, int v) {
     if (0 <= v && v < n)
         for (int i = 0; i < n; ++i)
             if (i != v && g.arcs[v][i] > 0) return i;
-    return -1; // ÕÒ²»µ½Âú×ãÌõ¼şµÄÁÚ½Ó¶¥µãÁË
+    return -1; // æ‰¾ä¸åˆ°æ»¡è¶³æ¡ä»¶çš„é‚»æ¥é¡¶ç‚¹äº†
 }
 
 template <Number V, Number E>
@@ -192,7 +192,7 @@ int NextAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, int v, int w) {
     if (0 <= v && v < n)
         for (int i = w + 1; i < n; ++i)
             if (i != v && g.arcs[v][i] > 0) return i;
-    return -1; // ÕÒ²»µ½Âú×ãÌõ¼şµÄÁÚ½Ó¶¥µãÁË
+    return -1; // æ‰¾ä¸åˆ°æ»¡è¶³æ¡ä»¶çš„é‚»æ¥é¡¶ç‚¹äº†
 }
 
 template <Number V, Number E>

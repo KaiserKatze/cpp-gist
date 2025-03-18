@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include "Graph.hpp"
@@ -6,18 +6,18 @@
 template <Graph G>
 struct ShortestPath_Floyd {
     using ArcType = typename G::ArcType;
-    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ÓÃÄ³¸öÊı×ÖÀ´±íÊ¾Á½¸ö¶¥µãÖ®¼äµÄ±ßÈ¨ÊÇÎŞÇî´ó£¬±íÊ¾Á½¸ö¶¥µãÖ®¼äÃ»ÓĞ±ß
+    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ç”¨æŸä¸ªæ•°å­—æ¥è¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹æƒæ˜¯æ— ç©·å¤§ï¼Œè¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´æ²¡æœ‰è¾¹
     ShortestPath_Floyd(const G& graph) {
-        const int size{ graph.Size() }; // Í¼ÖĞ¶¥µã¸öÊı
+        const int size{ graph.Size() }; // å›¾ä¸­é¡¶ç‚¹ä¸ªæ•°
         path.resize(size, std::vector(size, -1));
         d.resize(size, std::vector(size, arcInfinity));
         for (int i = 0; i < size; ++i)
             for (int j = 0; j < size; ++j)
                 if (i != j && (d[i][j] = graph.arcs[i][j]) < arcInfinity)
-                    path[i][j] = i; // Èç¹û i ºÍ j Ö®¼äÓĞ±ß£¬Ôò½« j µÄÇ°ÇıÖÃÎª i
+                    path[i][j] = i; // å¦‚æœ i å’Œ j ä¹‹é—´æœ‰è¾¹ï¼Œåˆ™å°† j çš„å‰é©±ç½®ä¸º i
                 else
-                    path[i][j] = -1; // Èç¹û i ºÍ j Ö®¼äÎŞ±ß£¬Ôò½« j µÄÇ°ÇıÖÃÎª¿Õ
-        for (int k = 0; k < size; ++k) // k ÊÇÖĞ¼äµã
+                    path[i][j] = -1; // å¦‚æœ i å’Œ j ä¹‹é—´æ— è¾¹ï¼Œåˆ™å°† j çš„å‰é©±ç½®ä¸ºç©º
+        for (int k = 0; k < size; ++k) // k æ˜¯ä¸­é—´ç‚¹
             for (int i = 0; i < size; ++i) {
                 if (i == k) continue;
                 for (int j = 0; j < size; ++j) {
@@ -27,10 +27,10 @@ struct ShortestPath_Floyd {
                     auto d_kj{ d[k][j] };
                     auto d_ij{ d[i][j] };
                     auto d_ik_kj{ d_ik + d_kj };
-                    if (d_ik_kj < 0) d_ik_kj = arcInfinity; // ´¦Àí arithemtic overflow
+                    if (d_ik_kj < 0) d_ik_kj = arcInfinity; // å¤„ç† arithemtic overflow
                     if (d_ik_kj < d_ij) {
-                        d[i][j] = d_ik_kj; // ¸üĞÂ¾àÀë
-                        path[i][j] = path[k][j]; // °Ñ j µÄÇ°Çı¸ÄÎª k
+                        d[i][j] = d_ik_kj; // æ›´æ–°è·ç¦»
+                        path[i][j] = path[k][j]; // æŠŠ j çš„å‰é©±æ”¹ä¸º k
                     }
                 }
             }
@@ -50,6 +50,6 @@ struct ShortestPath_Floyd {
         };
     }
 private:
-    std::vector<std::vector<int>> path; // `path[i][j]` ¼ÇÂ¼×î¶ÌÂ·¾¶ÉÏ¶¥µã $v_j$ µÄÇ°Ò»¸ö¶¥µãµÄĞòºÅ
-    std::vector<std::vector<ArcType>> d; // ¼ÇÂ¼¶¥µã $v_i$ ºÍ $v_j$ Ö®¼äµÄ×î¶ÌÂ·¾¶³¤¶È
+    std::vector<std::vector<int>> path; // `path[i][j]` è®°å½•æœ€çŸ­è·¯å¾„ä¸Šé¡¶ç‚¹ $v_j$ çš„å‰ä¸€ä¸ªé¡¶ç‚¹çš„åºå·
+    std::vector<std::vector<ArcType>> d; // è®°å½•é¡¶ç‚¹ $v_i$ å’Œ $v_j$ ä¹‹é—´çš„æœ€çŸ­è·¯å¾„é•¿åº¦
 };

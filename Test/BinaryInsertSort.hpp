@@ -1,27 +1,27 @@
-#pragma once
+ï»¿#pragma once
 
 template <class ElemType>
 void BinaryInsertSort(ElemType* array, size_t start, size_t end) {
-    // ÕÛ°ë²åÈëÅÅĞò
-    for (size_t i{ start + 1 }; i < end; ++i) { // ´ÓµÚ¶ş¸öÔªËØ¿ªÊ¼ÅÅĞò
-        if (array[i] >= array[i - 1]) { // µ±Ç°¼ÇÂ¼²»Ğ¡ÓÚÇ°Ò»¸ö¼ÇÂ¼£¬²»ĞèÒªÒÆ¶¯£¬Ö±½Ó·ÅÔÚÓĞĞò×Ó±íºóÃæ
+    // æŠ˜åŠæ’å…¥æ’åº
+    for (size_t i{ start + 1 }; i < end; ++i) { // ä»ç¬¬äºŒä¸ªå…ƒç´ å¼€å§‹æ’åº
+        if (array[i] >= array[i - 1]) { // å½“å‰è®°å½•ä¸å°äºå‰ä¸€ä¸ªè®°å½•ï¼Œä¸éœ€è¦ç§»åŠ¨ï¼Œç›´æ¥æ”¾åœ¨æœ‰åºå­è¡¨åé¢
             continue;
         }
-        ElemType* left{ array + start }; // ³õÊ¼»¯²éÕÒÇø¼ä [lo..hi]
+        ElemType* left{ array + start }; // åˆå§‹åŒ–æŸ¥æ‰¾åŒºé—´ [lo..hi]
         ElemType* right{ array + i - 1 };
-        ElemType pivot{ array[i] }; // ¸´ÖÆ´ı²åÈëÔªËØ pivot£¨Ïàµ±ÓÚÔİ´æµ½¼àÊÓÉÚ£©
-        while (left <= right) { // ÔÚ [lo..hi] ÖĞÕÛ°ë²éÕÒ²åÈëµÄÎ»ÖÃ
-            ElemType* middle{ left + (right - left) / 2 }; // md ½« [lo..hi] Ò»·ÖÎª¶ş
-            if (pivot < *middle) { // ²åÈëµãÔÚ×ó°ë¶Î
-                right = middle - 1; // ¸üĞÂÓÒ¶Ëµã
+        ElemType pivot{ array[i] }; // å¤åˆ¶å¾…æ’å…¥å…ƒç´  pivotï¼ˆç›¸å½“äºæš‚å­˜åˆ°ç›‘è§†å“¨ï¼‰
+        while (left <= right) { // åœ¨ [lo..hi] ä¸­æŠ˜åŠæŸ¥æ‰¾æ’å…¥çš„ä½ç½®
+            ElemType* middle{ left + (right - left) / 2 }; // md å°† [lo..hi] ä¸€åˆ†ä¸ºäºŒ
+            if (pivot < *middle) { // æ’å…¥ç‚¹åœ¨å·¦åŠæ®µ
+                right = middle - 1; // æ›´æ–°å³ç«¯ç‚¹
             }
-            else { // ²åÈëµãÔÚÓÒ°ë¶Î
-                left = middle + 1; // ¸üĞÂ×ó¶Ëµã
+            else { // æ’å…¥ç‚¹åœ¨å³åŠæ®µ
+                left = middle + 1; // æ›´æ–°å·¦ç«¯ç‚¹
             }
         }
         for (ElemType* j{ array + i - 1 }; j >= right + 1; --j) {
-            *(j + 1) = *j; // ¼ÇÂ¼Öğ¸öÏòºóÒÆ¶¯£¬²åÈëµ½ÕıÈ·µÄÎ»ÖÃ
+            *(j + 1) = *j; // è®°å½•é€ä¸ªå‘åç§»åŠ¨ï¼Œæ’å…¥åˆ°æ­£ç¡®çš„ä½ç½®
         }
-        *(right + 1) = pivot; // ²åÈëÔªËØ pivot
+        *(right + 1) = pivot; // æ’å…¥å…ƒç´  pivot
     }
 }

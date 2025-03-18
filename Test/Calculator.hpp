@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 // https://www.geeksforgeeks.org/infix-postfix-prefix-notation/
 // https://www.calcont.in/Conversion/infix_to_postfix
 
@@ -7,11 +7,11 @@
 #include <sstream>
 #include <string>
 
-struct Calculator { // ÀûÓÃÕ»£¬°ÑÖĞ×º±í´ïÊ½×ª»¯Îªºó×º±í´ïÊ½
+struct Calculator { // åˆ©ç”¨æ ˆï¼ŒæŠŠä¸­ç¼€è¡¨è¾¾å¼è½¬åŒ–ä¸ºåç¼€è¡¨è¾¾å¼
     std::stack<char, std::vector<char>> opStack;
     std::stringstream output;
 
-    void clear() { // Çå¿ÕÕ»ÓëÊä³ö£¬»Ö¸´Îª³õÊ¼×´Ì¬
+    void clear() { // æ¸…ç©ºæ ˆä¸è¾“å‡ºï¼Œæ¢å¤ä¸ºåˆå§‹çŠ¶æ€
         while (!opStack.empty()) {
             opStack.pop();
         }
@@ -37,27 +37,27 @@ struct Calculator { // ÀûÓÃÕ»£¬°ÑÖĞ×º±í´ïÊ½×ª»¯Îªºó×º±í´ïÊ½
 
     void handle_operator(char c) {
         char c1;
-        if (!opStack.empty()) { // Õ»·Ç¿Õ
-            c1 = opStack.top(); // Õ»¶¥ÔËËã·û
-            while (c1 != '(' && priority(c1) >= priority(c)) { // Õ»¶¥ÔËËã·ûÓÅÏÈ¼¶²»µÍÓÚµ±Ç°É¨ÃèµÄÔËËã·û
-                opStack.pop(); // Õ»¶¥ÔËËã·û³öÕ»
-                output << c1; // Õ»¶¥ÔËËã·û¼ÓÈëºó×º±í´ïÊ½
-                if (opStack.empty()) { // Õ»¿Õ
-                    break; // ÍË³öÑ­»·£¬²»ÔÙ¼ì²éÕ»¶¥
+        if (!opStack.empty()) { // æ ˆéç©º
+            c1 = opStack.top(); // æ ˆé¡¶è¿ç®—ç¬¦
+            while (c1 != '(' && priority(c1) >= priority(c)) { // æ ˆé¡¶è¿ç®—ç¬¦ä¼˜å…ˆçº§ä¸ä½äºå½“å‰æ‰«æçš„è¿ç®—ç¬¦
+                opStack.pop(); // æ ˆé¡¶è¿ç®—ç¬¦å‡ºæ ˆ
+                output << c1; // æ ˆé¡¶è¿ç®—ç¬¦åŠ å…¥åç¼€è¡¨è¾¾å¼
+                if (opStack.empty()) { // æ ˆç©º
+                    break; // é€€å‡ºå¾ªç¯ï¼Œä¸å†æ£€æŸ¥æ ˆé¡¶
                 }
-                c1 = opStack.top(); // »ñÈ¡ĞÂµÄÕ»¶¥
+                c1 = opStack.top(); // è·å–æ–°çš„æ ˆé¡¶
             }
         }
         opStack.push(c);
     }
 
     void handle_right_brace() {
-        // Óöµ½ÓÒ½çÏŞ·û£¬½«Õ»ÖĞÔËËã·ûÒÀ´Î³öÕ»£¬Ö±µ½Óöµ½×ó½çÏŞ·ûÎªÖ¹
+        // é‡åˆ°å³ç•Œé™ç¬¦ï¼Œå°†æ ˆä¸­è¿ç®—ç¬¦ä¾æ¬¡å‡ºæ ˆï¼Œç›´åˆ°é‡åˆ°å·¦ç•Œé™ç¬¦ä¸ºæ­¢
         char c1;
         do {
             c1 = opStack.top();
             opStack.pop();
-            if (c1 == '(') { // ×ó½çÏŞ·ûÖ±½ÓÉ¾³ı£¬²»¼ÓÈëºó×º±í´ïÊ½
+            if (c1 == '(') { // å·¦ç•Œé™ç¬¦ç›´æ¥åˆ é™¤ï¼Œä¸åŠ å…¥åç¼€è¡¨è¾¾å¼
                 break;
             }
             output << c1;
@@ -66,16 +66,16 @@ struct Calculator { // ÀûÓÃÕ»£¬°ÑÖĞ×º±í´ïÊ½×ª»¯Îªºó×º±í´ïÊ½
 
     void operator<<(char c) {
         switch (c) {
-        case ' ': // ºöÂÔ¿Õ¸ñ
+        case ' ': // å¿½ç•¥ç©ºæ ¼
             return;
         case '+':
         case '-':
         case '*':
         case '/':
-            handle_operator(c); // ´¦ÀíÔËËã·¨
+            handle_operator(c); // å¤„ç†è¿ç®—æ³•
             break;
         case '(':
-            opStack.push(c); // ½çÏŞ·ûÖ±½ÓÈëÕ»
+            opStack.push(c); // ç•Œé™ç¬¦ç›´æ¥å…¥æ ˆ
             break;
         case ')':
             handle_right_brace();
@@ -84,7 +84,7 @@ struct Calculator { // ÀûÓÃÕ»£¬°ÑÖĞ×º±í´ïÊ½×ª»¯Îªºó×º±í´ïÊ½
             if ('a' <= c && c <= 'z'
                 || 'A' <= c && c <= 'Z'
                 || '0' <= c && c <= '9')
-                output << c; // ²Ù×÷ÊıÖ±½Ó¼ÓÈëºó×º±í´ïÊ½
+                output << c; // æ“ä½œæ•°ç›´æ¥åŠ å…¥åç¼€è¡¨è¾¾å¼
             break;
         }
     }
@@ -93,7 +93,7 @@ struct Calculator { // ÀûÓÃÕ»£¬°ÑÖĞ×º±í´ïÊ½×ª»¯Îªºó×º±í´ïÊ½
         for (; *s != '\0'; ++s) {
             (*this) << *s;
         }
-        // É¨ÃèÍêËùÓĞ×Ö·ûºó£¬½«Õ»ÖĞÊ£ÓàÔËËã·ûÒÀ´Î³öÕ»£¬²¢¼ÓÈëºó×º±í´ïÊ½
+        // æ‰«æå®Œæ‰€æœ‰å­—ç¬¦åï¼Œå°†æ ˆä¸­å‰©ä½™è¿ç®—ç¬¦ä¾æ¬¡å‡ºæ ˆï¼Œå¹¶åŠ å…¥åç¼€è¡¨è¾¾å¼
         while (!opStack.empty()) {
             output << opStack.top();
             opStack.pop();

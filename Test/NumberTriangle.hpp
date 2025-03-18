@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include <random>
@@ -9,53 +9,53 @@
 #include <cmath>
 
 struct NumberTriangle {
-    std::vector<size_t> data;  // ÏÂÈı½ÇÕó
-    const size_t n;  // ĞĞÊı¡¢ÁĞÊı
-    const size_t m;  // ´æ´¢ÔªËØ¸öÊı£¨²»º¬ÓÒÉÏ½ÇÔªËØ£©
+    std::vector<size_t> data;  // ä¸‹ä¸‰è§’é˜µ
+    const size_t n;  // è¡Œæ•°ã€åˆ—æ•°
+    const size_t m;  // å­˜å‚¨å…ƒç´ ä¸ªæ•°ï¼ˆä¸å«å³ä¸Šè§’å…ƒç´ ï¼‰
 
-    NumberTriangle(size_t n /* ĞĞÊı¡¢ÁĞÊı */)
+    NumberTriangle(size_t n /* è¡Œæ•°ã€åˆ—æ•° */)
         : n{ n }, m{ n * (n + 1) / 2 } {
         data.reserve(m + 1);
     }
 
-    NumberTriangle(size_t n /* ĞĞÊı¡¢ÁĞÊı */, std::vector<size_t>&& data)
+    NumberTriangle(size_t n /* è¡Œæ•°ã€åˆ—æ•° */, std::vector<size_t>&& data)
         : n{ n }, m{ n * (n + 1) / 2 }, data{ data } {
     }
 
     void fill_random() {
-        // Ëæ»úÉú³ÉÒ»¸öÏÂÈı½Ç¾ØÕó
+        // éšæœºç”Ÿæˆä¸€ä¸ªä¸‹ä¸‰è§’çŸ©é˜µ
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distrib(1, 100);
         for (size_t i{ 0 }; i < m; ++i) {
             data.push_back(distrib(gen));
         }
-        data.push_back(0);  // ÓÒÉÏ½ÇÔªËØ
+        data.push_back(0);  // å³ä¸Šè§’å…ƒç´ 
     }
 
     size_t& operator[](std::pair<size_t, size_t>&& ij) {
-        size_t i;  // ĞĞºÅ
-        size_t j;  // ÁĞºÅ
+        size_t i;  // è¡Œå·
+        size_t j;  // åˆ—å·
         std::tie(i, j) = ij;
         if (!(0 <= i && i < n && 0 <= j && j < n)) {
-            throw std::invalid_argument{ "µØÖ·Ô½½ç!" };
+            throw std::invalid_argument{ "åœ°å€è¶Šç•Œ!" };
         }
-        if (i < j) {  // ÓÒÉÏ½ÇÈ«ÊÇÁã
-            return data[m];  // ·µ»Ø×îºóÒ»¸öÔªËØ
+        if (i < j) {  // å³ä¸Šè§’å…¨æ˜¯é›¶
+            return data[m];  // è¿”å›æœ€åä¸€ä¸ªå…ƒç´ 
         }
         const size_t k{ i * (i + 1) / 2 + j };
-        return data[k];  // ·µ»Ø×óÏÂ½ÇÔªËØ
+        return data[k];  // è¿”å›å·¦ä¸‹è§’å…ƒç´ 
     }
 
     size_t operator[](std::pair<size_t, size_t>&& ij) const {
-        size_t i;  // ĞĞºÅ
-        size_t j;  // ÁĞºÅ
+        size_t i;  // è¡Œå·
+        size_t j;  // åˆ—å·
         std::tie(i, j) = ij;
-        if (i < j) {  // ÓÒÉÏ½ÇÈ«ÊÇÁã
-            return data[m];  // ·µ»Ø×îºóÒ»¸öÔªËØ
+        if (i < j) {  // å³ä¸Šè§’å…¨æ˜¯é›¶
+            return data[m];  // è¿”å›æœ€åä¸€ä¸ªå…ƒç´ 
         }
         const size_t k{ i * (i + 1) / 2 + j };
-        return data[k];  // ·µ»Ø×óÏÂ½ÇÔªËØ
+        return data[k];  // è¿”å›å·¦ä¸‹è§’å…ƒç´ 
     }
 
     operator std::string() const {
@@ -73,17 +73,17 @@ struct NumberTriangle {
 };
 
 
-// ¼ÆËã´Ó¶¥²¿µ½µ×²¿Ä³µãµÄÒ»ÌõÂ·¾¶£¬Ê¹µÃ¸ÃÂ·¾¶Ëù¾­¹ıµÄÊı×Ö×ÜºÍ×î´ó¡£
-// Ã¿Ò»²½¿ÉÒÔÑØÊúÏßÏòÏÂ×ß£¬»ò×ÅÑØÓÒĞ±ÏßÏòÏÂ×ß
-// ×´Ì¬×ªÒÆ·½³Ì£º
+// è®¡ç®—ä»é¡¶éƒ¨åˆ°åº•éƒ¨æŸç‚¹çš„ä¸€æ¡è·¯å¾„ï¼Œä½¿å¾—è¯¥è·¯å¾„æ‰€ç»è¿‡çš„æ•°å­—æ€»å’Œæœ€å¤§ã€‚
+// æ¯ä¸€æ­¥å¯ä»¥æ²¿ç«–çº¿å‘ä¸‹èµ°ï¼Œæˆ–ç€æ²¿å³æ–œçº¿å‘ä¸‹èµ°
+// çŠ¶æ€è½¬ç§»æ–¹ç¨‹ï¼š
 // a[{x, y}] = max( a[{x+1, y}], a[{x+1,y+1}] ) + a[{x, y}]
 #include <iostream>
 struct ComputeRoute {
-    NumberTriangle dp;  // dp[{i, j}] ±íÊ¾µÚ i ĞĞµÚ j ÁĞµÄ×î´óÖµ£¬ËüµÄ×´Ì¬ÊÇÓÉ dp[{i+1, j}] ºÍ dp[{i+1, j+1}] ×ªÒÆ¶øÀ´
+    NumberTriangle dp;  // dp[{i, j}] è¡¨ç¤ºç¬¬ i è¡Œç¬¬ j åˆ—çš„æœ€å¤§å€¼ï¼Œå®ƒçš„çŠ¶æ€æ˜¯ç”± dp[{i+1, j}] å’Œ dp[{i+1, j+1}] è½¬ç§»è€Œæ¥
     const size_t n;
 
     ComputeRoute(const NumberTriangle& a) : n{ a.n }, dp(a) {
-        // ÏòÉÏÖğ²ãÀÛ¼Ó
+        // å‘ä¸Šé€å±‚ç´¯åŠ 
         for (size_t i{ n - 1 }; i > 0;) {
             --i;
             for (size_t j{ 0 }; j <= i; ++j) {
@@ -101,8 +101,8 @@ struct ComputeRoute {
 void TestNumberTriangle(size_t n) {
     NumberTriangle nt(4, {1, 4, 6, 8, 3, 9, 5, 7, 2, 1});
     nt.fill_random();
-    std::cout << "ÊıËş£º\n" << static_cast<std::string>(nt) << '\n';
+    std::cout << "æ•°å¡”ï¼š\n" << static_cast<std::string>(nt) << '\n';
     ComputeRoute cr(nt);
-    std::cout << "×´Ì¬£º\n" << static_cast<std::string>(cr.dp) << '\n';
+    std::cout << "çŠ¶æ€ï¼š\n" << static_cast<std::string>(cr.dp) << '\n';
 }
 #endif

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <functional>
 #include <algorithm>
@@ -8,24 +8,24 @@
 #include <cmath>
 
 //==================================
-// B-Ê÷
+// B-æ ‘
 
-template <class E, size_t m /* ½×Êı */>
+template <class E, size_t m /* é˜¶æ•° */>
 struct BTree {
-    // m ½× B Ê÷µÄÌØµã£º
-    //  1. Ã¿¸ö½áµãÖÁ¶àÓĞ m ¿Ã×ÓÊ÷£¬ÖÁ¶àÓĞ m-1 ¸ö¹Ø¼ü×Ö
-    //  2. µ±¸ù½áµã²»ÊÇÒ¶½ÚµãÊ±£¬ËüÖÁÉÙÒªÓĞ 2 ¿Ã×ÓÊ÷£¬1 ¸ö¹Ø¼ü×Ö
-    //  3. ³ı¸ù½áµãÒÔÍâµÄ·ÇÒ¶½áµãÖÁÉÙÓĞ ceil(m/2) ¿Ã×ÓÊ÷£¬ceil(m/2)-1 ¸ö¹Ø¼ü×Ö
-    //  4. ·ÇÒ¶½áµãµÄ½á¹¹£¬ÓÉ 1 ¸ö±íÊ¾³¤¶ÈµÄ×Ö¶ÎÒÔ¼°ÖÁ¶à m-1 ¸öÖ¸ÕëÓòºÍ¹Ø¼ü×Ö¹¹³É
-    //  5. ËùÓĞÒ¶½Úµã¶¼³öÏÖÔÚÍ¬Ò»²ã´ÎÉÏ£¬²¢ÇÒ²»º¬ÈÎºÎĞÅÏ¢
+    // m é˜¶ B æ ‘çš„ç‰¹ç‚¹ï¼š
+    //  1. æ¯ä¸ªç»“ç‚¹è‡³å¤šæœ‰ m æ£µå­æ ‘ï¼Œè‡³å¤šæœ‰ m-1 ä¸ªå…³é”®å­—
+    //  2. å½“æ ¹ç»“ç‚¹ä¸æ˜¯å¶èŠ‚ç‚¹æ—¶ï¼Œå®ƒè‡³å°‘è¦æœ‰ 2 æ£µå­æ ‘ï¼Œ1 ä¸ªå…³é”®å­—
+    //  3. é™¤æ ¹ç»“ç‚¹ä»¥å¤–çš„éå¶ç»“ç‚¹è‡³å°‘æœ‰ ceil(m/2) æ£µå­æ ‘ï¼Œceil(m/2)-1 ä¸ªå…³é”®å­—
+    //  4. éå¶ç»“ç‚¹çš„ç»“æ„ï¼Œç”± 1 ä¸ªè¡¨ç¤ºé•¿åº¦çš„å­—æ®µä»¥åŠè‡³å¤š m-1 ä¸ªæŒ‡é’ˆåŸŸå’Œå…³é”®å­—æ„æˆ
+    //  5. æ‰€æœ‰å¶èŠ‚ç‚¹éƒ½å‡ºç°åœ¨åŒä¸€å±‚æ¬¡ä¸Šï¼Œå¹¶ä¸”ä¸å«ä»»ä½•ä¿¡æ¯
 
-    static_assert(m >= 2, "½×Êı `m` Ó¦µ±²»Ğ¡ÓÚ 2.");
+    static_assert(m >= 2, "é˜¶æ•° `m` åº”å½“ä¸å°äº 2.");
 
     struct TreeNode;
 
     struct KeyNode {
-        TreeNode* next; // Ö¸Õë£¨Ö¸ÏòÇ¡ºÃ±È¹Ø¼ü×Ö keyword Ğ¡µÄ¼ÇÂ¼ËùÔÚµÄ½áµã£©
-        E keyword;      // ¹Ø¼ü×Ö
+        TreeNode* next; // æŒ‡é’ˆï¼ˆæŒ‡å‘æ°å¥½æ¯”å…³é”®å­— keyword å°çš„è®°å½•æ‰€åœ¨çš„ç»“ç‚¹ï¼‰
+        E keyword;      // å…³é”®å­—
 
         KeyNode(const E& e) : keyword{ e }, next{ nullptr } {}
 
@@ -43,103 +43,103 @@ struct BTree {
     using container = std::vector<KeyNode>;
     using iterator = typename container::iterator;
     using const_iterator = typename container::const_iterator;
-    // ·Ç¸ù½áµãµÄ¹Ø¼ü×Ö¸öÊıÈ¡Öµ·¶Î§ [min_size, max_size]
-    static constexpr size_t max_size{ m - 1 }; // ¹Ø¼ü×ÖÊıÉÏÏŞ m-1
-    static constexpr size_t min_size{ (m + 1) / 2 - 1 }; // ¹Ø¼ü×ÖÊıÏÂÏŞ ceil(m/2)-1
+    // éæ ¹ç»“ç‚¹çš„å…³é”®å­—ä¸ªæ•°å–å€¼èŒƒå›´ [min_size, max_size]
+    static constexpr size_t max_size{ m - 1 }; // å…³é”®å­—æ•°ä¸Šé™ m-1
+    static constexpr size_t min_size{ (m + 1) / 2 - 1 }; // å…³é”®å­—æ•°ä¸‹é™ ceil(m/2)-1
 
-    struct TreeNode : public container { // BÊ÷µÄ½áµã
-        TreeNode* parent; // Ö¸Õë£¨Ö¸Ïò¸¸½áµã£©
-        TreeNode* next; // Ö¸Õë£¨Ö¸Ïò±È¸Ã½áµãÖĞËùÓĞ¹Ø¼ü×Ö¶¼Òª´óµÄ¼ÇÂ¼ËùÔÚµÄ½áµã£©
+    struct TreeNode : public container { // Bæ ‘çš„ç»“ç‚¹
+        TreeNode* parent; // æŒ‡é’ˆï¼ˆæŒ‡å‘çˆ¶ç»“ç‚¹ï¼‰
+        TreeNode* next; // æŒ‡é’ˆï¼ˆæŒ‡å‘æ¯”è¯¥ç»“ç‚¹ä¸­æ‰€æœ‰å…³é”®å­—éƒ½è¦å¤§çš„è®°å½•æ‰€åœ¨çš„ç»“ç‚¹ï¼‰
 
         TreeNode(TreeNode* parent) : parent{ parent }, next { nullptr } {}
         TreeNode(TreeNode* parent, const_iterator begin, const_iterator end) : container(begin, end), parent{ parent }, next{ nullptr } {}
 
         iterator find_keyword_in_tree_node(const E& e) {
             iterator it{ this->begin() };
-            for (; *it > e && it != this->end(); ++it); // Ñ°ÕÒÓë e ÏàµÈ»òÇ¡ºÃ±È e ´óµÄ¹Ø¼ü×Ö
+            for (; *it > e && it != this->end(); ++it); // å¯»æ‰¾ä¸ e ç›¸ç­‰æˆ–æ°å¥½æ¯” e å¤§çš„å…³é”®å­—
             return it;
         }
     };
 
     TreeNode* root;
 
-    BTree() : root{ nullptr /* Ä¬ÈÏ½¨Á¢Ò»¸ö¿ÕµÄ B Ê÷ */ } {}
+    BTree() : root{ nullptr /* é»˜è®¤å»ºç«‹ä¸€ä¸ªç©ºçš„ B æ ‘ */ } {}
     ~BTree() {
         delete root;
     }
 
-    std::pair<bool, TreeNode*> find(const E& e) { // BÊ÷µÄ²éÕÒ
-        // ½«¸ø¶¨¹Ø¼ü×Ö e Óë¸ù½áµãµÄ¸÷¸ö¹Ø¼ü×Ö½øĞĞ±È½Ï£º
-        // Èç¹û e Óë¸ù½áµãÖĞµÄÄ³¸ö¹Ø¼ü×ÖÏàµÈ£¬Ôò²éÕÒ³É¹¦£»
-        // Èç¹û e Ğ¡ÓÚµÚÒ»¸ö¹Ø¼ü×Ö£¬ÔòË³×Å¸Ã¹Ø¼ü×Ö¶ÔÓ¦µÄ×ó×ÓÊ÷¼ÌĞøÏòÏÂ²éÕÒ£»
-        // Èç¹û e ½éÓÚÄ³Á½¸ö¹Ø¼ü×Ö£¬ÔòË³×ÅÕâÁ½¸ö¹Ø¼ü×ÖÖ®¼äµÄ×ÓÊ÷¼ÌĞøÏòÏÂ²éÕÒ£»
-        // Èç¹û e ´óÓÚ×îºóÒ»¸ö¹Ø¼ü×Ö£¬ÔòË³×Å¸Ã¹Ø¼ü×Ö¶ÔÓ¦µÄÓÒ×ÓÊ÷¼ÌĞøÏòÏÂ²éÕÒ¡£
-        // Èç¹ûÖ±µ½Ò¶½áµã»¹Î´ÕÒµ½£¬Ôò²éÕÒÊ§°Ü¡£
-        TreeNode* tree_node{ root }; // ´Ó¸ù½áµã³ö·¢²éÕÒ¹Ø¼ü×Ö
-        TreeNode* prev_tree_node{ nullptr }; // ÉÏÒ»¸ö¼ì²é¹ıµÄ½áµã
+    std::pair<bool, TreeNode*> find(const E& e) { // Bæ ‘çš„æŸ¥æ‰¾
+        // å°†ç»™å®šå…³é”®å­— e ä¸æ ¹ç»“ç‚¹çš„å„ä¸ªå…³é”®å­—è¿›è¡Œæ¯”è¾ƒï¼š
+        // å¦‚æœ e ä¸æ ¹ç»“ç‚¹ä¸­çš„æŸä¸ªå…³é”®å­—ç›¸ç­‰ï¼Œåˆ™æŸ¥æ‰¾æˆåŠŸï¼›
+        // å¦‚æœ e å°äºç¬¬ä¸€ä¸ªå…³é”®å­—ï¼Œåˆ™é¡ºç€è¯¥å…³é”®å­—å¯¹åº”çš„å·¦å­æ ‘ç»§ç»­å‘ä¸‹æŸ¥æ‰¾ï¼›
+        // å¦‚æœ e ä»‹äºæŸä¸¤ä¸ªå…³é”®å­—ï¼Œåˆ™é¡ºç€è¿™ä¸¤ä¸ªå…³é”®å­—ä¹‹é—´çš„å­æ ‘ç»§ç»­å‘ä¸‹æŸ¥æ‰¾ï¼›
+        // å¦‚æœ e å¤§äºæœ€åä¸€ä¸ªå…³é”®å­—ï¼Œåˆ™é¡ºç€è¯¥å…³é”®å­—å¯¹åº”çš„å³å­æ ‘ç»§ç»­å‘ä¸‹æŸ¥æ‰¾ã€‚
+        // å¦‚æœç›´åˆ°å¶ç»“ç‚¹è¿˜æœªæ‰¾åˆ°ï¼Œåˆ™æŸ¥æ‰¾å¤±è´¥ã€‚
+        TreeNode* tree_node{ root }; // ä»æ ¹ç»“ç‚¹å‡ºå‘æŸ¥æ‰¾å…³é”®å­—
+        TreeNode* prev_tree_node{ nullptr }; // ä¸Šä¸€ä¸ªæ£€æŸ¥è¿‡çš„ç»“ç‚¹
         while (tree_node != nullptr) {
-            const_iterator it{ tree_node->find_keyword_in_tree_node(e) }; // find_keyword_in_tree_node ·µ»ØµÄ¹Ø¼ü×ÖĞ¡ÓÚ»òµÈÓÚ e
-            if (*it == e) { // ²éÕÒ³É¹¦£¬·µ»Ø¹Ø¼ü×Ö¶ÔÓ¦µÄ½áµã
+            const_iterator it{ tree_node->find_keyword_in_tree_node(e) }; // find_keyword_in_tree_node è¿”å›çš„å…³é”®å­—å°äºæˆ–ç­‰äº e
+            if (*it == e) { // æŸ¥æ‰¾æˆåŠŸï¼Œè¿”å›å…³é”®å­—å¯¹åº”çš„ç»“ç‚¹
                 return { true, tree_node };
             }
             prev_tree_node = tree_node;
             tree_node = it->next;
         }
-        return { false, prev_tree_node }; // Ö±µ½×îºóÒ²Æ¥Åä²»µ½ÍêÈ«Ò»ÖÂµÄ¹Ø¼ü×Ö£¬·µ»Ø×îºóÒ»¸ö·ÇÒ¶½áµã
+        return { false, prev_tree_node }; // ç›´åˆ°æœ€åä¹ŸåŒ¹é…ä¸åˆ°å®Œå…¨ä¸€è‡´çš„å…³é”®å­—ï¼Œè¿”å›æœ€åä¸€ä¸ªéå¶ç»“ç‚¹
     }
 
 private:
     std::tuple<TreeNode*, TreeNode*, iterator> split_tree_node(TreeNode* tree_node) {
-        const size_t pos_mid{ (tree_node->size() + 1) / 2 }; // ÖĞ¼äÎ»ÖÃµÄĞòºÅ
+        const size_t pos_mid{ (tree_node->size() + 1) / 2 }; // ä¸­é—´ä½ç½®çš„åºå·
         iterator it_begin{ tree_node->begin() };
         iterator it_end{ tree_node->end() };
-        iterator it_mid{ it_begin + pos_mid }; // »ñÈ¡Î»ÓÚÖĞ¼äÎ»ÖÃµÄ¹Ø¼ü×Ö
-        TreeNode* tree_node_right_sibling{ new TreeNode(tree_node->parent, it_mid + 1, it_end) }; // ÀûÓÃÓÒ¶ÎÈ«Ìå¹Ø¼ü×ÖµÄ¸±±¾£¬ĞÂ½¨Ò»¸ö½áµã
+        iterator it_mid{ it_begin + pos_mid }; // è·å–ä½äºä¸­é—´ä½ç½®çš„å…³é”®å­—
+        TreeNode* tree_node_right_sibling{ new TreeNode(tree_node->parent, it_mid + 1, it_end) }; // åˆ©ç”¨å³æ®µå…¨ä½“å…³é”®å­—çš„å‰¯æœ¬ï¼Œæ–°å»ºä¸€ä¸ªç»“ç‚¹
         return { tree_node, tree_node_right_sibling, it_mid };
 
-        it_mid = put_keyword_into_tree_node(tree_node->parent, it_mid->keyword); // ½«Î»ÓÚÖĞ¼äÎ»ÖÃµÄ¹Ø¼ü×Ö²åÈë¸¸½áµã
+        it_mid = put_keyword_into_tree_node(tree_node->parent, it_mid->keyword); // å°†ä½äºä¸­é—´ä½ç½®çš„å…³é”®å­—æ’å…¥çˆ¶ç»“ç‚¹
     }
 
-    iterator put_keyword_into_tree_node(TreeNode* tree_node, const E& e) { // ÔÚ¸Ã½áµãÖĞ²åÈë¹Ø¼ü×Ö
+    iterator put_keyword_into_tree_node(TreeNode* tree_node, const E& e) { // åœ¨è¯¥ç»“ç‚¹ä¸­æ’å…¥å…³é”®å­—
         bool finished{ false };
         iterator it_insert{ tree_node->find_keyword_in_tree_node(e) };
         while (tree_node != nullptr && !finished) {
             if (it_insert == tree_node->end()) {
-                tree_node->push_back(e); // °Ñ¹Ø¼ü×Ö e ÖÃÓÚÏßĞÔ±íÄ©Î²
+                tree_node->push_back(e); // æŠŠå…³é”®å­— e ç½®äºçº¿æ€§è¡¨æœ«å°¾
             }
             else {
-                tree_node->insert(it_insert, e); // °Ñ¹Ø¼ü×Ö e ²åÈëµ½ÏßĞÔ±íÖĞ
+                tree_node->insert(it_insert, e); // æŠŠå…³é”®å­— e æ’å…¥åˆ°çº¿æ€§è¡¨ä¸­
             }
-            if (tree_node->size() < max_size) { // ½áµã²»Âú£¬¿ÉÒÔÖ±½Ó²åÈë¹Ø¼ü×Ö£¬²»ĞèÒªºó´¦Àí
-                finished = true; // ²åÈëÍê³É
+            if (tree_node->size() < max_size) { // ç»“ç‚¹ä¸æ»¡ï¼Œå¯ä»¥ç›´æ¥æ’å…¥å…³é”®å­—ï¼Œä¸éœ€è¦åå¤„ç†
+                finished = true; // æ’å…¥å®Œæˆ
                 break;
             }
-            // µ±Ç°½áµãÖĞµÄ¹Ø¼ü×ÖÊı²»Ğ¡ÓÚ max_size(=m-1)£¬
-            // ²»¿ÉÒÔÖ±½Ó²åÈë¹Ø¼ü×Ö£¬±ØĞë·ÖÁÑ½áµã
-            // ·ÖÁÑµÄ¾ßÌå·½·¨ÊÇ£º
-            // ÏÈ²åÈë¹Ø¼ü×Ö e£¬´ÓÖĞ¼äÎ»ÖÃ ceil(m/2) ½«½áµã·ÖÎªÈı¶Î£¬
-            // ×ó¶ÎµÄ¹Ø¼ü×Ö±£ÁôÔÚÔ­½áµãÖĞ£¬
-            // ÓÒ¶ÎµÄ¹Ø¼ü×Ö·Åµ½Ò»¸öĞÂ½áµãÖĞ£¬
-            // ÖĞ¼äÎ»ÖÃµÄ¹Ø¼ü×Ö·Åµ½Ô­½áµãµÄ¸¸½áµã£¬
-            // ½ÓÏÂÀ´¼ì²é¸¸½áµãÖĞ¹Ø¼ü×ÖµÄ¸öÊıÊÇ·ñ³¬³ö¹Ø¼ü×ÖÊıÉÏÏŞ
+            // å½“å‰ç»“ç‚¹ä¸­çš„å…³é”®å­—æ•°ä¸å°äº max_size(=m-1)ï¼Œ
+            // ä¸å¯ä»¥ç›´æ¥æ’å…¥å…³é”®å­—ï¼Œå¿…é¡»åˆ†è£‚ç»“ç‚¹
+            // åˆ†è£‚çš„å…·ä½“æ–¹æ³•æ˜¯ï¼š
+            // å…ˆæ’å…¥å…³é”®å­— eï¼Œä»ä¸­é—´ä½ç½® ceil(m/2) å°†ç»“ç‚¹åˆ†ä¸ºä¸‰æ®µï¼Œ
+            // å·¦æ®µçš„å…³é”®å­—ä¿ç•™åœ¨åŸç»“ç‚¹ä¸­ï¼Œ
+            // å³æ®µçš„å…³é”®å­—æ”¾åˆ°ä¸€ä¸ªæ–°ç»“ç‚¹ä¸­ï¼Œ
+            // ä¸­é—´ä½ç½®çš„å…³é”®å­—æ”¾åˆ°åŸç»“ç‚¹çš„çˆ¶ç»“ç‚¹ï¼Œ
+            // æ¥ä¸‹æ¥æ£€æŸ¥çˆ¶ç»“ç‚¹ä¸­å…³é”®å­—çš„ä¸ªæ•°æ˜¯å¦è¶…å‡ºå…³é”®å­—æ•°ä¸Šé™
             auto [left_tree_node, right_tree_node, it_mid] { split_tree_node(tree_node) };
             tree_node = tree_node->parent;
             if (tree_node != nullptr) {
                 const E& e1{ it_mid->keyword };
                 it_insert = tree_node->find_keyword_in_tree_node(e1);
                 if (it_insert == tree_node->end()) {
-                    tree_node->push_back(e1); // °Ñ¹Ø¼ü×Ö e1 ÖÃÓÚÏßĞÔ±íÄ©Î²
+                    tree_node->push_back(e1); // æŠŠå…³é”®å­— e1 ç½®äºçº¿æ€§è¡¨æœ«å°¾
                 }
                 else {
-                    tree_node->insert(it_insert, e1); // °Ñ¹Ø¼ü×Ö e1 ²åÈëµ½ÏßĞÔ±íÖĞ
+                    tree_node->insert(it_insert, e1); // æŠŠå…³é”®å­— e1 æ’å…¥åˆ°çº¿æ€§è¡¨ä¸­
                 }
 
-                TreeNode*& parent_left{ it_insert->next }; // È¡µÃ¸¸½áµã×ó×ÓÊ÷Ö¸Õë
+                TreeNode*& parent_left{ it_insert->next }; // å–å¾—çˆ¶ç»“ç‚¹å·¦å­æ ‘æŒ‡é’ˆ
                 TreeNode*& parent_right{
                     (++it_insert != tree_node->end())
                     ? (it_insert->next)
                     : (tree_node->next)
-                }; // È¡µÃ¸¸½áµãÓÒ×ÓÊ÷Ö¸Õë
+                }; // å–å¾—çˆ¶ç»“ç‚¹å³å­æ ‘æŒ‡é’ˆ
                 parent_left = left_tree_node;
                 parent_right = right_tree_node;
             }
@@ -147,13 +147,13 @@ private:
     }
 
 public:
-    void put(const E& e) { // ÔÚ B Ê÷ÖĞ²åÈë¹Ø¼ü×Ö
-        auto [status, tree_node] { find(e) }; // ¸ù¾İ¹Ø¼ü×Ö e£¬ÔÚ B Ê÷ÖĞ²éÕÒ£¬¶¨Î»¹Ø¼ü×Ö e Ó¦¸Ã²åÈëµÄÎ»ÖÃ
-        if (tree_node == nullptr) { // ¿ÕÊ÷
-            root = new TreeNode(nullptr); // ´´½¨¸ù½áµã
+    void put(const E& e) { // åœ¨ B æ ‘ä¸­æ’å…¥å…³é”®å­—
+        auto [status, tree_node] { find(e) }; // æ ¹æ®å…³é”®å­— eï¼Œåœ¨ B æ ‘ä¸­æŸ¥æ‰¾ï¼Œå®šä½å…³é”®å­— e åº”è¯¥æ’å…¥çš„ä½ç½®
+        if (tree_node == nullptr) { // ç©ºæ ‘
+            root = new TreeNode(nullptr); // åˆ›å»ºæ ¹ç»“ç‚¹
             tree_node = root;
         }
-        put_keyword_into_tree_node(tree_node, e); // ÔÚÕıÈ·µÄ½áµã²åÈë¹Ø¼ü×Ö£¨ÔÚÕâ¸ö¹ı³ÌÖĞ¿ÉÄÜ»áĞÂ½¨×ÓÊ÷£©
+        put_keyword_into_tree_node(tree_node, e); // åœ¨æ­£ç¡®çš„ç»“ç‚¹æ’å…¥å…³é”®å­—ï¼ˆåœ¨è¿™ä¸ªè¿‡ç¨‹ä¸­å¯èƒ½ä¼šæ–°å»ºå­æ ‘ï¼‰
     }
 
     void put_all(std::initializer_list<E> list) {

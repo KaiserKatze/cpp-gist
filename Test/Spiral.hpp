@@ -1,29 +1,29 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include <utility>
 
-auto MakeSpiral(size_t w /* ÁĞÊı */, size_t h /* ĞĞÊı */) {
-    // Éú³ÉÂİĞı¾ØÕó
-    std::vector<std::vector<size_t>> res(h, std::vector<size_t>(w, 0)); // ³õÊ¼»¯¾ØÕó
+auto MakeSpiral(size_t w /* åˆ—æ•° */, size_t h /* è¡Œæ•° */) {
+    // ç”Ÿæˆèºæ—‹çŸ©é˜µ
+    std::vector<std::vector<size_t>> res(h, std::vector<size_t>(w, 0)); // åˆå§‹åŒ–çŸ©é˜µ
     size_t left{ 0 }, right{ w - 1 }, top{ 0 }, bottom{ h - 1 };
     size_t n{ 0 };
     while (top <= bottom && left <= right) {
-        // ÏòÓÒ±éÀú
+        // å‘å³éå†
         for (size_t i{ left }; i <= right; ++i) {
             res[top][i] = ++n;
             //std::cout << "res[" << top << "][" << i << "] = " << n << std::endl;
         }
         ++top;
 
-        // ÏòÏÂ±éÀú
+        // å‘ä¸‹éå†
         for (size_t i{ top }; i <= bottom; ++i) {
             res[i][right] = ++n;
             //std::cout << "res[" << i << "][" << right << "] = " << n << std::endl;
         }
         --right;
 
-        // Ïò×ó±éÀú
+        // å‘å·¦éå†
         if (top <= bottom) {
             for (size_t i{ right + 1 }; i > left;) {
                 res[bottom][--i] = ++n;
@@ -32,7 +32,7 @@ auto MakeSpiral(size_t w /* ÁĞÊı */, size_t h /* ĞĞÊı */) {
             --bottom;
         }
 
-        // ÏòÉÏ±éÀú
+        // å‘ä¸Šéå†
         if (left <= right) {
             for (size_t i{ bottom + 1 }; i > top;) {
                 res[--i][left] = ++n;

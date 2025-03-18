@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 template <class RandomIt>
 void ShellSort(RandomIt begin, RandomIt end) {
-    for (auto dk{ (end - begin) / 2 }; dk > 0; dk /= 2) { // Ã¿Ò»ÌËµÄÔöÁ¿ dk ÊÇÇ°Ò»ÌËµÄÒ»°ë
+    for (auto dk{ (end - begin) / 2 }; dk > 0; dk /= 2) { // æ¯ä¸€è¶Ÿçš„å¢é‡ dk æ˜¯å‰ä¸€è¶Ÿçš„ä¸€åŠ
         for (RandomIt i{ begin + dk + 1 }; i != end; ++i) {
             RandomIt j{ i - dk };
             if (*i < *j) {

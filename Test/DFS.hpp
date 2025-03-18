@@ -1,32 +1,32 @@
-#pragma once
+ï»¿#pragma once
 #include "Graph.hpp"
 #include <vector>
 
 template <Graph G>
-struct DepthFirstSearch { // Éî¶ÈÓÅÏÈËÑË÷
+struct DepthFirstSearch { // æ·±åº¦ä¼˜å…ˆæœç´¢
     DepthFirstSearch(G& g) : g{ g }, size{ g.Size() }, visited(size, false) {
     }
     template <typename Callable>
-    void Traverse(int v /* ¶¥µãĞòºÅ */, Callable callback) { // ´ÓÄ³¸öÖ¸¶¨¶¥µã¿ªÊ¼£¬±éÀúÁ¬Í¨Í¼
+    void Traverse(int v /* é¡¶ç‚¹åºå· */, Callable callback) { // ä»æŸä¸ªæŒ‡å®šé¡¶ç‚¹å¼€å§‹ï¼Œéå†è¿é€šå›¾
         if (!(0 <= v && v < size)) throw "out of range";
-        callback(g[v]); visited[v] = true; // ·ÃÎÊµÚ v ¸ö¶¥µã£¬ÖÃÎªÒÑ·ÃÎÊ
+        callback(g[v]); visited[v] = true; // è®¿é—®ç¬¬ v ä¸ªé¡¶ç‚¹ï¼Œç½®ä¸ºå·²è®¿é—®
         for (int w = FirstAdjacentVertex(g, v); w >= 0;
             w = NextAdjacentVertex(g, v, w))
             if (!visited[w])
-                Traverse(w, callback); // ¶Ô v µÄÉĞÎ´·ÃÎÊµÄÁÚ½Ó¶¥µã w µİ¹éµ÷ÓÃ DFS
+                Traverse(w, callback); // å¯¹ v çš„å°šæœªè®¿é—®çš„é‚»æ¥é¡¶ç‚¹ w é€’å½’è°ƒç”¨ DFS
     }
     template <typename Callable>
-    void Traverse(Callable callback) { // ±éÀú·ÇÁ¬Í¨Í¼
+    void Traverse(Callable callback) { // éå†éè¿é€šå›¾
         for (int i = 0; i < size; ++i) if (!visited[i]) Traverse(i, callback);
     }
 private:
-    std::vector<bool> visited; // ¶¥µãÊÇ·ñÒÑ·ÃÎÊµÄ±ê¼Ç
-    G& g; // Í¼µÄÒıÓÃ
-    int size; // Í¼ÖĞ¶¥µãÊı
+    std::vector<bool> visited; // é¡¶ç‚¹æ˜¯å¦å·²è®¿é—®çš„æ ‡è®°
+    G& g; // å›¾çš„å¼•ç”¨
+    int size; // å›¾ä¸­é¡¶ç‚¹æ•°
 };
 /*
- * Éî¶ÈÓÅÏÈËÑË÷±éÀúËã·¨ÔÚ±éÀúÍ¼Ê±£¬¶ÔÍ¼ÖĞÃ¿¸ö¶¥µã£¬ÖÁ¶àµ÷ÓÃÒ»´Î DFS º¯Êı¡£
- * Òò´Ë£¬±éÀúÍ¼µÄ¹ı³ÌÊµÖÊÉÏÊÇ¶ÔÃ¿¸ö¶¥µã²éÕÒÆäÁÚ½ÓµãµÄ¹ı³Ì£¬ÆäºÄ·ÑµÄÊ±¼äÈ¡¾öÓÚÍ¼µÄ´æ´¢½á¹¹¡£
- * ÓÃÁÚ½Ó¾ØÕó±íÊ¾Í¼Ê±£¬²éÕÒÃ¿¸ö¶¥µãµÄÁÚ½ÓµãµÄÊ±¼ä¸´ÔÓ¶ÈÎª $O(n^2)$¡£
- * ÓÃÁÚ½Ó±í±íÊ¾Í¼Ê±£¬Ê±¼ä¸´ÔÓ¶ÈÎª $O(n+e)$¡£
+ * æ·±åº¦ä¼˜å…ˆæœç´¢éå†ç®—æ³•åœ¨éå†å›¾æ—¶ï¼Œå¯¹å›¾ä¸­æ¯ä¸ªé¡¶ç‚¹ï¼Œè‡³å¤šè°ƒç”¨ä¸€æ¬¡ DFS å‡½æ•°ã€‚
+ * å› æ­¤ï¼Œéå†å›¾çš„è¿‡ç¨‹å®è´¨ä¸Šæ˜¯å¯¹æ¯ä¸ªé¡¶ç‚¹æŸ¥æ‰¾å…¶é‚»æ¥ç‚¹çš„è¿‡ç¨‹ï¼Œå…¶è€—è´¹çš„æ—¶é—´å–å†³äºå›¾çš„å­˜å‚¨ç»“æ„ã€‚
+ * ç”¨é‚»æ¥çŸ©é˜µè¡¨ç¤ºå›¾æ—¶ï¼ŒæŸ¥æ‰¾æ¯ä¸ªé¡¶ç‚¹çš„é‚»æ¥ç‚¹çš„æ—¶é—´å¤æ‚åº¦ä¸º $O(n^2)$ã€‚
+ * ç”¨é‚»æ¥è¡¨è¡¨ç¤ºå›¾æ—¶ï¼Œæ—¶é—´å¤æ‚åº¦ä¸º $O(n+e)$ã€‚
  */

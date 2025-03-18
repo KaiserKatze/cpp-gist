@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 
 template <typename ElemType>
-class Queue { // ¶ÓÁĞ£¨Á´Ê½´æ´¢£©
+class Queue { // é˜Ÿåˆ—ï¼ˆé“¾å¼å­˜å‚¨ï¼‰
     struct Node {
-        ElemType data; // Êı¾İÓò
+        ElemType data; // æ•°æ®åŸŸ
         Node* next;
 
         Node(const ElemType& data) : data{ data }, next{ nullptr } {}
     };
     int size;
-    Node* head; // ¶ÓÊ×Ö¸Õë£¨Ö»¿ÉÉ¾³ı£©
-    Node* rear; // ¶ÓÎ²Ö¸Õë£¨Ö»¿É²åÈë£©
+    Node* head; // é˜Ÿé¦–æŒ‡é’ˆï¼ˆåªå¯åˆ é™¤ï¼‰
+    Node* rear; // é˜Ÿå°¾æŒ‡é’ˆï¼ˆåªå¯æ’å…¥ï¼‰
 
 public:
     Queue() : size{ 0 } {

@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 
 template <typename ElemType>
-class Queue { // ¶ÓÁĞ£¨Ë³Ğò´æ´¢£©
+class Queue { // é˜Ÿåˆ—ï¼ˆé¡ºåºå­˜å‚¨ï¼‰
     std::vector<ElemType> v;
-    size_t head; // ¶ÓÊ×Ö¸Õë£¨Ö»¿ÉÉ¾³ı£©
-    size_t rear; // ¶ÓÎ²Ö¸Õë£¨Ö»¿É²åÈë£©
+    size_t head; // é˜Ÿé¦–æŒ‡é’ˆï¼ˆåªå¯åˆ é™¤ï¼‰
+    size_t rear; // é˜Ÿå°¾æŒ‡é’ˆï¼ˆåªå¯æ’å…¥ï¼‰
 
     Queue(size_t capacity) : v(capacity), head{ 0 }, rear{ 0 } {
     }

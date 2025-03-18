@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "BinaryTree.hpp"
 
 template <typename ElemType>
@@ -39,56 +39,56 @@ Node<ElemType>* ConstructLinkedBinaryTreeFromStandardSequence(const ElemType* li
 
 template <typename ElemType, typename NodeType = typename LinkedBinaryTree<ElemType>::Node>
 NodeType* ConstructLinkedBinaryTreeFromTraverseSequencePsIn(
-    const ElemType* seqPs /*ºóĞòĞòÁĞ*/,
-    const ElemType* seqIn /*ÖĞĞòĞòÁĞ*/,
-    int len /*ĞòÁĞ³¤¶È*/
+    const ElemType* seqPs /*ååºåºåˆ—*/,
+    const ElemType* seqIn /*ä¸­åºåºåˆ—*/,
+    int len /*åºåˆ—é•¿åº¦*/
 ) {
-    // ¸ù¾İºóĞòĞòÁĞºÍÖĞĞòĞòÁĞ¹¹Ôì¶ş²æÊ÷£¬·Çµİ¹éËã·¨
-    if (!(seqPs && seqIn && len > 0)) return nullptr; // ¿ÕĞòÁĞ£¬Ö±½Ó·µ»Ø
+    // æ ¹æ®ååºåºåˆ—å’Œä¸­åºåºåˆ—æ„é€ äºŒå‰æ ‘ï¼Œéé€’å½’ç®—æ³•
+    if (!(seqPs && seqIn && len > 0)) return nullptr; // ç©ºåºåˆ—ï¼Œç›´æ¥è¿”å›
     const ElemType* pData;
     NodeType* root{ nullptr };
     struct Relation {
-        NodeType* parent; // Ë«Ç×Ö¸Õë
-        bool isLeftChild; // ×óº¢×ÓÑ¡ true£¬ÓÒº¢×ÓÑ¡ false
-        int loPs; // ºóĞòĞòÁĞÖ¸±êÆğµã
-        int hiPs; // ºóĞòĞòÁĞÖ¸±êÖÕµã
-        int loIn; // ÖĞĞòĞòÁĞÖ¸±êÆğµã
-        int hiIn; // ÖĞĞòĞòÁĞÖ¸±êÖÕµã
+        NodeType* parent; // åŒäº²æŒ‡é’ˆ
+        bool isLeftChild; // å·¦å­©å­é€‰ trueï¼Œå³å­©å­é€‰ false
+        int loPs; // ååºåºåˆ—æŒ‡æ ‡èµ·ç‚¹
+        int hiPs; // ååºåºåˆ—æŒ‡æ ‡ç»ˆç‚¹
+        int loIn; // ä¸­åºåºåˆ—æŒ‡æ ‡èµ·ç‚¹
+        int hiIn; // ä¸­åºåºåˆ—æŒ‡æ ‡ç»ˆç‚¹
     };
     Queue<Relation> lq;
     lq.Enqueue(Relation{ nullptr, 1, 0, len - 1, 0, len - 1 });
     while (!lq.IsEmpty()) {
         const Relation& relation{ lq.Dequeue() };
-        if (len == 0) continue; // ¶Ô¿ÕĞòÁĞ²»×÷ÈÎºÎ´¦Àí
+        if (len == 0) continue; // å¯¹ç©ºåºåˆ—ä¸ä½œä»»ä½•å¤„ç†
         pData = &seqPs[relation.hiPs];
-        NodeType* node{ new NodeType{ *pData } }; // ¹¹Ôì¸ù½áµã
+        NodeType* node{ new NodeType{ *pData } }; // æ„é€ æ ¹ç»“ç‚¹
         if (root == nullptr) root = node;
         else {
             assert(relation.parent != nullptr);
-            if (relation.isLeftChild) // µ±Ç°½áµãÊÇËüµÄË«Ç×µÄ×óº¢×Ó
+            if (relation.isLeftChild) // å½“å‰ç»“ç‚¹æ˜¯å®ƒçš„åŒäº²çš„å·¦å­©å­
                 relation.parent->lChild = node;
-            else // µ±Ç°½áµãÊÇËüµÄË«Ç×µÄÓÒº¢×Ó
+            else // å½“å‰ç»“ç‚¹æ˜¯å®ƒçš„åŒäº²çš„å³å­©å­
                 relation.parent->rChild = node;
         }
         int mdIn;
         for (mdIn = relation.loIn; mdIn <= relation.hiIn; mdIn++)
             if (seqIn[mdIn] == *pData)
-                break; // ÔÚÖĞĞòĞòÁĞÖĞ¶¨Î»¸ù½áµã
-        // ÔÚÖĞĞòĞòÁĞÖĞ£¬Ö¸±êÇø¼ä [loIn,mdIn-1] ¶ÔÓ¦µÄÊÇ×ó×ÓĞòÁĞ£¬Ö¸±êÇø¼ä [mdIn+1,hiIn] ¶ÔÓ¦µÄÊÇÓÒ×ÓĞòÁĞ
-        int lenL{ mdIn - relation.loIn }; // ×ó×ÓĞòÁĞµÄ³¤¶È
+                break; // åœ¨ä¸­åºåºåˆ—ä¸­å®šä½æ ¹ç»“ç‚¹
+        // åœ¨ä¸­åºåºåˆ—ä¸­ï¼ŒæŒ‡æ ‡åŒºé—´ [loIn,mdIn-1] å¯¹åº”çš„æ˜¯å·¦å­åºåˆ—ï¼ŒæŒ‡æ ‡åŒºé—´ [mdIn+1,hiIn] å¯¹åº”çš„æ˜¯å³å­åºåˆ—
+        int lenL{ mdIn - relation.loIn }; // å·¦å­åºåˆ—çš„é•¿åº¦
         int loPs{ relation.loPs };
         int hiPs{ loPs + lenL - 1 };
         int loIn{ relation.loIn };
         int hiIn{ mdIn - 1 };
         if (lenL)
-            lq.Enqueue(Relation{ node, 1, loPs, hiPs, loIn, hiIn }); // ½«×ó×ÓĞòÁĞ²åÈë¶ÓÁĞ
-        int lenR{ relation.hiIn - mdIn }; // ÓÒ×ÓĞòÁĞµÄ³¤¶È
+            lq.Enqueue(Relation{ node, 1, loPs, hiPs, loIn, hiIn }); // å°†å·¦å­åºåˆ—æ’å…¥é˜Ÿåˆ—
+        int lenR{ relation.hiIn - mdIn }; // å³å­åºåˆ—çš„é•¿åº¦
         loPs = hiPs + 1;
         hiPs = loPs + lenR - 1;
         loIn = mdIn + 1;
         hiIn = relation.hiIn;
         if (lenR)
-            lq.Enqueue(Relation{ node, 0, loPs, hiPs, loIn, hiIn }); // ½«ÓÒ×ÓĞòÁĞ²åÈë¶ÓÁĞ
+            lq.Enqueue(Relation{ node, 0, loPs, hiPs, loIn, hiIn }); // å°†å³å­åºåˆ—æ’å…¥é˜Ÿåˆ—
     }
     return root; // TODO
 }

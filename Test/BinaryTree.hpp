@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include "LinkedQueue.hpp"
 #include "TreeUtils.hpp"
 
-template <typename E, int C = 0 /* ½áµãÀàĞÍ */>
-struct Node { // ½áµã£¨¶ş²æÊ÷£©
-    E data; // Êı¾İÓò
-    Node* lChild; // ×óÖ¸ÕëÓò£¨Ö¸Ïò×óº¢×Ó£©
-    Node* rChild; // ÓÒÖ¸ÕëÓò£¨Ö¸ÏòÓÒº¢×Ó£©
+template <typename E, int C = 0 /* ç»“ç‚¹ç±»å‹ */>
+struct Node { // ç»“ç‚¹ï¼ˆäºŒå‰æ ‘ï¼‰
+    E data; // æ•°æ®åŸŸ
+    Node* lChild; // å·¦æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å·¦å­©å­ï¼‰
+    Node* rChild; // å³æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å³å­©å­ï¼‰
 
     Node(E data) : data{ data } {
         lChild = rChild = nullptr;
@@ -19,11 +19,11 @@ struct Node { // ½áµã£¨¶ş²æÊ÷£©
 };
 
 template <typename E>
-struct Node<E, 1> { // ½áµã£¨¶ş²æÊ÷£¬´øÓĞÇ×Ö¸ÕëÓò£©
-    E data; // Êı¾İÓò
-    Node* lChild; // ×óÖ¸ÕëÓò£¨Ö¸Ïò×óº¢×Ó£©
-    Node* rChild; // ÓÒÖ¸ÕëÓò£¨Ö¸ÏòÓÒº¢×Ó£©
-    Node* parent; // Ç×Ö¸ÕëÓò
+struct Node<E, 1> { // ç»“ç‚¹ï¼ˆäºŒå‰æ ‘ï¼Œå¸¦æœ‰äº²æŒ‡é’ˆåŸŸï¼‰
+    E data; // æ•°æ®åŸŸ
+    Node* lChild; // å·¦æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å·¦å­©å­ï¼‰
+    Node* rChild; // å³æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å³å­©å­ï¼‰
+    Node* parent; // äº²æŒ‡é’ˆåŸŸ
 
     Node(E data) : data{ data } {
         parent = lChild = rChild = nullptr;
@@ -36,22 +36,22 @@ struct Node<E, 1> { // ½áµã£¨¶ş²æÊ÷£¬´øÓĞÇ×Ö¸ÕëÓò£©
 };
 
 template <typename ElemType>
-struct LinkedBinaryTree { // ¶ş²æÊ÷£¨Á´Ê½´æ´¢£¬¶ş²æÁ´±í£©
-    struct Node { // ½áµã
-        Node* lChild; // ×óÖ¸ÕëÓò£¨Ö¸Ïò×óº¢×Ó£©
-        Node* rChild; // ÓÒÖ¸ÕëÓò£¨Ö¸ÏòÓÒº¢×Ó£©
-        ElemType data; // Êı¾İÓò
+struct LinkedBinaryTree { // äºŒå‰æ ‘ï¼ˆé“¾å¼å­˜å‚¨ï¼ŒäºŒå‰é“¾è¡¨ï¼‰
+    struct Node { // ç»“ç‚¹
+        Node* lChild; // å·¦æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å·¦å­©å­ï¼‰
+        Node* rChild; // å³æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å³å­©å­ï¼‰
+        ElemType data; // æ•°æ®åŸŸ
 
         Node(ElemType data);
         ~Node();
         bool InsertChild(bool lr, Node* child);
         bool DeleteChild(bool lr);
     };
-    Node* root; // Í·Ö¸Õë£¨Ö¸Ïò¸ù£©
+    Node* root; // å¤´æŒ‡é’ˆï¼ˆæŒ‡å‘æ ¹ï¼‰
 
     LinkedBinaryTree();
     ~LinkedBinaryTree();
-    bool IsEmpty() const; // ÈôÎª¿ÕÊ÷£¬·µ»Ø true£»·ñÔò·µ»Ø false¡£
+    bool IsEmpty() const; // è‹¥ä¸ºç©ºæ ‘ï¼Œè¿”å› trueï¼›å¦åˆ™è¿”å› falseã€‚
 };
 
 template <typename ElemType>

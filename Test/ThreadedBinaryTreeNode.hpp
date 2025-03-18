@@ -1,14 +1,14 @@
-// ÖĞĞòÏßË÷»¯¶ş²æÊ÷¡¢±éÀúÖĞĞòÏßË÷¶ş²æÊ÷
+ï»¿// ä¸­åºçº¿ç´¢åŒ–äºŒå‰æ ‘ã€éå†ä¸­åºçº¿ç´¢äºŒå‰æ ‘
 #pragma once
 #include <stack>
 
 template <typename ElemType>
-struct ThreadedBinaryTreeNode { // ÏßË÷¶ş²æÊ÷£¨¶ş²æÏßË÷Á´±í£©½áµã
-    ThreadedBinaryTreeNode* lChild; // ×óÖ¸ÕëÓò£¨Ö¸Ïò×óº¢×Ó»òÇ°Çı£©
-    ThreadedBinaryTreeNode* rChild; // ÓÒÖ¸ÕëÓò£¨Ö¸ÏòÓÒº¢×Ó»òºó¼Ì£©
-    ElemType data; // Êı¾İÓò
-    int lTag : 1; // Îª0Ê±£¬×óÖ¸ÕëÓòÖ¸Ïò×óº¢×Ó£»·ñÔòÖ¸ÏòÇ°Çı£¨Ö»Õ¼ÓÃ1Î»£©
-    int rTag : 1; // Îª0Ê±£¬ÓÒÖ¸ÕëÓòÖ¸ÏòÓÒº¢×Ó£»·ñÔòÖ¸Ïòºó¼Ì£¨Ö»Õ¼ÓÃ1Î»£©
+struct ThreadedBinaryTreeNode { // çº¿ç´¢äºŒå‰æ ‘ï¼ˆäºŒå‰çº¿ç´¢é“¾è¡¨ï¼‰ç»“ç‚¹
+    ThreadedBinaryTreeNode* lChild; // å·¦æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å·¦å­©å­æˆ–å‰é©±ï¼‰
+    ThreadedBinaryTreeNode* rChild; // å³æŒ‡é’ˆåŸŸï¼ˆæŒ‡å‘å³å­©å­æˆ–åç»§ï¼‰
+    ElemType data; // æ•°æ®åŸŸ
+    int lTag : 1; // ä¸º0æ—¶ï¼Œå·¦æŒ‡é’ˆåŸŸæŒ‡å‘å·¦å­©å­ï¼›å¦åˆ™æŒ‡å‘å‰é©±ï¼ˆåªå ç”¨1ä½ï¼‰
+    int rTag : 1; // ä¸º0æ—¶ï¼Œå³æŒ‡é’ˆåŸŸæŒ‡å‘å³å­©å­ï¼›å¦åˆ™æŒ‡å‘åç»§ï¼ˆåªå ç”¨1ä½ï¼‰
     ThreadedBinaryTreeNode() {
         lChild = rChild = nullptr;
         lTag = rTag = 0;
@@ -59,77 +59,77 @@ struct ThreadedBinaryTreeNode { // ÏßË÷¶ş²æÊ÷£¨¶ş²æÏßË÷Á´±í£©½áµã
 
 template <typename NodeType>
 NodeType* ThreadingIn(
-    NodeType* node /* ×ÓÊ÷¸ùÖ¸Õë */,
-    NodeType* prev /* Ç°ÇıÖ¸Õë */
+    NodeType* node /* å­æ ‘æ ¹æŒ‡é’ˆ */,
+    NodeType* prev /* å‰é©±æŒ‡é’ˆ */
 ) {
-    // ÒÔ½áµã node Îª¸ùµÄ×ÓÊ÷ÖĞĞòÏßË÷»¯
+    // ä»¥ç»“ç‚¹ node ä¸ºæ ¹çš„å­æ ‘ä¸­åºçº¿ç´¢åŒ–
     if (node) {
-        prev = ThreadingIn(node->lChild, prev); // ×ó×ÓÊ÷µİ¹éÖĞĞòÏßË÷»¯
-        if (node->lChild == nullptr) { // node µÄ×óº¢×ÓÎª¿Õ
-            node->lTag = 1; // ¸ø node ¼ÓÉÏ×óÏßË÷
-            node->lChild = prev; // prev ÊÇ node µÄÇ°Çı
+        prev = ThreadingIn(node->lChild, prev); // å·¦å­æ ‘é€’å½’ä¸­åºçº¿ç´¢åŒ–
+        if (node->lChild == nullptr) { // node çš„å·¦å­©å­ä¸ºç©º
+            node->lTag = 1; // ç»™ node åŠ ä¸Šå·¦çº¿ç´¢
+            node->lChild = prev; // prev æ˜¯ node çš„å‰é©±
         }
-        else node->lTag = 0; // node µÄ×óº¢×Ó·Ç¿Õ£¬Ã»ÓĞ×óÏßË÷
-        if (prev->rChild == nullptr) { // prev µÄÓÒº¢×ÓÎª¿Õ
-            prev->rTag = 1; // ¸ø prev ¼ÓÉÏÓÒÏßË÷
-            prev->rChild = node; // node ÊÇ prev µÄºó¼Ì
+        else node->lTag = 0; // node çš„å·¦å­©å­éç©ºï¼Œæ²¡æœ‰å·¦çº¿ç´¢
+        if (prev->rChild == nullptr) { // prev çš„å³å­©å­ä¸ºç©º
+            prev->rTag = 1; // ç»™ prev åŠ ä¸Šå³çº¿ç´¢
+            prev->rChild = node; // node æ˜¯ prev çš„åç»§
         }
-        else prev->rTag = 0; // prev µÄÓÒº¢×Ó·Ç¿Õ£¬Ã»ÓĞÓÒÏßË÷
-        prev = node; // node ÊÇÒÑ¾­·ÃÎÊ¹ıµÄ½áµã
-        prev = ThreadingIn(node->rChild, prev); // ÓÒ×ÓÊ÷µİ¹éÖĞĞòÏßË÷»¯
+        else prev->rTag = 0; // prev çš„å³å­©å­éç©ºï¼Œæ²¡æœ‰å³çº¿ç´¢
+        prev = node; // node æ˜¯å·²ç»è®¿é—®è¿‡çš„ç»“ç‚¹
+        prev = ThreadingIn(node->rChild, prev); // å³å­æ ‘é€’å½’ä¸­åºçº¿ç´¢åŒ–
     }
-    return prev; // ·µ»Ø¸Õ¸Õ·ÃÎÊ¹ıµÄ½áµã
+    return prev; // è¿”å›åˆšåˆšè®¿é—®è¿‡çš„ç»“ç‚¹
 }
 
 template <typename NodeType>
-NodeType* ThreadingIn(NodeType* t /* ²»´øÍ·½áµãµÄ¶ş²æÊ÷µÄ¸ùÖ¸Õë */) {
-    // ÖĞĞò±éÀú¶ş²æÊ÷£¬°ÑËüÖĞĞòÏßË÷»¯
-    NodeType* head{ new NodeType{} }; // ½¨Á¢Í·½áµã£¬È·±£Ê×Ôª½áµãºÍÎ²½áµã¿ÉÒÔÏßË÷»¯
+NodeType* ThreadingIn(NodeType* t /* ä¸å¸¦å¤´ç»“ç‚¹çš„äºŒå‰æ ‘çš„æ ¹æŒ‡é’ˆ */) {
+    // ä¸­åºéå†äºŒå‰æ ‘ï¼ŒæŠŠå®ƒä¸­åºçº¿ç´¢åŒ–
+    NodeType* head{ new NodeType{} }; // å»ºç«‹å¤´ç»“ç‚¹ï¼Œç¡®ä¿é¦–å…ƒç»“ç‚¹å’Œå°¾ç»“ç‚¹å¯ä»¥çº¿ç´¢åŒ–
     head->lTag = 0;
     head->lChild = head;
     head->rTag = 1;
     head->rChild = nullptr;
     if (t) {
-        head->lChild = t; // Í·½áµãµÄ×óº¢×ÓÖ¸Ïò¸ù£¬Ç°Çı prev ³õÖµÖ¸ÏòÍ·½áµã
-        NodeType* prev{ ThreadingIn(t, head) }; // ¶ÔÒÔ t Îª¸ùµÄ¶ş²æÊ÷ÖĞĞòÏßË÷»¯
-        head->rChild = prev; // Í·½áµãµÄÓÒÏßË÷Ö¸ÏòÇ°Çı prev
+        head->lChild = t; // å¤´ç»“ç‚¹çš„å·¦å­©å­æŒ‡å‘æ ¹ï¼Œå‰é©± prev åˆå€¼æŒ‡å‘å¤´ç»“ç‚¹
+        NodeType* prev{ ThreadingIn(t, head) }; // å¯¹ä»¥ t ä¸ºæ ¹çš„äºŒå‰æ ‘ä¸­åºçº¿ç´¢åŒ–
+        head->rChild = prev; // å¤´ç»“ç‚¹çš„å³çº¿ç´¢æŒ‡å‘å‰é©± prev
         prev->rTag = 1;
-        prev->rChild = head; // ÏßË÷»¯ºó£¬Ç°Çı prev ±ä³É×îÓÒ½áµã£¬ËüµÄÓÒÏßË÷Ö¸ÏòÍ·½áµã
+        prev->rChild = head; // çº¿ç´¢åŒ–åï¼Œå‰é©± prev å˜æˆæœ€å³ç»“ç‚¹ï¼Œå®ƒçš„å³çº¿ç´¢æŒ‡å‘å¤´ç»“ç‚¹
     }
-    return head; // ·µ»ØÍ·½áµãÖ¸Õë
+    return head; // è¿”å›å¤´ç»“ç‚¹æŒ‡é’ˆ
 }
 
 template <typename NodeType, typename Callable>
-void TraverseInOrderT(NodeType* tree /* ÏßË÷¶ş²æÊ÷µÄÍ·½áµã */, Callable callback) {
-    // ÖĞĞò±éÀúÖĞĞòÏßË÷¶ş²æÊ÷
+void TraverseInOrderT(NodeType* tree /* çº¿ç´¢äºŒå‰æ ‘çš„å¤´ç»“ç‚¹ */, Callable callback) {
+    // ä¸­åºéå†ä¸­åºçº¿ç´¢äºŒå‰æ ‘
     assert(tree != nullptr);
-    NodeType* p{ tree->lChild }; // p Ö¸ÏòÊ÷¸ù
-    while (p != tree) { // ¿ÕÊ÷»ò±éÀú½áÊøÊ±£¬±ØÓĞ `p == tree`£¡
-        while (p && !p->lTag) p = p->lChild; // ÑØ×óº¢×ÓÏòÏÂ
-        if (p) callback(p); // ·ÃÎÊ×ó×ÓÊ÷Îª¿ÕµÄ½áµã
+    NodeType* p{ tree->lChild }; // p æŒ‡å‘æ ‘æ ¹
+    while (p != tree) { // ç©ºæ ‘æˆ–éå†ç»“æŸæ—¶ï¼Œå¿…æœ‰ `p == tree`ï¼
+        while (p && !p->lTag) p = p->lChild; // æ²¿å·¦å­©å­å‘ä¸‹
+        if (p) callback(p); // è®¿é—®å·¦å­æ ‘ä¸ºç©ºçš„ç»“ç‚¹
         while (p && p->rTag && p->rChild != tree) {
             p = p->rChild;
-            callback(p); // ÑØÓÒÏßË÷·ÃÎÊºó¼Ì
+            callback(p); // æ²¿å³çº¿ç´¢è®¿é—®åç»§
         }
-        if (p) p = p->rChild; // ×ªÏò p µÄÓÒ×ÓÊ÷
+        if (p) p = p->rChild; // è½¬å‘ p çš„å³å­æ ‘
     }
 }
 
 template <typename NodeType, typename Callable>
 void TraverseNInOrderNR(NodeType* tree, Callable callback) {
-    // ÖĞĞò±éÀú£¨½áµã£©µÄ·Çµİ¹éËã·¨
-    if (!tree) return; // Èô¶ş²æÊ÷Îª¿Õ£¬Á¢¼´·µ»Ø
-    std::stack<NodeType*> s; // ÉèÖÃÒ»¸öÕ»£¬´æ·Å¸ùÖ¸Õë
-    NodeType* p{ tree }; // È¡µÃ¸ùÖ¸Õë
+    // ä¸­åºéå†ï¼ˆç»“ç‚¹ï¼‰çš„éé€’å½’ç®—æ³•
+    if (!tree) return; // è‹¥äºŒå‰æ ‘ä¸ºç©ºï¼Œç«‹å³è¿”å›
+    std::stack<NodeType*> s; // è®¾ç½®ä¸€ä¸ªæ ˆï¼Œå­˜æ”¾æ ¹æŒ‡é’ˆ
+    NodeType* p{ tree }; // å–å¾—æ ¹æŒ‡é’ˆ
     while (p || !s.IsEmpty()) {
-        if (p) {                    // Èç¹û p ·Ç¿Õ
-            s.Push(p);              // ¸ùÖ¸ÕëÈëÕ»
-            p = p->lChild;          // ±éÀú×ó×ÓÊ÷
+        if (p) {                    // å¦‚æœ p éç©º
+            s.Push(p);              // æ ¹æŒ‡é’ˆå…¥æ ˆ
+            p = p->lChild;          // éå†å·¦å­æ ‘
         }
-        else {                      // Èç¹û p Îª¿Õ
-            NodeType* q{ s.Pop() }; // ³öÕ»
-            callback(q);            // ·ÃÎÊ¸ù½áµã
-            p = q->rChild;          // ±éÀúÓÒ×ÓÊ÷
+        else {                      // å¦‚æœ p ä¸ºç©º
+            NodeType* q{ s.Pop() }; // å‡ºæ ˆ
+            callback(q);            // è®¿é—®æ ¹ç»“ç‚¹
+            p = q->rChild;          // éå†å³å­æ ‘
         }
     }
 }

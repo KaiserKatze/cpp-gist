@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include "Graph.hpp"
@@ -7,51 +7,51 @@
 template <Graph G>
 struct ShortestPath_Dijkstra {
     using ArcType = typename G::ArcType;
-    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ÓÃÄ³¸öÊı×ÖÀ´±íÊ¾Á½¸ö¶¥µãÖ®¼äµÄ±ßÈ¨ÊÇÎŞÇî´ó£¬±íÊ¾Á½¸ö¶¥µãÖ®¼äÃ»ÓĞ±ß
-    std::vector<bool> s; // ¼ÇÂ¼´ÓÆğµã v0 µ½ÖÕµã vi ÊÇ·ñÒÑ±»È·¶¨×î¶ÌÂ·¾¶³¤¶È£¬`true` ±íÊ¾È·¶¨
-    std::vector<size_t> path; // ¼ÇÂ¼´ÓÆğµã v0 µ½ÖÕµã vi µÄµ±Ç°×î¶ÌÂ·¾¶ÉÏ vi µÄÖ±½ÓÇ°Çı¶¥µãĞòºÅ
-    std::vector<ArcType> d; // ¼ÇÂ¼´ÓÆğµã v0 µ½ÖÕµã vi µÄµ±Ç°×î¶ÌÂ·¾¶³¤¶È
-    ShortestPath_Dijkstra(G& graph /* Í¼µÄÁÚ½Ó¾ØÕó±íÊ¾ */, size_t v0 /* Ô´µã */) {
-        const size_t size{ graph.Size() }; // Í¼ÖĞ¶¥µã¸öÊı
+    static constexpr ArcType arcInfinity{ std::numeric_limits<ArcType>::max() }; // ç”¨æŸä¸ªæ•°å­—æ¥è¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´çš„è¾¹æƒæ˜¯æ— ç©·å¤§ï¼Œè¡¨ç¤ºä¸¤ä¸ªé¡¶ç‚¹ä¹‹é—´æ²¡æœ‰è¾¹
+    std::vector<bool> s; // è®°å½•ä»èµ·ç‚¹ v0 åˆ°ç»ˆç‚¹ vi æ˜¯å¦å·²è¢«ç¡®å®šæœ€çŸ­è·¯å¾„é•¿åº¦ï¼Œ`true` è¡¨ç¤ºç¡®å®š
+    std::vector<size_t> path; // è®°å½•ä»èµ·ç‚¹ v0 åˆ°ç»ˆç‚¹ vi çš„å½“å‰æœ€çŸ­è·¯å¾„ä¸Š vi çš„ç›´æ¥å‰é©±é¡¶ç‚¹åºå·
+    std::vector<ArcType> d; // è®°å½•ä»èµ·ç‚¹ v0 åˆ°ç»ˆç‚¹ vi çš„å½“å‰æœ€çŸ­è·¯å¾„é•¿åº¦
+    ShortestPath_Dijkstra(G& graph /* å›¾çš„é‚»æ¥çŸ©é˜µè¡¨ç¤º */, size_t v0 /* æºç‚¹ */) {
+        const size_t size{ graph.Size() }; // å›¾ä¸­é¡¶ç‚¹ä¸ªæ•°
         static constexpr auto max_path{ std::numeric_limits<typename decltype(path)::value_type>::max() };
-        // ¼ì²é graph ÊÇ·ñ´øÓĞ¸º±ßÈ¨
+        // æ£€æŸ¥ graph æ˜¯å¦å¸¦æœ‰è´Ÿè¾¹æƒ
         for (const auto& row : graph.arcs.data) {
             for (const auto entry : row) {
                 if (entry < 0) {
 #ifdef DEBUG
-                    std::cerr << "ERR <<< Í¼ÖĞÓĞ¸º±ßÈ¨£¬ÎŞ·¨Ê¹ÓÃ Dijkstra Ëã·¨Çó½â×î¶ÌÂ·¾¶£¡\n";
+                    std::cerr << "ERR <<< å›¾ä¸­æœ‰è´Ÿè¾¹æƒï¼Œæ— æ³•ä½¿ç”¨ Dijkstra ç®—æ³•æ±‚è§£æœ€çŸ­è·¯å¾„ï¼\n";
                     return;
 #endif
                 }
             }
         }
-        s.resize(size, false); // °Ñ¼¯ºÏ S ³õÊ¼»¯Îª¿Õ¼¯
-        s[v0] = true; // ½« v0 ¼ÓÈë¼¯ºÏ S
-        d.resize(size, arcInfinity); // ³õÊ¼»¯Â·¾¶³¤¶È
-        path.resize(size, max_path); // ³õÊ¼»¯×î¶ÌÂ·¾¶
+        s.resize(size, false); // æŠŠé›†åˆ S åˆå§‹åŒ–ä¸ºç©ºé›†
+        s[v0] = true; // å°† v0 åŠ å…¥é›†åˆ S
+        d.resize(size, arcInfinity); // åˆå§‹åŒ–è·¯å¾„é•¿åº¦
+        path.resize(size, max_path); // åˆå§‹åŒ–æœ€çŸ­è·¯å¾„
         for (size_t v = 0; v < size; ++v) {
-            d[v] = graph.arcs[v0][v]; // v0 µ½¸÷¸öÖÕµãµÄ×î¶ÌÂ·¾¶³¤¶È£¬³õÊ¼»¯Îª±ßÈ¨
-            if (d[v] < arcInfinity) path[v] = v0; // Èç¹û v0 ºÍ v Ö®¼äÓĞ±ß£¬Ôò v µÄÇ°ÇıÖÃÎª v0
-                                                  // Èç¹û v0 ºÍ v Ö®¼äÎŞ±ß£¬Ôò v µÄÇ°ÇıÖÃÎª¿Õ
+            d[v] = graph.arcs[v0][v]; // v0 åˆ°å„ä¸ªç»ˆç‚¹çš„æœ€çŸ­è·¯å¾„é•¿åº¦ï¼Œåˆå§‹åŒ–ä¸ºè¾¹æƒ
+            if (d[v] < arcInfinity) path[v] = v0; // å¦‚æœ v0 å’Œ v ä¹‹é—´æœ‰è¾¹ï¼Œåˆ™ v çš„å‰é©±ç½®ä¸º v0
+                                                  // å¦‚æœ v0 å’Œ v ä¹‹é—´æ— è¾¹ï¼Œåˆ™ v çš„å‰é©±ç½®ä¸ºç©º
         }
-        d[v0] = 0; // Æğµã v0 µ½Ëü×Ô¼ºµÄ¾àÀëÎªÁã
-        // ³õÊ¼»¯½áÊø£¬¿ªÊ¼Ö÷Ñ­»·£¬Ã¿´ÎÇóµÃ v0 µ½Ä³¸ö¶¥µã v µÄ×î¶ÌÂ·¾¶£¬½« v ¼ÓÈë¼¯ºÏ S
-        for (size_t i = 1 /* ÕâÀï i Ö»Æğµ½¼ÆÊı×÷ÓÃ£¬³õÊ¼Öµ¾ÍÊÇ 1£¬Ã»ÓĞ´í£¬²»Òª¸Ä */; i < size; ++i) { // ¶ÔÆäÓà n-1 ¸ö¶¥µã£¬ÒÀ´Î¼ÆËã
-            // ´Ó¼¯ºÏ V-S ÖĞÕÒÒ»¸öµ½ v0 µÄÂ·¾¶×î¶ÌµÄµã v
-            ArcType min_path{ arcInfinity }; // Â·¾¶×îĞ¡È¨Öµ
-            size_t min_vertex{ max_path }; // ×îĞ¡È¨ÖµÂ·¾¶
+        d[v0] = 0; // èµ·ç‚¹ v0 åˆ°å®ƒè‡ªå·±çš„è·ç¦»ä¸ºé›¶
+        // åˆå§‹åŒ–ç»“æŸï¼Œå¼€å§‹ä¸»å¾ªç¯ï¼Œæ¯æ¬¡æ±‚å¾— v0 åˆ°æŸä¸ªé¡¶ç‚¹ v çš„æœ€çŸ­è·¯å¾„ï¼Œå°† v åŠ å…¥é›†åˆ S
+        for (size_t i = 1 /* è¿™é‡Œ i åªèµ·åˆ°è®¡æ•°ä½œç”¨ï¼Œåˆå§‹å€¼å°±æ˜¯ 1ï¼Œæ²¡æœ‰é”™ï¼Œä¸è¦æ”¹ */; i < size; ++i) { // å¯¹å…¶ä½™ n-1 ä¸ªé¡¶ç‚¹ï¼Œä¾æ¬¡è®¡ç®—
+            // ä»é›†åˆ V-S ä¸­æ‰¾ä¸€ä¸ªåˆ° v0 çš„è·¯å¾„æœ€çŸ­çš„ç‚¹ v
+            ArcType min_path{ arcInfinity }; // è·¯å¾„æœ€å°æƒå€¼
+            size_t min_vertex{ max_path }; // æœ€å°æƒå€¼è·¯å¾„
             for (size_t w = 0; w < size; ++w) {
-                if (!s[w] && d[w] < min_path) { // Èôµã w »¹²»ÔÚÖÕµã¼¯ºÏ S ÖĞ£¬ÇÒ w µ½ v0 µÄ¾àÀë¸ü¶Ì
+                if (!s[w] && d[w] < min_path) { // è‹¥ç‚¹ w è¿˜ä¸åœ¨ç»ˆç‚¹é›†åˆ S ä¸­ï¼Œä¸” w åˆ° v0 çš„è·ç¦»æ›´çŸ­
                     min_vertex = w;
                     min_path = d[w];
                 }
             }
-            s[min_vertex] = true; // ½«¶¥µã v ¼ÓÈë¼¯ºÏ S
-#ifdef DEBUG // ´òÓ¡¸¨ÖúÊı¾İ½á¹¹
+            s[min_vertex] = true; // å°†é¡¶ç‚¹ v åŠ å…¥é›†åˆ S
+#ifdef DEBUG // æ‰“å°è¾…åŠ©æ•°æ®ç»“æ„
             std::cout << "LOG <<< path[i=" << i << "]: ";
             for (auto prev_vertex : path) {
                 if (prev_vertex == max_path) {
-                    std::cout << "¡Ş" << " ";
+                    std::cout << "âˆ" << " ";
                 }
                 else {
                     std::cout << prev_vertex << " ";
@@ -61,28 +61,28 @@ struct ShortestPath_Dijkstra {
             std::cout << "LOG <<< d[i=" << i << "]: ";
             for (const ArcType& weight : d) {
                 if (weight == std::numeric_limits<ArcType>::max()) {
-                    std::cout << "¡Ş" << " ";
+                    std::cout << "âˆ" << " ";
                 }
                 else {
                     std::cout << weight << " ";
                 }
             }
             std::cout << "\n";
-            std::cout << "LOG <<< Ñ¡ÖĞµÄ¶¥µãÎª: v='" << graph[min_vertex] << "'(" << min_vertex << "), ¶ÔÓ¦µÄÂ·¾¶³¤¶ÈÎª: " << min_path << ".\n";
+            std::cout << "LOG <<< é€‰ä¸­çš„é¡¶ç‚¹ä¸º: v='" << graph[min_vertex] << "'(" << min_vertex << "), å¯¹åº”çš„è·¯å¾„é•¿åº¦ä¸º: " << min_path << ".\n";
 #endif
-            // ¸üĞÂ´Ó v0 ³ö·¢µ½¼¯ºÏ V-S ÉÏËùÓĞ¶¥µãµÄ×î¶ÌÂ·¾¶³¤¶È
+            // æ›´æ–°ä» v0 å‡ºå‘åˆ°é›†åˆ V-S ä¸Šæ‰€æœ‰é¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„é•¿åº¦
             for (size_t w = 0; w < size; ++w) {
-                if (s[w]) continue; // ¶¥µã w ÔÚ¼¯ºÏ S ÖĞ£¬²»ÔÚ¼¯ºÏ V-S ÖĞ£¬Ìø¹ı
-                const ArcType& t1{ graph.arcs[min_vertex][w] }; // ¶¥µã v µ½¶¥µã w µÄ±ßÈ¨
-                ArcType t2{ t1 + d[min_vertex] }; // ´Ó¶¥µã v0 ³ö·¢£¬Í¾¾¶¶¥µã v£¬ÔÙµ½¶¥µã w µÄÂ·¾¶µÄ³¤¶È
-                if constexpr (std::is_integral_v<ArcType>) { // ±ßÈ¨ÀàĞÍÊÇÕûÊı£¬ĞèÒª¼ì²éÔËËã½á¹ûÊÇ·ñÒç³ö
-                    if (t2 <= t1) { // ÆÚÍûµÄ½á¹ûÊÇ t2 > t1£¬t2 <= t1 ËµÃ÷ÔËËã½á¹ûÒç³öÁË£¡£¡£¡
-                        t2 = arcInfinity; // ÉèÎª×î´óÖµ
+                if (s[w]) continue; // é¡¶ç‚¹ w åœ¨é›†åˆ S ä¸­ï¼Œä¸åœ¨é›†åˆ V-S ä¸­ï¼Œè·³è¿‡
+                const ArcType& t1{ graph.arcs[min_vertex][w] }; // é¡¶ç‚¹ v åˆ°é¡¶ç‚¹ w çš„è¾¹æƒ
+                ArcType t2{ t1 + d[min_vertex] }; // ä»é¡¶ç‚¹ v0 å‡ºå‘ï¼Œé€”å¾„é¡¶ç‚¹ vï¼Œå†åˆ°é¡¶ç‚¹ w çš„è·¯å¾„çš„é•¿åº¦
+                if constexpr (std::is_integral_v<ArcType>) { // è¾¹æƒç±»å‹æ˜¯æ•´æ•°ï¼Œéœ€è¦æ£€æŸ¥è¿ç®—ç»“æœæ˜¯å¦æº¢å‡º
+                    if (t2 <= t1) { // æœŸæœ›çš„ç»“æœæ˜¯ t2 > t1ï¼Œt2 <= t1 è¯´æ˜è¿ç®—ç»“æœæº¢å‡ºäº†ï¼ï¼ï¼
+                        t2 = arcInfinity; // è®¾ä¸ºæœ€å¤§å€¼
                     }
                 }
-                if (t2 < d[w]) { // ĞÂµÄÂ·¾¶µÄ³¤¶ÈĞ¡ÓÚÖ®Ç°¼ÇÂ¼µÄ×î¶ÌÂ·¾¶
-                    d[w] = t2; // ¸üĞÂ×î¶ÌÂ·¾¶
-                    path[w] = min_vertex; // ¸üĞÂÇ°Çı¶¥µã
+                if (t2 < d[w]) { // æ–°çš„è·¯å¾„çš„é•¿åº¦å°äºä¹‹å‰è®°å½•çš„æœ€çŸ­è·¯å¾„
+                    d[w] = t2; // æ›´æ–°æœ€çŸ­è·¯å¾„
+                    path[w] = min_vertex; // æ›´æ–°å‰é©±é¡¶ç‚¹
                 }
             }
         }

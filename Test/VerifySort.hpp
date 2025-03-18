@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 
 template <class ElemType>
 void Verify(ElemType* array, size_t start, size_t end) {
-    std::cout << "Êä³öÐòÁÐ£º(";
+    std::cout << "è¾“å‡ºåºåˆ—ï¼š(";
     for (ElemType* p{ array + start }; p < array + end; ++p) {
         std::cout << *p << ",";
     }
     std::cout << ").\n";
-    std::cout << "ÊÇ·ñÓÐÐò£º";
+    std::cout << "æ˜¯å¦æœ‰åºï¼š";
     bool order{ true };
     for (ElemType* p{ array + start + 1 }; p < array + end; ++p) {
-        if (*p < *(p - 1)) { // ºóÒ»¸ö¼ÇÂ¼Ð¡ÓÚÇ°Ò»¸ö¼ÇÂ¼
+        if (*p < *(p - 1)) { // åŽä¸€ä¸ªè®°å½•å°äºŽå‰ä¸€ä¸ªè®°å½•
             order = false;
             break;
         }
@@ -22,15 +22,15 @@ void Verify(ElemType* array, size_t start, size_t end) {
 
 template <class RandomIt>
 void Verify(RandomIt begin, RandomIt end) {
-    std::cout << "Êä³öÐòÁÐ£º(";
+    std::cout << "è¾“å‡ºåºåˆ—ï¼š(";
     for (RandomIt p{ begin }; p != end; ++p) {
         std::cout << *p << ",";
     }
     std::cout << ").\n";
-    std::cout << "ÊÇ·ñÓÐÐò£º";
+    std::cout << "æ˜¯å¦æœ‰åºï¼š";
     bool order{ true };
     for (RandomIt p{ begin }; p != end; ++p) {
-        if (*p < *(p - 1)) { // ºóÒ»¸ö¼ÇÂ¼Ð¡ÓÚÇ°Ò»¸ö¼ÇÂ¼
+        if (*p < *(p - 1)) { // åŽä¸€ä¸ªè®°å½•å°äºŽå‰ä¸€ä¸ªè®°å½•
             order = false;
             break;
         }

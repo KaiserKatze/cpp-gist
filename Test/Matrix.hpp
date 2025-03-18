@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <cassert>
 #include <cstring>
@@ -63,7 +63,7 @@ struct Matrix {
 
     Matrix& operator=(std::initializer_list<ElemType> data) {
         if (nRows * nColumns != data.size()) {
-            throw std::runtime_error{ "¾ØÕó´óĞ¡²»Ò»ÖÂ!" };
+            throw std::runtime_error{ "çŸ©é˜µå¤§å°ä¸ä¸€è‡´!" };
         }
         auto it = data.begin();
         for (size_t i = 0; i < nRows; ++i) {
@@ -82,7 +82,7 @@ struct Matrix {
                 nColumns = row.size();
             }
             else if (nColumns != row.size()) {
-                throw std::runtime_error{ "¸÷ĞĞÏòÁ¿Î¬Êı²»Í¬!" };
+                throw std::runtime_error{ "å„è¡Œå‘é‡ç»´æ•°ä¸åŒ!" };
             }
         }
         this->nRows = data.size();
@@ -114,7 +114,7 @@ struct Matrix {
     }
 
     Matrix operator-(const Matrix& other) const {
-        Matrix result(*this); // ¸´ÖÆ
+        Matrix result(*this); // å¤åˆ¶
         result -= other;
         return result;
     }
@@ -128,7 +128,7 @@ struct Matrix {
             for (size_t j = 0; j < nColumns; ++j) {
                 if (j > 0) ss << ", ";
                 const ElemType& entry{ data[i][j] };
-                if (entry == Infty) ss << "¡Ş";
+                if (entry == Infty) ss << "âˆ";
                 else                ss << entry;
             }
             ss << "},\n";
@@ -141,24 +141,24 @@ struct Matrix {
 template <class ElemType>
 std::vector<ElemType>& operator-=(std::vector<ElemType>& vec, Matrix<ElemType>& mat) {
     size_t len;
-    if (mat.nRows == 1) { // ¾ØÕó mat ÊÇÒ»¸öĞĞÏòÁ¿
+    if (mat.nRows == 1) { // çŸ©é˜µ mat æ˜¯ä¸€ä¸ªè¡Œå‘é‡
         len = mat.nColumns;
     }
-    else if (mat.nColumns == 1) { // ¾ØÕó mat ÊÇÒ»¸öÁĞÏòÁ¿
+    else if (mat.nColumns == 1) { // çŸ©é˜µ mat æ˜¯ä¸€ä¸ªåˆ—å‘é‡
         len = mat.nRows;
     }
     else {
-        throw std::invalid_argument{ "¾ØÕó²»ÊÇÖ»ÓĞ1ĞĞ»ò1ÁĞ!" };
+        throw std::invalid_argument{ "çŸ©é˜µä¸æ˜¯åªæœ‰1è¡Œæˆ–1åˆ—!" };
     }
-    if (len != vec.size()) { // ÏòÁ¿ vec Óë mat µÄ³¤¶È²»Ò»ÖÂ
-        throw std::invalid_argument{ "ÏòÁ¿³¤¶È²»Ò»ÖÂ!" };
+    if (len != vec.size()) { // å‘é‡ vec ä¸ mat çš„é•¿åº¦ä¸ä¸€è‡´
+        throw std::invalid_argument{ "å‘é‡é•¿åº¦ä¸ä¸€è‡´!" };
     }
-    if (mat.nRows == 1) { // ¾ØÕó mat ÊÇÒ»¸öĞĞÏòÁ¿
+    if (mat.nRows == 1) { // çŸ©é˜µ mat æ˜¯ä¸€ä¸ªè¡Œå‘é‡
         for (size_t i = 0; i < len; ++i) {
             vec[i] -= mat[0][i];
         }
     }
-    else { // ¾ØÕó mat ÊÇÒ»¸öÁĞÏòÁ¿
+    else { // çŸ©é˜µ mat æ˜¯ä¸€ä¸ªåˆ—å‘é‡
         for (size_t i = 0; i < len; ++i) {
             vec[i] -= mat[i][0];
         }
@@ -219,7 +219,7 @@ struct Matrix {
             return MatrixRow{ this, row };
         throw "out of range!";
     }
-    ElemType Sum() { // Çó³ö¾ØÕóÖĞ¸÷ÔªËØÖ®ºÍ
+    ElemType Sum() { // æ±‚å‡ºçŸ©é˜µä¸­å„å…ƒç´ ä¹‹å’Œ
         ElemType result{ (*this)[0].Sum() };
         for (int i = 1; i < nr; ++i) result += (*this)[i].Sum();
         return result;
@@ -232,7 +232,7 @@ struct Matrix {
                 ++result;
         return result;
     }
-    ElemType Max() const { // Çó³ö¾ØÕóÖĞ¸÷ÔªËØµÄ×î´óÖµ
+    ElemType Max() const { // æ±‚å‡ºçŸ©é˜µä¸­å„å…ƒç´ çš„æœ€å¤§å€¼
         ElemType result{ data[0] };
         for (auto it = std::cbegin(data);
             ++it < std::cend(data);)
@@ -240,7 +240,7 @@ struct Matrix {
                 result = *it;
         return result;
     }
-    void Replace(ElemType pattern, ElemType value) { // ½«¾ØÕóÖĞµÈÓÚ `pattern` µÄÔªËØÖÃÎª `value`
+    void Replace(ElemType pattern, ElemType value) { // å°†çŸ©é˜µä¸­ç­‰äº `pattern` çš„å…ƒç´ ç½®ä¸º `value`
         for (auto it = std::begin(data); it < std::end(data); ++it)
             if (*it == pattern)
                 *it = value;
@@ -260,8 +260,8 @@ struct Matrix {
         return ss.str();
     }
 private:
-    int nr; // ĞĞÊı
-    int nc; // ÁĞÊı
+    int nr; // è¡Œæ•°
+    int nc; // åˆ—æ•°
     std::vector<ElemType> data;
 
     template <class DataSource>

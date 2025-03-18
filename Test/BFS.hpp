@@ -1,36 +1,36 @@
-#pragma once
+ï»¿#pragma once
 #include "Graph.hpp"
 #include <queue>
 #include <vector>
 
 template <Graph G>
-struct BreadthFirstSearch { // ¹ã¶ÈÓÅÏÈËÑË÷
+struct BreadthFirstSearch { // å¹¿åº¦ä¼˜å…ˆæœç´¢
     BreadthFirstSearch(G& g) : g{ g }, size{ g.Size() }, visited(size, false) {
     }
     template <typename Callable>
-    void Traverse(int v /* ¶¥µãĞòºÅ */, Callable callback) { // ´ÓÄ³¸öÖ¸¶¨¶¥µã¿ªÊ¼£¬±éÀúÁ¬Í¨Í¼
+    void Traverse(int v /* é¡¶ç‚¹åºå· */, Callable callback) { // ä»æŸä¸ªæŒ‡å®šé¡¶ç‚¹å¼€å§‹ï¼Œéå†è¿é€šå›¾
         if (!(0 <= v && v < size)) throw "out of range";
-        callback(g[v]); visited[v] = true; // ·ÃÎÊµÚ v ¸ö¶¥µã£¬ÖÃÎªÒÑ·ÃÎÊ
-        std::queue<int, std::list<int>> q; // ´´½¨¶ÓÁĞ
-        q.push(v); // ¶¥µã v Èë¶Ó
-        while (!q.empty()) { // ¶ÓÁĞ·Ç¿Õ
-            int u{ q.front() }; q.pop(); // ¶ÓÍ·ÔªËØ³ö¶Ó
+        callback(g[v]); visited[v] = true; // è®¿é—®ç¬¬ v ä¸ªé¡¶ç‚¹ï¼Œç½®ä¸ºå·²è®¿é—®
+        std::queue<int, std::list<int>> q; // åˆ›å»ºé˜Ÿåˆ—
+        q.push(v); // é¡¶ç‚¹ v å…¥é˜Ÿ
+        while (!q.empty()) { // é˜Ÿåˆ—éç©º
+            int u{ q.front() }; q.pop(); // é˜Ÿå¤´å…ƒç´ å‡ºé˜Ÿ
             for (int w = FirstAdjacentVertex(g, u); w >= 0;
                 w = NextAdjacentVertex(g, u, w))
                 if (!visited[w]) {
-                    callback(g[w]); visited[w] = true; // ·ÃÎÊµÚ w ¸ö¶¥µã£¬ÖÃÎªÒÑ·ÃÎÊ
+                    callback(g[w]); visited[w] = true; // è®¿é—®ç¬¬ w ä¸ªé¡¶ç‚¹ï¼Œç½®ä¸ºå·²è®¿é—®
                     q.push(w);
                 }
         }
     }
 private:
-    std::vector<bool> visited; // ¶¥µãÊÇ·ñÒÑ·ÃÎÊµÄ±ê¼Ç
-    G& g; // Í¼µÄÒıÓÃ
-    int size; // Í¼ÖĞ¶¥µãÊı
+    std::vector<bool> visited; // é¡¶ç‚¹æ˜¯å¦å·²è®¿é—®çš„æ ‡è®°
+    G& g; // å›¾çš„å¼•ç”¨
+    int size; // å›¾ä¸­é¡¶ç‚¹æ•°
 };
 /*
- * ¹ã¶ÈÓÅÏÈËÑË÷±éÀúËã·¨ÔÚ±éÀúÍ¼Ê±£¬Ã¿¸ö¶¥µãÖÁ¶à½øÒ»´Î¶ÓÁĞ¡£
- * ±éÀúÍ¼µÄ¹ı³ÌÊµÖÊÉÏÊÇÍ¨¹ı±ßÕÒÁÚ½ÓµãµÄ¹ı³Ì£¬
- * Òò´Ë¹ã¶ÈÓÅÏÈËÑË÷µÄÊ±¼ä¸´ÔÓ¶ÈºÍÉî¶ÈÓÅÏÈËÑË÷ÏàÍ¬£¬
- * Á½ÖÖ±éÀú·½·¨µÄ²»Í¬Ö®´¦½ö½öÔÚÓÚ¶Ô¶¥µã·ÃÎÊµÄË³Ğò²»Í¬¡£
+ * å¹¿åº¦ä¼˜å…ˆæœç´¢éå†ç®—æ³•åœ¨éå†å›¾æ—¶ï¼Œæ¯ä¸ªé¡¶ç‚¹è‡³å¤šè¿›ä¸€æ¬¡é˜Ÿåˆ—ã€‚
+ * éå†å›¾çš„è¿‡ç¨‹å®è´¨ä¸Šæ˜¯é€šè¿‡è¾¹æ‰¾é‚»æ¥ç‚¹çš„è¿‡ç¨‹ï¼Œ
+ * å› æ­¤å¹¿åº¦ä¼˜å…ˆæœç´¢çš„æ—¶é—´å¤æ‚åº¦å’Œæ·±åº¦ä¼˜å…ˆæœç´¢ç›¸åŒï¼Œ
+ * ä¸¤ç§éå†æ–¹æ³•çš„ä¸åŒä¹‹å¤„ä»…ä»…åœ¨äºå¯¹é¡¶ç‚¹è®¿é—®çš„é¡ºåºä¸åŒã€‚
  */

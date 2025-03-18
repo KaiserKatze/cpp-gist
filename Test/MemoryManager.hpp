@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include <queue>
@@ -9,9 +9,9 @@
 
 struct MemoryManager {
     struct Page {
-        size_t page_id; // Ò³ºÅ
-        bool valid; // ÓĞĞ§Î»
-        size_t access; // ·ÃÎÊÎ»
+        size_t page_id; // é¡µå·
+        bool valid; // æœ‰æ•ˆä½
+        size_t access; // è®¿é—®ä½
 
         Page() : page_id{ std::numeric_limits<size_t>::max() }, valid{ false }, access{ 0 } {
         }
@@ -28,18 +28,18 @@ struct MemoryManager {
             access >>= 1;
         }
     };
-    std::vector<Page> working_set; // ¹¤×÷¼¯
-    size_t capacity; // ¹¤×÷¼¯´°¿Ú´óĞ¡
+    std::vector<Page> working_set; // å·¥ä½œé›†
+    size_t capacity; // å·¥ä½œé›†çª—å£å¤§å°
 
-    MemoryManager(size_t capacity /* ¹¤×÷¼¯´°¿Ú´óĞ¡ */) : capacity{ capacity } {
+    MemoryManager(size_t capacity /* å·¥ä½œé›†çª—å£å¤§å° */) : capacity{ capacity } {
         working_set.reserve(capacity);
     }
 
-    auto size() const { // ·µ»ØÒÑ×°ÈëµÄÒ³ÃæÊı
+    auto size() const { // è¿”å›å·²è£…å…¥çš„é¡µé¢æ•°
         return working_set.size();
     }
 
-    void Access(std::initializer_list<size_t> page_id /* Ò³ºÅ */) {
+    void Access(std::initializer_list<size_t> page_id /* é¡µå· */) {
         for (auto& page : working_set) {
             if (page.valid && page.page_id == page.page_id) {
 
@@ -48,9 +48,9 @@ struct MemoryManager {
     }
 };
 
-void LRU(const size_t capacity_of_resident_set /* ×¤Áô¼¯´°¿Ú´óĞ¡ */,
-    const size_t capacity_of_working_set /* ¹¤×÷¼¯´°¿Ú´óĞ¡ */,
-    std::initializer_list<size_t> list_of_page_ids /* Ò³»º³å¶ÓÁĞ */) {
+void LRU(const size_t capacity_of_resident_set /* é©»ç•™é›†çª—å£å¤§å° */,
+    const size_t capacity_of_working_set /* å·¥ä½œé›†çª—å£å¤§å° */,
+    std::initializer_list<size_t> list_of_page_ids /* é¡µç¼“å†²é˜Ÿåˆ— */) {
     struct Page {
         size_t page_id{ 0 };
         bool valid{ false };
@@ -79,8 +79,8 @@ void LRU(const size_t capacity_of_resident_set /* ×¤Áô¼¯´°¿Ú´óĞ¡ */,
         }
     };
 
-    std::vector<Page> resident_set(capacity_of_resident_set); // ×¤Áô¼¯
-    std::vector<char> working_set(capacity_of_working_set, ' '); // ¹¤×÷¼¯
+    std::vector<Page> resident_set(capacity_of_resident_set); // é©»ç•™é›†
+    std::vector<char> working_set(capacity_of_working_set, ' '); // å·¥ä½œé›†
     size_t working_set_pointer{ 0 };
     size_t working_set_size{ 0 };
     size_t counter{ 0 };
@@ -93,7 +93,7 @@ void LRU(const size_t capacity_of_resident_set /* ×¤Áô¼¯´°¿Ú´óĞ¡ */,
         std::cout << "[" << std::setw(2) << std::setfill('0') << counter << "] ";
         ++counter;
 
-        working_set[working_set_pointer] = '0' + static_cast<char>(page_id & 0xff); // ½«Ò³ºÅ¼ÓÈë¹¤×÷¼¯
+        working_set[working_set_pointer] = '0' + static_cast<char>(page_id & 0xff); // å°†é¡µå·åŠ å…¥å·¥ä½œé›†
         working_set_pointer = (working_set_pointer + 1) % capacity_of_working_set;
         ++working_set_size;
         if (working_set_size > capacity_of_working_set) {
@@ -103,10 +103,10 @@ void LRU(const size_t capacity_of_resident_set /* ×¤Áô¼¯´°¿Ú´óĞ¡ */,
         bool isPageFound{ false };
         for (Page& page : resident_set) {
             if (page == page_id) {
-                std::cout << "Ò³Ãæ " << page_id << " ÒÑÔÚ×¤Áô¼¯ÖĞ. ";
+                std::cout << "é¡µé¢ " << page_id << " å·²åœ¨é©»ç•™é›†ä¸­. ";
                 {
                     std::set real_working_set(working_set.cbegin(), working_set.cend());
-                    std::cout << "µ±Ç°¹¤×÷¼¯={";
+                    std::cout << "å½“å‰å·¥ä½œé›†={";
                     std::copy(real_working_set.cbegin(), real_working_set.cend(), std::ostream_iterator<char>(std::cout, ","));
                     std::cout << "}.\n";
                 }
@@ -118,29 +118,29 @@ void LRU(const size_t capacity_of_resident_set /* ×¤Áô¼¯´°¿Ú´óĞ¡ */,
         if (isPageFound) {
             continue;
         }
-        std::cout << "Ò³Ãæ " << page_id << " È±Ò³! ";
+        std::cout << "é¡µé¢ " << page_id << " ç¼ºé¡µ! ";
         bool doReplace{ true };
         for (Page& page : resident_set) {
             if (!page.valid) {
-                page = page_id; // µ÷ÈëÒ³Ãæ
+                page = page_id; // è°ƒå…¥é¡µé¢
                 doReplace = false;
                 break;
             }
         }
         if (!doReplace) {
-            std::cout << "ÒÑ³É¹¦½«Ò³Ãæ " << page_id << " µ÷ÈëÖ÷´æ. ";
-            std::cout << "µ±Ç°×¤Áô¼¯={";
+            std::cout << "å·²æˆåŠŸå°†é¡µé¢ " << page_id << " è°ƒå…¥ä¸»å­˜. ";
+            std::cout << "å½“å‰é©»ç•™é›†={";
             std::copy(resident_set.cbegin(), resident_set.cend(), std::ostream_iterator<char>(std::cout, ","));
             std::cout << "}. ";
             {
                 std::set real_working_set(working_set.cbegin(), working_set.cend());
-                std::cout << "µ±Ç°¹¤×÷¼¯={";
+                std::cout << "å½“å‰å·¥ä½œé›†={";
                 std::copy(real_working_set.cbegin(), real_working_set.cend(), std::ostream_iterator<char>(std::cout, ","));
                 std::cout << "}.\n";
             }
             continue;
         }
-        // Ò³ÃæÖÃ»»
+        // é¡µé¢ç½®æ¢
         size_t page_id_to_replace{ 0 };
         size_t max_access{ 0 };
         size_t index_of_page_to_replace{ 0 };
@@ -153,13 +153,13 @@ void LRU(const size_t capacity_of_resident_set /* ×¤Áô¼¯´°¿Ú´óĞ¡ */,
             ++i;
         }
         resident_set[index_of_page_to_replace] = page_id;
-        std::cout << "Ã»ÓĞ¿ÕÏĞÒ³¿ò£¬ÖÃ»»Ò³Ãæ " << page_id_to_replace << ". ";
-        std::cout << "µ±Ç°×¤Áô¼¯={";
+        std::cout << "æ²¡æœ‰ç©ºé—²é¡µæ¡†ï¼Œç½®æ¢é¡µé¢ " << page_id_to_replace << ". ";
+        std::cout << "å½“å‰é©»ç•™é›†={";
         std::copy(resident_set.cbegin(), resident_set.cend(), std::ostream_iterator<char>(std::cout, ","));
         std::cout << "}. ";
         {
             std::set real_working_set(working_set.cbegin(), working_set.cend());
-            std::cout << "µ±Ç°¹¤×÷¼¯={";
+            std::cout << "å½“å‰å·¥ä½œé›†={";
             std::copy(real_working_set.cbegin(), real_working_set.cend(), std::ostream_iterator<char>(std::cout, ","));
             std::cout << "}.\n";
         }

@@ -1,21 +1,21 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 #include <map>
 
-// # ��ƶ�̬�滮�㷨�Ļ������裺
-// 1. �̻�һ�����Ž�Ľṹ������
-// 2. �ݹ�ض������Ž��ֵ��
-// 3. �������Ž��ֵ��ͨ�������Ե����ϵķ�����
-// 4. ���ü��������Ϣ����һ�����Ž⡣
+// # 设计动态规划算法的基本步骤：
+// 1. 刻画一个最优解的结构特征；
+// 2. 递归地定义最优解的值；
+// 3. 计算最优解的值，通常采用自底向上的方法；
+// 4. 利用计算出的信息构造一个最优解。
 
-// # �����и�����
-// ����һ�γ���Ϊ n Ӣ��ĸ�����һ���۸�� p_i (i=1,2,...,n)��
-// ���и����ʹ���������� r_n ���
-// Ӧ��ע�⵽���������Ϊ n Ӣ��ĸ����ļ۸� p_n �㹻����ô���Ž��������ȫ����Ҫ�и
-// ����Ϊ n Ӣ��ĸ������� 2^(n-1) �ֲ�ͬ���и����
+// # 钢条切割问题
+// 给定一段长度为 n 英寸的钢条和一个价格表 p_i (i=1,2,...,n)，
+// 求切割方案，使得销售收益 r_n 最大。
+// 应该注意到，如果长度为 n 英寸的钢条的价格 p_n 足够大，那么最优解可能是完全不需要切割。
+// 长度为 n 英寸的钢条共有 2^(n-1) 种不同的切割方案。
 
-struct BestPartitionProblem_brute_force { // �Զ����µݹ�ʵ��
+struct BestPartitionProblem_brute_force { // 自顶向下递归实现
     std::vector<size_t> _partition;
     float _best_price;
 
@@ -42,7 +42,7 @@ struct BestPartitionProblem_brute_force { // �Զ����µݹ�ʵ��
     }
 };
 
-struct BestPartitionProblem_top_down { // ���������Զ����·�
+struct BestPartitionProblem_top_down { // 带备忘的自顶向下法
     std::vector<float> _memo;
     float _best_price;
 
@@ -71,7 +71,7 @@ struct BestPartitionProblem_top_down { // ���������Զ����·�
     }
 };
 
-struct BestPartitionProblem_bottom_up { // �Ե����Ϸ�
+struct BestPartitionProblem_bottom_up { // 自底向上法
     float _best_price;
 
     static float partition(const size_t length, const std::vector<float>& price) {

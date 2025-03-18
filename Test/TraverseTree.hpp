@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <queue>
 #include <list>
@@ -6,96 +6,96 @@
 
 template <typename NodeType, typename Callable>
 void TraverseInOrderR(NodeType* tree, Callable callback) {
-    // ÖĞĞò±éÀúµÄµİ¹éËã·¨
-    if (tree) {                                   // Èô¶ş²æÊ÷·Ç¿Õ
-        TraverseInOrderR(tree->lChild, callback); // ÖĞĞò±éÀú×ó×ÓÊ÷
-        callback(tree);                           // ·ÃÎÊ¸ù½áµã
-        TraverseInOrderR(tree->rChild, callback); // ÖĞĞò±éÀúÓÒ×ÓÊ÷
+    // ä¸­åºéå†çš„é€’å½’ç®—æ³•
+    if (tree) {                                   // è‹¥äºŒå‰æ ‘éç©º
+        TraverseInOrderR(tree->lChild, callback); // ä¸­åºéå†å·¦å­æ ‘
+        callback(tree);                           // è®¿é—®æ ¹ç»“ç‚¹
+        TraverseInOrderR(tree->rChild, callback); // ä¸­åºéå†å³å­æ ‘
     }
 }
 
 template <typename NodeType, typename Callable>
 void TraversePrOrderR(NodeType* tree, Callable callback) {
-    // ÏÈĞò±éÀúµÄµİ¹éËã·¨
-    if (tree) {                                   // Èô¶ş²æÊ÷·Ç¿Õ
-        callback(tree);                           // ·ÃÎÊ¸ù½áµã
-        TraversePrOrderR(tree->lChild, callback); // ÏÈĞò±éÀú×ó×ÓÊ÷
-        TraversePrOrderR(tree->rChild, callback); // ÏÈĞò±éÀúÓÒ×ÓÊ÷
+    // å…ˆåºéå†çš„é€’å½’ç®—æ³•
+    if (tree) {                                   // è‹¥äºŒå‰æ ‘éç©º
+        callback(tree);                           // è®¿é—®æ ¹ç»“ç‚¹
+        TraversePrOrderR(tree->lChild, callback); // å…ˆåºéå†å·¦å­æ ‘
+        TraversePrOrderR(tree->rChild, callback); // å…ˆåºéå†å³å­æ ‘
     }
 }
 
 template <typename NodeType, typename Callable>
 void TraversePsOrderR(NodeType* tree, Callable callback) {
-    // ºóĞò±éÀúµÄµİ¹éËã·¨
-    if (tree) {                                   // Èô¶ş²æÊ÷·Ç¿Õ
-        TraversePsOrderR(tree->lChild, callback); // ºóĞò±éÀú×ó×ÓÊ÷
-        TraversePsOrderR(tree->rChild, callback); // ºóĞò±éÀúÓÒ×ÓÊ÷
-        callback(tree);                           // ·ÃÎÊ¸ù½áµã
+    // ååºéå†çš„é€’å½’ç®—æ³•
+    if (tree) {                                   // è‹¥äºŒå‰æ ‘éç©º
+        TraversePsOrderR(tree->lChild, callback); // ååºéå†å·¦å­æ ‘
+        TraversePsOrderR(tree->rChild, callback); // ååºéå†å³å­æ ‘
+        callback(tree);                           // è®¿é—®æ ¹ç»“ç‚¹
     }
 }
 
 template <typename NodeType, typename Callable>
 void TraverseInOrderNR(const NodeType* tree, Callable callback) {
-    // ÖĞĞò±éÀúµÄ·Çµİ¹éËã·¨
-    if (!tree) return; // Èô¶ş²æÊ÷Îª¿Õ£¬Á¢¼´·µ»Ø
-    std::stack<NodeType*> s; // ÉèÖÃÒ»¸öÕ»£¬´æ·Å¸ùÖ¸Õë
-    NodeType* p{ const_cast<NodeType*>(tree) }; // È¡µÃ¸ùÖ¸Õë
+    // ä¸­åºéå†çš„éé€’å½’ç®—æ³•
+    if (!tree) return; // è‹¥äºŒå‰æ ‘ä¸ºç©ºï¼Œç«‹å³è¿”å›
+    std::stack<NodeType*> s; // è®¾ç½®ä¸€ä¸ªæ ˆï¼Œå­˜æ”¾æ ¹æŒ‡é’ˆ
+    NodeType* p{ const_cast<NodeType*>(tree) }; // å–å¾—æ ¹æŒ‡é’ˆ
     while (p || !s.IsEmpty()) {
-        if (p) {                    // Èç¹û p ·Ç¿Õ
-            s.Push(p);              // ¸ùÖ¸ÕëÈëÕ»
-            p = p->lChild;          // ±éÀú×ó×ÓÊ÷
+        if (p) {                    // å¦‚æœ p éç©º
+            s.Push(p);              // æ ¹æŒ‡é’ˆå…¥æ ˆ
+            p = p->lChild;          // éå†å·¦å­æ ‘
         }
-        else {                      // Èç¹û p Îª¿Õ
-            NodeType* q{ s.Pop() }; // ³öÕ»
-            callback(q);            // ·ÃÎÊ¸ù½áµã
-            p = q->rChild;          // ±éÀúÓÒ×ÓÊ÷
+        else {                      // å¦‚æœ p ä¸ºç©º
+            NodeType* q{ s.Pop() }; // å‡ºæ ˆ
+            callback(q);            // è®¿é—®æ ¹ç»“ç‚¹
+            p = q->rChild;          // éå†å³å­æ ‘
         }
     }
 }
 
 template <typename NodeType, typename Callable>
 void TraversePrOrderNR(NodeType* tree, Callable callback) {
-    // ÏÈĞò±éÀúµÄ·Çµİ¹éËã·¨
-    if (!tree) return; // Èô¶ş²æÊ÷Îª¿Õ£¬Á¢¼´·µ»Ø
-    std::stack<NodeType*> s; // ÉèÖÃÒ»¸öÕ»£¬´æ·Å¸ùÖ¸Õë
-    NodeType* p{ tree }; // È¡µÃ¸ùÖ¸Õë
+    // å…ˆåºéå†çš„éé€’å½’ç®—æ³•
+    if (!tree) return; // è‹¥äºŒå‰æ ‘ä¸ºç©ºï¼Œç«‹å³è¿”å›
+    std::stack<NodeType*> s; // è®¾ç½®ä¸€ä¸ªæ ˆï¼Œå­˜æ”¾æ ¹æŒ‡é’ˆ
+    NodeType* p{ tree }; // å–å¾—æ ¹æŒ‡é’ˆ
     while (p || !s.IsEmpty()) {
-        if (p) {                    // Èç¹û p ·Ç¿Õ
-            callback(p);            // ·ÃÎÊ¸ù½áµã
-            s.Push(p);              // ¸ùÖ¸ÕëÈëÕ»
-            p = p->lChild;          // ±éÀú×ó×ÓÊ÷
+        if (p) {                    // å¦‚æœ p éç©º
+            callback(p);            // è®¿é—®æ ¹ç»“ç‚¹
+            s.Push(p);              // æ ¹æŒ‡é’ˆå…¥æ ˆ
+            p = p->lChild;          // éå†å·¦å­æ ‘
         }
-        else {                      // Èç¹û p Îª¿Õ
-            NodeType* q{ s.Pop() }; // ³öÕ»
-            p = q->rChild;          // ±éÀúÓÒ×ÓÊ÷
+        else {                      // å¦‚æœ p ä¸ºç©º
+            NodeType* q{ s.Pop() }; // å‡ºæ ˆ
+            p = q->rChild;          // éå†å³å­æ ‘
         }
     }
 }
 
 template <typename NodeType, typename Callable>
 void TraversePsOrderNR(NodeType* tree, Callable callback) {
-    // ºóĞò±éÀúµÄ·Çµİ¹éËã·¨
-    if (!tree) return; // Èô¶ş²æÊ÷Îª¿Õ£¬Á¢¼´·µ»Ø
-    std::stack<NodeType*> s; // ÉèÖÃÒ»¸öÕ»£¬´æ·Å¸ùÖ¸Õë
-    NodeType* p{ tree }; // È¡µÃ¸ùÖ¸Õë
+    // ååºéå†çš„éé€’å½’ç®—æ³•
+    if (!tree) return; // è‹¥äºŒå‰æ ‘ä¸ºç©ºï¼Œç«‹å³è¿”å›
+    std::stack<NodeType*> s; // è®¾ç½®ä¸€ä¸ªæ ˆï¼Œå­˜æ”¾æ ¹æŒ‡é’ˆ
+    NodeType* p{ tree }; // å–å¾—æ ¹æŒ‡é’ˆ
     NodeType* q;
     NodeType* r{ nullptr };
     while (p || !s.IsEmpty()) {
-        if (p) {                    // Èç¹û p ·Ç¿Õ
-            s.Push(p);              // ¸ùÖ¸ÕëÈëÕ»
-            p = p->lChild;          // ±éÀú×ó×ÓÊ÷
+        if (p) {                    // å¦‚æœ p éç©º
+            s.Push(p);              // æ ¹æŒ‡é’ˆå…¥æ ˆ
+            p = p->lChild;          // éå†å·¦å­æ ‘
         }
-        else {                      // Èç¹û p Îª¿Õ
+        else {                      // å¦‚æœ p ä¸ºç©º
             p = s.Top();
-            q = p->rChild;          // »ñÈ¡ÓÒ×ÓÊ÷
-            if (q && q != r) {      // ÓÒ×ÓÊ÷·Ç¿ÕÇÒÎ´·ÃÎÊ
-                p = q;              // ±éÀúÓÒ×ÓÊ÷µÄ×ó×ÓÊ÷
-                s.Push(p);          //      ¸ùÖ¸ÕëÈëÕ»
-                p = p->lChild;      //      ±éÀú×ó×ÓÊ÷
+            q = p->rChild;          // è·å–å³å­æ ‘
+            if (q && q != r) {      // å³å­æ ‘éç©ºä¸”æœªè®¿é—®
+                p = q;              // éå†å³å­æ ‘çš„å·¦å­æ ‘
+                s.Push(p);          //      æ ¹æŒ‡é’ˆå…¥æ ˆ
+                p = p->lChild;      //      éå†å·¦å­æ ‘
             }
-            else {                  // ÓÒ×ÓÊ÷Îª¿Õ£¬»òÒÑ·ÃÎÊ¹ı
-                r = s.Pop();        // ¸ùÖ¸Õë³öÕ»£¬²¢ÉèÎªÒÑ·ÃÎÊ×´Ì¬
-                callback(r);        // ·ÃÎÊ¸ù½áµã
+            else {                  // å³å­æ ‘ä¸ºç©ºï¼Œæˆ–å·²è®¿é—®è¿‡
+                r = s.Pop();        // æ ¹æŒ‡é’ˆå‡ºæ ˆï¼Œå¹¶è®¾ä¸ºå·²è®¿é—®çŠ¶æ€
+                callback(r);        // è®¿é—®æ ¹ç»“ç‚¹
                 p = nullptr;
             }
         }
@@ -104,17 +104,17 @@ void TraversePsOrderNR(NodeType* tree, Callable callback) {
 
 template <typename NodeType, typename Callable>
 void TraverseTLOrderNR(NodeType* tree, Callable callback) {
-    // ²ã´Î±éÀúµÄ·Çµİ¹éËã·¨
-    if (!tree) return; // Èô¶ş²æÊ÷Îª¿Õ£¬Á¢¼´·µ»Ø
-    NodeType* p{ tree }; // È¡µÃ¸ùÖ¸Õë
-    std::queue<NodeType*, std::list<NodeType*>> q; // ÉèÖÃÒ»¸ö¶ÓÁĞ£¬´æ·Å¸ùÖ¸Õë
-    q.push(p); // ¸ùÖ¸Õë²åÈë¶ÓÎ²
-    while (!q.empty()) { // Èô¶ÓÁĞ·Ç¿Õ
-        p = q.front(); q.pop(); // ³ö¶Ó
-        callback(p); // ·ÃÎÊ½áµã
-        NodeType* u{ p->lChild }; // È¡³ö×óº¢×Ó
-        NodeType* v{ p->rChild }; // È¡³öÓÒº¢×Ó
-        if (u) q.push(u); // ×óº¢×Ó·Ç¿ÕÔòÈë¶Ó
-        if (v) q.push(v); // ÓÒº¢×Ó·Ç¿ÕÔòÈë¶Ó
+    // å±‚æ¬¡éå†çš„éé€’å½’ç®—æ³•
+    if (!tree) return; // è‹¥äºŒå‰æ ‘ä¸ºç©ºï¼Œç«‹å³è¿”å›
+    NodeType* p{ tree }; // å–å¾—æ ¹æŒ‡é’ˆ
+    std::queue<NodeType*, std::list<NodeType*>> q; // è®¾ç½®ä¸€ä¸ªé˜Ÿåˆ—ï¼Œå­˜æ”¾æ ¹æŒ‡é’ˆ
+    q.push(p); // æ ¹æŒ‡é’ˆæ’å…¥é˜Ÿå°¾
+    while (!q.empty()) { // è‹¥é˜Ÿåˆ—éç©º
+        p = q.front(); q.pop(); // å‡ºé˜Ÿ
+        callback(p); // è®¿é—®ç»“ç‚¹
+        NodeType* u{ p->lChild }; // å–å‡ºå·¦å­©å­
+        NodeType* v{ p->rChild }; // å–å‡ºå³å­©å­
+        if (u) q.push(u); // å·¦å­©å­éç©ºåˆ™å…¥é˜Ÿ
+        if (v) q.push(v); // å³å­©å­éç©ºåˆ™å…¥é˜Ÿ
     }
 }
