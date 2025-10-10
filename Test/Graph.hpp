@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef GRAPH_H
 #define GRAPH_H
 
@@ -133,8 +133,8 @@ public:
 template <Number V, Number E>
 struct OrthogonalListGraph : BaseGraph<V, E> { // 用十字链表表示的图
     struct ArcBox { // 弧结点
-        int tailvex; // 尾域（弧尾在图中的位置）
-        int headvex; // 头域（弧头在图中的位置）
+        size_t tailvex; // 尾域（弧尾在图中的位置）
+        size_t headvex; // 头域（弧头在图中的位置）
         ArcBox* hlink; // 链域（指向弧头相同的下一条弧）
         ArcBox* tlink; // 链域（指向弧尾相同的下一条弧）
         E info; // 弧的相关信息
@@ -143,14 +143,45 @@ struct OrthogonalListGraph : BaseGraph<V, E> { // 用十字链表表示的图
         V data; // 数据域
         ArcBox* firstin; // 链域（指向以该顶点为弧头的第一个弧结点）
         ArcBox* firstout; // 链域（指向以该顶点为弧尾的第一个弧结点）
+
+        VertexNode() : data{} {
+            firstin = firstout = nullptr;
+        }
     };
     std::vector<VertexNode> vertices; // 表头向量
-    int nArcs; // 边数
+    size_t nArcs; // 边数
 
-    V& operator[](int index) {
-        if (0 <= index && index < vertices.Size())
-            return vertices[index].data;
-        throw "out of range";
+    OrthogonalListGraph(size_t nVertices /* 顶点个数 */)
+        : vertices(nVertices), nArcs{ 0 } {
+    }
+
+    ~OrthogonalListGraph() {
+        for (VertexNode& vnode : vertices) {
+            ArcBox* p{ vnode.firstout };
+            while (p) {
+                ArcBox* q{ p };
+                p = p->tlink;
+#ifdef DEBUG
+                std::clog << "delete ArcBox@" << q << '\n';
+#endif
+                delete q;
+            }
+        }
+    }
+
+    size_t Size() const { // 顶点数
+        return vertices.size();
+    }
+
+    void Connect(size_t v1, size_t v2, E arcWeight) {
+        ++nArcs;
+        VertexNode& n1{ vertices[v1] };
+        VertexNode& n2{ vertices[v2] };
+        ArcBox* arc{ new ArcBox{ v1, v2, n2.firstin, n1.firstout, arcWeight } };
+        n1.firstout = n2.firstin = arc;
+#ifdef DEBUG
+        std::clog << "Connect(" << v1 << ", " << v2 << ") -> ArcBox@" << arc << '\n';
+#endif
     }
 };
 /*
@@ -159,11 +190,9 @@ struct OrthogonalListGraph : BaseGraph<V, E> { // 用十字链表表示的图
 
 template <Number V, Number E>
 struct AdjacencyMultilistGraph : BaseGraph<V, E> { // 用邻接多重表表示的图
-    // TODO
     struct EBox {
-        bool mark; // 访问标记
-        int ivex; // 该边依附的两个顶点的位置
-        int jvex;
+        size_t ivex; // 该边依附的两个顶点的位置
+        size_t jvex;
         EBox* ilink; // 分别指向依附这两个顶点的下一条边
         EBox* jlink;
         E info; // 边的信息
@@ -173,9 +202,43 @@ struct AdjacencyMultilistGraph : BaseGraph<V, E> { // 用邻接多重表表示�
         EBox* firstedge; // 指向第一条依附该顶点的边
     };
     std::vector<VBox> list;
-    int vexnum; // 顶点数
-    int edgenum; // 边数
+    size_t vexnum; // 顶点数
+    size_t edgenum; // 边数
+
+    AdjacencyMultilistGraph(size_t nVertices /* 顶点个数 */)
+        : list(nVertices), vexnum{ nVertices } {
+    }
+    ~AdjacencyMultilistGraph() {
+        // TODO 释放 EBox
+        std::vector<EBox*> eboxes;
+        for (VBox& vbox : list) {
+            EBox* ebox{ vbox.firstedge };
+            while (ebox) {
+                eboxes.push_back(ebox);
+                ebox = ebox->ilink;
+            }
+        }
+    }
+
+    void Connect(size_t v1, size_t v2, E arcWeight) {
+        VBox& b1{ list[v1] };
+        VBox& b2{ list[v2] };
+        EBox* e{ new EBox(v1, v2, b1.firstedge, b2.firstedge, arcWeight) };
+        b1.firstedge = b2.firstedge = e;
+    }
 };
+/*
+ * 邻接多重表表示法的优点：
+ * - 查找邻边很方便
+ * - 删除边和删除顶点都很方便
+ * 邻接多重表表示法的缺点：
+ * - 只能表示无向图
+ * - 表示方式不唯一
+ *
+ * - 不便于增加和删除顶点
+ * - 不便于统计边的数目（时间复杂度为 $O(n^2)$）
+ * - 空间复杂度高（特别是对稀疏图而言）
+ */
 
 template <Number V, Number E>
 int FirstAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, int v) {
