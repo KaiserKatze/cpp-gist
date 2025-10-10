@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <array>
 #include <vector> // std::vector
@@ -25,7 +25,7 @@ struct Decimal { // 高精度十进制数字（支持任意精度的小数）
     data_type integral_part; // 整数部分
     data_type fractional_part; // 小数部分
 
-    Decimal() : sign{ sign_type::equal } {
+    Decimal() : sign{ sign_type::equal } { // 构造零
     }
 
     Decimal(const std::string& input) {
