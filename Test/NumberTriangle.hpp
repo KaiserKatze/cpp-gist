@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <vector>
 #include <random>
@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 
 struct NumberTriangle {
     std::vector<size_t> data;  // 下三角阵
