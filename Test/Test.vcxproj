@@ -162,6 +162,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PrimeFactor.hpp" />
+    <ClCompile Include="TransformNumber.hpp" />
     <ClCompile Include="HeapSort.hpp" />
     <ClCompile Include="HonoiTower.hpp" />
     <ClCompile Include="RLYC.hpp" />
@@ -192,6 +194,7 @@
     <ClInclude Include="HuffmanTree.hpp" />
     <ClInclude Include="Joseph.hpp" />
     <ClInclude Include="KMath.hpp" />
+    <ClInclude Include="Lattice.hpp" />
     <ClInclude Include="NumberTriangle.hpp" />
     <ClInclude Include="Palindromic.hpp" />
     <ClInclude Include="Spiral.hpp" />

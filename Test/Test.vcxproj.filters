@@ -91,6 +91,10 @@
     <ClCompile Include="TD5R.hpp">
       <Filter>Application\Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="TransformNumber.hpp" />
+    <ClCompile Include="PrimeFactor.hpp">
+      <Filter>Application\Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.hpp">
@@ -231,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="NumberTriangle.hpp">
       <Filter>Application\Header Files\DynamicProgramming</Filter>
+    </ClInclude>
+    <ClInclude Include="Lattice.hpp">
+      <Filter>Application\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
