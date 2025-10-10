@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <vector>
 #include <queue>
@@ -47,6 +47,10 @@ struct MemoryManager {
         }
     }
 };
+
+//============================================================================================
+// 页面置换算法
+
 
 void LRU(const size_t capacity_of_resident_set /* 驻留集窗口大小 */,
     const size_t capacity_of_working_set /* 工作集窗口大小 */,
@@ -165,4 +169,55 @@ void LRU(const size_t capacity_of_resident_set /* 驻留集窗口大小 */,
         }
     }
 }
+
+#include <unordered_set>
+
+// 最佳置换算法
+// 选择淘汰的页面是以后永不使用的页面，或是在最长时间内不再被访问的页面，以便保证获得最低的缺页率
+void OPT(const size_t capacity_of_resident_set /* 驻留集窗口大小 */,
+    const size_t capacity_of_working_set /* 工作集窗口大小 */,
+    std::initializer_list<size_t> list_of_page_ids /* 页缓冲队列 */) {
+
+    std::vector<size_t> pages = list_of_page_ids;
+    std::unordered_set<size_t> resident_set;
+
+    for (size_t current_pos = 0; current_pos < pages.size(); ++current_pos) {
+        const size_t current_page = pages[current_pos];
+        if (resident_set.find(current_page) != resident_set.end()) {
+            continue; // 页面已在驻留集中，无缺页
+        }
+
+        // 处理缺页
+        if (resident_set.size() < capacity_of_resident_set) {
+            resident_set.insert(current_page);
+        }
+        else {
+            // 寻找需要淘汰的页面
+            size_t victim_page = *resident_set.begin();
+            size_t farthest_next_pos = current_pos + 1;
+            bool found_non_occurrence = false;
+
+            for (auto p : resident_set) {
+                size_t next_pos = current_pos + 1;
+                while (next_pos < pages.size() && pages[next_pos] != p) {
+                    ++next_pos;
+                }
+                if (next_pos == pages.size()) { // 之后不再出现
+                    victim_page = p;
+                    found_non_occurrence = true;
+                    break; // 优先淘汰不再出现的页面
+                }
+                else if (!found_non_occurrence && next_pos > farthest_next_pos) {
+                    farthest_next_pos = next_pos;
+                    victim_page = p;
+                }
+            }
+
+            std::cout << "淘汰页 " << victim_page << std::endl;
+            resident_set.erase(victim_page);
+            resident_set.insert(current_page);
+        }
+    }
+}
+
 
