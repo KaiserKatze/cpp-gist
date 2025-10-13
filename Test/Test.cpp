@@ -19,6 +19,7 @@
 #include <io.h>
 
 #define DEBUG
+#include "Timer.hpp"
 #include "MissionaryAndCannibal.hpp"
 
 int main(int argc, char** argv) {
@@ -32,8 +33,10 @@ int main(int argc, char** argv) {
         << std::put_time(now_tm, "[%Y-%m-%d %H:%M:%S] ")
         << '\n';
 
+
     try {
-        MissionaryAndCannibal::Solve();
+        Timer timer;
+        MissionaryAndCannibal::Solve(4, 2);
     }
     catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
