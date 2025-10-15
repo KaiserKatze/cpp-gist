@@ -20,10 +20,13 @@
 
 #define DEBUG
 #include "Timer.hpp"
+#include "HonoiTower.hpp"
 
 int main(int argc, char** argv) {
     // SetConsoleOutputCP(65001);
 
+    HonoiTower honoiTower(3, 3);
+    honoiTower.Honoi();
 
     return 0;
 }
