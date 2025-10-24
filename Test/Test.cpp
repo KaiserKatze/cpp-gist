@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     // SetConsoleOutputCP(65001);
 
     HonoiTower honoiTower(4, 3);
-    honoiTower.Honoi();
+    honoiTower.Solve();
 
     return 0;
 }
