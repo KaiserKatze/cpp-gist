@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <iostream>
+#include <sstream>
+#include <vector>
 #include <stdexcept>
 #include <string>
 #include "BinaryTree.hpp"
@@ -37,16 +39,22 @@ struct HonoiTower {
         return index;
     }
     PoleStack& GetPole(char pole) {
-        return poles.at(GetPoleIndex(pole));
+        return GetPole(GetPoleIndex(pole));
     }
     const PoleStack& GetPole(char pole) const {
-        return poles.at(GetPoleIndex(pole));
+        return GetPole(GetPoleIndex(pole));
+    }
+    PoleStack& GetPole(size_t pole) {
+        return poles.at(pole);
+    }
+    const PoleStack& GetPole(size_t pole) const {
+        return poles.at(pole);
     }
     std::string PrintPole(size_t poleIndex) const {
         std::stringstream ss;
         const PoleStack& stack{ poles.at(poleIndex) };
         bool first{ true };
-        for (auto bitr{ std::crbegin(stack) }; bitr != std::crend(stack); ++bitr) {
+        for (auto bitr{ std::cbegin(stack) }; bitr != std::cend(stack); ++bitr) {
             const auto plate{ *bitr };
             if (!first) {
                 ss << ", ";
@@ -63,10 +71,8 @@ struct HonoiTower {
         }
         return ss.str();
     }
-
-
-    void HonoiMove(char fromPole, char toPole) {
-        std::cout << "Move from `" << fromPole << "` to `" << toPole << "`.\n";
+    void HonoiMove(size_t fromPole, size_t toPole) {
+        std::cout << "Move from #" << fromPole << " to #" << toPole << ".\n";
         PoleStack& fromPoleStack{ GetPole(fromPole) };
         PoleStack& toPoleStack{ GetPole(toPole) };
         if (fromPoleStack.empty()) {
@@ -75,21 +81,20 @@ struct HonoiTower {
         const auto plate{ fromPoleStack.back() };
         fromPoleStack.pop_back();
         toPoleStack.push_back(plate);
+        std::cout << "Current State:\n" << PrintAll() << '\n';
     }
-
-    void Honoi(size_t countDisk, char poleStart, char poleTransit, char poleDestination) {
-        if (countDisk == 1) {
+    void Honoi(size_t countDisks, size_t poleStart, size_t poleTransit, size_t poleDestination) {
+        if (countDisks == 1) {
             HonoiMove(poleStart, poleDestination);
         }
         else {
-            Honoi(countDisk - 1, poleStart, poleDestination, poleTransit);
+            Honoi(countDisks - 1, poleStart, poleDestination, poleTransit);
             HonoiMove(poleStart, poleDestination);
-            Honoi(countDisk - 1, poleTransit, poleStart, poleDestination);
+            Honoi(countDisks - 1, poleTransit, poleStart, poleDestination);
         }
-        std::cout << "Current State:\n" << PrintAll() << '\n';
     }
     void Honoi() {
         std::cout << "Current State:\n" << PrintAll() << std::endl;
-        Honoi(countDisks, 'A', 'B', 'C');
+        Honoi(countDisks, 0, 1, 2);
     }
 };
