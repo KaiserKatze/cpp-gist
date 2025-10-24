@@ -20,13 +20,12 @@
 
 #define DEBUG
 #include "Timer.hpp"
-#include "HonoiTower.hpp"
+#include "MissionaryAndCannibal.hpp"
 
 int main(int argc, char** argv) {
     // SetConsoleOutputCP(65001);
 
-    HonoiTower honoiTower(4, 3);
-    honoiTower.Solve();
+    Test();
 
     return 0;
 }

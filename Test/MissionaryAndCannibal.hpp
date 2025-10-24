@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <queue>
 #include <sstream>
 #include <stdexcept>
@@ -97,8 +98,7 @@ struct MissionaryAndCannibal {
         }
     };
 
-static void Solve(const int countMax /* 传教士、食人族的个数 */,
-const int shipCapacity /* 船只最大可以容纳的乘客个数 */) {
+static void Solve(const int countMax /* 传教士、食人族的个数 */, const int shipCapacity /* 船只最大可以容纳的乘客个数 */) {
         // 初始状态
         const State initialState{ countMax, countMax, countMax, true /* 船头朝右 */ };
         // 目标状态
@@ -140,9 +140,9 @@ const int shipCapacity /* 船只最大可以容纳的乘客个数 */) {
             const int indexCurrentState{ moveTo.front() }; moveTo.pop();
             const State& currentState{ GetState(indexCurrentState) };
             // 依次尝试不同的乘船安排
-            const int supMissionary{ min(shipCapacity, currentState.GetMissionary()) };  // 可以乘船的传教士人数
+            const int supMissionary{ std::min(shipCapacity, currentState.GetMissionary()) };  // 可以乘船的传教士人数
             for (int x{ 0 }; x <= supMissionary; ++x) {
-                const int supCannibal{ min(shipCapacity - x, currentState.GetCannibal()) };  // 可以乘船的食人族人数
+                const int supCannibal{ std::min(shipCapacity - x, currentState.GetCannibal()) };  // 可以乘船的食人族人数
                 for (int y{ 0 }; y <= supCannibal; ++y) {
                     if (x + y == 0) {  // 传教士和食人族都不动
                         continue;  // 抛弃这种没用的乘船安排
@@ -175,19 +175,14 @@ const int shipCapacity /* 船只最大可以容纳的乘客个数 */) {
                 prec = route.at(prec);
             }
             size_t index{ 0 };
-            // std::stringstream ss;
-            // ss << '[';
             while (!backtrace.empty()) {
                 State& node{ backtrace.top() };
                 std::cout << "#" << ++index
                     << '\t'
                     << static_cast<std::string>(node)
                     << '\n';
-                // ss << '[' << node.GetMissionaryLeft() << ", " << node.GetCannibalLeft() << ", " << node.GetDirectionAsIndex() << "], ";
                 backtrace.pop();
             }
-            // ss << ']';
-            // std::cout << ss.str() << '\n';
         }
     }
 };
@@ -211,7 +206,7 @@ static void Test() {
 
     try {
         Timer timer;
-        MissionaryAndCannibal::Solve(4, 2);
+        MissionaryAndCannibal::Solve(5, 3);
     }
     catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
