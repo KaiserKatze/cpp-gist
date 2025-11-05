@@ -14,6 +14,7 @@
 #include <utility>
 #include <memory>
 #include <stack>
+#include <stdexcept>
 
 struct AbstractGraph {
     virtual size_t Size() const = 0; // 返回图中顶点个数
@@ -241,38 +242,38 @@ struct AdjacencyMultilistGraph : BaseGraph<V, E> { // 用邻接多重表表示�
  */
 
 template <Number V, Number E>
-int FirstAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, int v) {
-    auto n{ g.Size() };
+size_t FirstAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, size_t v) {
+    size_t n{ g.Size() };
     if (0 <= v && v < n)
-        for (int i = 0; i < n; ++i)
+        for (size_t i = 0; i < n; ++i)
             if (i != v && g.arcs[v][i] > 0) return i;
-    return -1; // 找不到满足条件的邻接顶点了
+    throw std::runtime_error{ "no more adjacent vertex" };  // 找不到满足条件的邻接顶点了
 }
 
 template <Number V, Number E>
-int NextAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, int v, int w) {
+size_t NextAdjacentVertex(AdjacencyMatrixGraph<V, E>& g, size_t v, size_t w) {
     auto n{ g.Size() };
     if (0 <= v && v < n)
-        for (int i = w + 1; i < n; ++i)
+        for (size_t i = w + 1; i < n; ++i)
             if (i != v && g.arcs[v][i] > 0) return i;
-    return -1; // 找不到满足条件的邻接顶点了
+    throw std::runtime_error{ "no more adjacent vertex" };  // 找不到满足条件的邻接顶点了
 }
 
 template <Number V, Number E>
-int FirstAdjacentVertex(AdjacencyListGraph<V, E>& g, int v) {
+size_t FirstAdjacentVertex(AdjacencyListGraph<V, E>& g, size_t v) {
     auto* p{ g[v].firstarc };
     if (p) return p->adjvex;
-    return -1;
+    throw std::runtime_error{ "no more adjacent vertex" };  // 找不到满足条件的邻接顶点了
 }
 
 template <Number V, Number E>
-int NextAdjacentVertex(AdjacencyListGraph<V, E>& g, int v, int w) {
+size_t NextAdjacentVertex(AdjacencyListGraph<V, E>& g, size_t v, size_t w) {
     auto* p{ g[v].firstarc };
     while (p != nullptr && p->adjvex != w)
         p = p->nextarc;
     if (p != nullptr && p->adjvex == w && p->nextarc != nullptr)
         return p->nextarc->adjvex;
-    return -1;
+    throw std::runtime_error{ "no more adjacent vertex" };  // 找不到满足条件的邻接顶点了
 }
 
 #endif

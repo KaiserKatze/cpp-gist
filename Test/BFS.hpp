@@ -8,7 +8,7 @@ struct BreadthFirstSearch { // 广度优先搜索
     BreadthFirstSearch(G& g) : g{ g }, size{ g.Size() }, visited(size, false) {
     }
     template <typename Callable>
-    void Traverse(int v /* 顶点序号 */, Callable callback) { // 从某个指定顶点开始，遍历连通图
+    void Traverse(size_t v /* 顶点序号 */, Callable callback) { // 从某个指定顶点开始，遍历连通图
         if (!(0 <= v && v < size)) throw "out of range";
         callback(g[v]); visited[v] = true; // 访问第 v 个顶点，置为已访问
         std::queue<int, std::list<int>> q; // 创建队列
@@ -26,7 +26,7 @@ struct BreadthFirstSearch { // 广度优先搜索
 private:
     std::vector<bool> visited; // 顶点是否已访问的标记
     G& g; // 图的引用
-    int size; // 图中顶点数
+    size_t size; // 图中顶点数
 };
 /*
  * 广度优先搜索遍历算法在遍历图时，每个顶点至多进一次队列。
