@@ -34,3 +34,25 @@ private:
  * 因此广度优先搜索的时间复杂度和深度优先搜索相同，
  * 两种遍历方法的不同之处仅仅在于对顶点访问的顺序不同。
  */
+
+
+void TestBFS() {
+    AdjacencyMatrixGraph<int, int> graph(9, false);
+    for (size_t i{0}; i < 9; ++i)
+    {
+        graph[i] = i;
+    }
+    graph.Connect({
+        {0,1,1},
+        {1,2,1},
+        {2,3,1},
+        {2,8,1},
+        {8,7,1},
+        {3,6,1},
+        {3,4,1},
+        {4,5,1},
+    });
+    BreadthFirstSearch(graph).Traverse(0, [](auto v) {
+        std::cout << v << ' ';
+    });
+}
