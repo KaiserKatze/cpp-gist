@@ -14,14 +14,11 @@ struct ShortestPath_Dijkstra {
     ShortestPath_Dijkstra(G& graph /* 图的邻接矩阵表示 */, size_t v0 /* 源点 */) {
         const size_t size{ graph.Size() }; // 图中顶点个数
         static constexpr auto max_path{ std::numeric_limits<typename decltype(path)::value_type>::max() };
-        // 检查 graph 是否带有负边权
+        // 检查 graph 是否带有负边权（一般来说，Dijkstra 算法不适用于带有负边权的图，但是少数情况下仍旧可用，因此这里只是发出警告）
         for (const auto& row : graph.arcs.data) {
             for (const auto entry : row) {
                 if (entry < 0) {
-#ifdef DEBUG
-                    std::cerr << "ERR <<< 图中有负边权，无法使用 Dijkstra 算法求解最短路径！\n";
-                    return;
-#endif
+                    std::cerr << "ERR <<< 图中有负边权，可能无法使用 Dijkstra 算法求解最短路径！\n";
                 }
             }
         }
